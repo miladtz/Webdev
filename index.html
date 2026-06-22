@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Dev: Zero → Hero</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════
+     SIDEBAR
+     ════════════════════════════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="sidebar-logo">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text">
+      <div class="logo-title">Web Dev Course</div>
+      <div class="logo-sub">Zero → Hero</div>
+    </div>
+  </div>
+
+  <nav class="phase-nav">
+    <div class="nav-label">Navigation</div>
+
+    <!-- Roadmap -->
+    <button class="phase-btn active" data-page="page-roadmap">
+      <span class="phase-num">🗺</span>
+      <div class="phase-info">
+        <span class="phase-name">Roadmap</span>
+        <span class="phase-status status-current">Course Overview</span>
+      </div>
+    </button>
+
+    <div class="nav-label" style="margin-top:8px">Phases</div>
+
+    <!-- Phase 0 -->
+    <button class="phase-btn done" data-page="page-phase0">
+      <span class="phase-num">0</span>
+      <div class="phase-info">
+        <span class="phase-name">The Big Picture</span>
+        <span class="phase-status status-done">✓ Complete</span>
+      </div>
+      <span class="phase-chevron">›</span>
+    </button>
+
+    <div class="lesson-nav" id="lessons-page-phase0">
+      <a href="#lesson-0-1" class="lesson-link">0.1 The Internet</a>
+      <a href="#lesson-0-2" class="lesson-link">0.2 Packets</a>
+      <a href="#lesson-0-3" class="lesson-link">0.3 DNS</a>
+      <a href="#lesson-0-4" class="lesson-link">0.4 TCP Handshake</a>
+      <a href="#lesson-0-5" class="lesson-link">0.5 HTTP</a>
+      <a href="#lesson-0-6" class="lesson-link">0.6 Browser Rendering</a>
+      <a href="#lesson-0-7" class="lesson-link">0.7 Website Anatomy</a>
+      <a href="#lesson-0-8" class="lesson-link">0.8 Full Lifecycle</a>
+      <a href="#lesson-0-9" class="lesson-link">0.9 Tools Setup</a>
+    </div>
+
+    <!-- Phase 1 -->
+    <button class="phase-btn locked" data-page="page-phase1">
+      <span class="phase-num">1</span>
+      <div class="phase-info">
+        <span class="phase-name">Frontend</span>
+        <span class="phase-status status-locked">Coming Soon</span>
+      </div>
+    </button>
+
+    <!-- Phase 2 -->
+    <button class="phase-btn locked" data-page="page-phase2">
+      <span class="phase-num">2</span>
+      <div class="phase-info">
+        <span class="phase-name">Browser Internals</span>
+        <span class="phase-status status-locked">Coming Soon</span>
+      </div>
+    </button>
+
+    <!-- Phase 3 -->
+    <button class="phase-btn locked" data-page="page-phase3">
+      <span class="phase-num">3</span>
+      <div class="phase-info">
+        <span class="phase-name">Network Layer</span>
+        <span class="phase-status status-locked">Coming Soon</span>
+      </div>
+    </button>
+
+    <!-- Phase 4 -->
+    <button class="phase-btn locked" data-page="page-phase4">
+      <span class="phase-num">4</span>
+      <div class="phase-info">
+        <span class="phase-name">Backend</span>
+        <span class="phase-status status-locked">Coming Soon</span>
+      </div>
+    </button>
+
+    <!-- Phase 5 -->
+    <button class="phase-btn locked" data-page="page-phase5">
+      <span class="phase-num">5</span>
+      <div class="phase-info">
+        <span class="phase-name">Full Stack</span>
+        <span class="phase-status status-locked">Coming Soon</span>
+      </div>
+    </button>
+
+    <!-- Phase 6 -->
+    <button class="phase-btn locked" data-page="page-phase6">
+      <span class="phase-num">6</span>
+      <div class="phase-info">
+        <span class="phase-name">Deployment</span>
+        <span class="phase-status status-locked">Coming Soon</span>
+      </div>
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="progress-header">
+      <span>Course Progress</span>
+      <span>1 / 7 phases</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 14%"></div>
+    </div>
+  </div>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- ════════════════════════════════════════════════════════════
+     MAIN
+     ════════════════════════════════════════════════════════════ -->
+<div class="main-wrap">
+
+  <header class="topbar">
+    <button class="hamburger" id="hamburger">☰</button>
+    <div class="breadcrumb">
+      <span>Web Dev Course</span>
+      <span class="bc-sep">›</span>
+      <span class="bc-current" id="bc-current">Roadmap</span>
+    </div>
+    <div class="topbar-right">
+      <span class="lesson-badge-chip" id="lesson-count">7 phases · 12 weeks</span>
+    </div>
+  </header>
+
+  <main class="content">
+
+
+    <!-- ══════════════════════════════════════════════════════
+         PAGE: ROADMAP
+         ══════════════════════════════════════════════════════ -->
+    <div class="page active" id="page-roadmap">
+
+      <div class="roadmap-hero">
+        <div class="hero-eyebrow">Full-Stack Web Development</div>
+        <h1>Zero → Hero</h1>
+        <p>Understand what actually happens when a website runs — then build and deploy one yourself.</p>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">7</span><span class="stat-label">Phases</span></div>
+          <div class="stat"><span class="stat-num">12</span><span class="stat-label">Weeks</span></div>
+          <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Lessons</span></div>
+        </div>
+      </div>
+
+      <div class="section-label">All Phases</div>
+
+      <div class="phases-grid">
+
+        <!-- Phase 0 -->
+        <div class="phase-card done" data-page="page-phase0" style="--card-color:#818cf8">
+          <div class="card-top">
+            <span class="card-num">0</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
+          </div>
+          <div class="card-title">The Big Picture</div>
+          <div class="card-desc">How the internet works, DNS, HTTP, browsers, and website anatomy — the complete mental model.</div>
+          <div class="card-topics">
+            <span class="tag">DNS</span>
+            <span class="tag">HTTP</span>
+            <span class="tag">TCP/IP</span>
+            <span class="tag">Browser</span>
+            <span class="tag">DevTools</span>
+            <span class="tag">Git</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Week 1 · 9 lessons</span>
+            <span class="card-arrow">Open →</span>
+          </div>
+        </div>
+
+        <!-- Phase 1 -->
+        <div class="phase-card locked" style="--card-color:#34d399">
+          <div class="card-top">
+            <span class="card-num">1</span>
+            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+          </div>
+          <div class="card-title">Frontend</div>
+          <div class="card-desc">HTML structure, CSS styling, JavaScript behavior — and how they work together in the browser.</div>
+          <div class="card-topics">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">DOM</span>
+            <span class="tag">Events</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Weeks 2–4 · ~12 lessons</span>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="phase-card locked" style="--card-color:#38bdf8">
+          <div class="card-top">
+            <span class="card-num">2</span>
+            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+          </div>
+          <div class="card-title">Browser Internals</div>
+          <div class="card-desc">Rendering pipeline, event loop, async/await, and how JS execution actually works.</div>
+          <div class="card-topics">
+            <span class="tag">Render Tree</span>
+            <span class="tag">Event Loop</span>
+            <span class="tag">async/await</span>
+            <span class="tag">Promises</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Week 5 · ~6 lessons</span>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="phase-card locked" style="--card-color:#fb923c">
+          <div class="card-top">
+            <span class="card-num">3</span>
+            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+          </div>
+          <div class="card-title">The Network Layer</div>
+          <div class="card-desc">HTTP in depth, REST APIs, JSON, and how to fetch data from a server using JavaScript.</div>
+          <div class="card-topics">
+            <span class="tag">REST API</span>
+            <span class="tag">fetch()</span>
+            <span class="tag">JSON</span>
+            <span class="tag">Status Codes</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Week 6 · ~5 lessons</span>
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="phase-card locked" style="--card-color:#f87171">
+          <div class="card-top">
+            <span class="card-num">4</span>
+            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+          </div>
+          <div class="card-title">Backend</div>
+          <div class="card-desc">Node.js, Express.js, PostgreSQL, and authentication — building a real server-side API.</div>
+          <div class="card-topics">
+            <span class="tag">Node.js</span>
+            <span class="tag">Express</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Auth / JWT</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Weeks 7–9 · ~10 lessons</span>
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="phase-card locked" style="--card-color:#c084fc">
+          <div class="card-top">
+            <span class="card-num">5</span>
+            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+          </div>
+          <div class="card-title">Putting It Together</div>
+          <div class="card-desc">Build a complete web app: frontend + backend + database, wired into a single working system.</div>
+          <div class="card-topics">
+            <span class="tag">Full Stack</span>
+            <span class="tag">API Design</span>
+            <span class="tag">Env Vars</span>
+            <span class="tag">Project</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Week 10 · ~5 lessons</span>
+          </div>
+        </div>
+
+        <!-- Phase 6 -->
+        <div class="phase-card locked" style="--card-color:#fbbf24">
+          <div class="card-top">
+            <span class="card-num">6</span>
+            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+          </div>
+          <div class="card-title">Deployment</div>
+          <div class="card-desc">Get your app live on the real internet — frontend, backend, database, domain, and HTTPS.</div>
+          <div class="card-topics">
+            <span class="tag">Vercel</span>
+            <span class="tag">Railway</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">DNS / HTTPS</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">📅 Weeks 11–12 · ~6 lessons</span>
+          </div>
+        </div>
+
+      </div><!-- /phases-grid -->
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>How to use this course</strong>
+          Each phase builds on the previous one. Read every lesson — then do the exercises at the end. The goal is not to memorize syntax, it is to understand <em>what is happening</em> at every level.
+        </div>
+      </div>
+
+    </div><!-- /page-roadmap -->
+
+
+    <!-- ══════════════════════════════════════════════════════
+         PAGE: PHASE 0
+         ══════════════════════════════════════════════════════ -->
+    <div class="page" id="page-phase0">
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 0</div>
+        <h1>The Big Picture</h1>
+        <p>Build a complete mental model of what the internet is and how websites work — before writing a single line of code.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Week 1</span>
+          <span class="chip">📝 9 Lessons</span>
+          <span class="chip">✅ Completed</span>
+        </div>
+      </div>
+
+
+      <!-- ─── Lesson 0.1 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-1">
+        <div class="lesson-header">
+          <span class="lesson-num">0.1</span>
+          <h2>What Is the Internet, Physically?</h2>
+        </div>
+
+        <p>The internet is not a cloud. It is <strong>wires and machines</strong>. Specifically: fiber optic cables running under oceans and across continents, routers forwarding packets toward their destination, data centers housing thousands of servers, and your home router as the last hop between you and everything else.</p>
+
+        <pre class="diagram">Your Laptop
+    │
+    │  WiFi / Ethernet
+    ▼
+Your Home Router
+    │
+    │  Coaxial cable or fiber
+    ▼
+Your ISP  (Comcast, AT&T, Verizon…)
+    │
+    │  Fiber trunk lines
+    ▼
+Internet Exchange Point  (massive switching hubs where ISPs interconnect)
+    │
+    │  Undersea cables, long-haul fiber
+    ▼
+Another ISP / Network
+    │
+    ▼
+Data Center  (where GitHub's servers live)
+    │
+    ▼
+GitHub's Server  ← a machine that received your HTTP request</pre>
+
+        <p>Every device on the internet has an <strong>IP address</strong> — a unique number that acts as its address. Like a postal address, but for machines.</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Version</th><th>Example</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>IPv4</td><td><code>140.82.112.4</code></td><td>4 numbers (0–255), ~4 billion addresses. Almost exhausted.</td></tr>
+              <tr><td>IPv6</td><td><code>2001:0db8:85a3::8a2e:0370:7334</code></td><td>128-bit. 340 undecillion addresses. The future.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="vocab-grid">
+          <div class="vocab-item"><div class="vocab-term">IP address</div><div class="vocab-def">A unique number identifying a machine on the internet. Like a postal address.</div></div>
+          <div class="vocab-item"><div class="vocab-term">Router</div><div class="vocab-def">A specialized computer that reads the destination IP of a packet and forwards it one step closer.</div></div>
+          <div class="vocab-item"><div class="vocab-term">ISP</div><div class="vocab-def">Internet Service Provider — the company that connects your home to the global network.</div></div>
+          <div class="vocab-item"><div class="vocab-term">Data Center</div><div class="vocab-def">A warehouse of servers with massive power supplies, cooling, and redundant connections.</div></div>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.2 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-2">
+        <div class="lesson-header">
+          <span class="lesson-num">0.2</span>
+          <h2>Packets: How Data Actually Travels</h2>
+        </div>
+
+        <p>When you send or receive data, it is not sent as one big chunk. It is sliced into small pieces called <strong>packets</strong> — typically around 1,500 bytes each. Why? Because smaller pieces can take different routes through the network, lost pieces can be resent individually, and multiple users can share the same wire fairly.</p>
+
+        <pre class="diagram">You download a 3 MB image.
+The image is split into ~2,000 packets.
+
+Each packet travels independently:
+  Packet 1  →  Router A → Router C → Router F → Destination
+  Packet 2  →  Router A → Router B → Router D → Destination
+  Packet 3  →  Router A → Router C → Router E → Destination
+
+They may arrive out of order.
+TCP reassembles them into the correct sequence.</pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Protocol</th><th>Guarantees</th><th>Use case</th></tr></thead>
+            <tbody>
+              <tr><td><code>TCP</code></td><td>All packets arrive, in the correct order. Lost packets are re-requested.</td><td>Web pages, API calls, file downloads — anything where correctness matters.</td></tr>
+              <tr><td><code>UDP</code></td><td>No guarantees. Fire and forget.</td><td>Video calls, online games — where a dropped frame is better than freezing.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>Key insight</strong>
+            TCP is the reliability layer. HTTPS uses TCP underneath. Every web request you make is TCP — the browser and server silently negotiate packet delivery, retransmission, and ordering so you never have to think about it.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.3 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-3">
+        <div class="lesson-header">
+          <span class="lesson-num">0.3</span>
+          <h2>DNS: The Internet's Phone Book</h2>
+        </div>
+
+        <p>Humans remember <code>github.com</code>. Machines only understand <code>140.82.112.4</code>. <strong>DNS</strong> (Domain Name System) is a globally distributed database that translates one to the other.</p>
+
+        <p>When you type <code>github.com</code> and press Enter, this chain executes:</p>
+
+        <pre class="diagram">Your Browser
+    │
+    │  1. Check local DNS cache — "Have I looked this up recently?"
+    │     → No (or TTL expired)
+    ▼
+Your Operating System
+    │
+    │  2. Check /etc/hosts — a local override file
+    │     → Not there
+    ▼
+Your ISP's DNS Resolver  (e.g. 8.8.8.8 = Google's public DNS)
+    │
+    │  3. Check its cache → Not there
+    ▼
+Root Name Server  (13 server clusters, worldwide)
+    │
+    │  4. "I don't know github.com, but I know who handles .com"
+    │     → Returns address of TLD nameserver
+    ▼
+TLD Name Server  (.com registry, run by Verisign)
+    │
+    │  5. "GitHub's authoritative nameserver is ns1.github.com"
+    ▼
+GitHub's Authoritative DNS Server
+    │
+    │  6. "github.com → 140.82.112.4"
+    │     TTL: cache this result for 60 seconds
+    ▼
+Back to your browser — connection begins</pre>
+
+        <p>The full chain takes 20–120 ms the first time. After that, results are cached and future lookups are nearly instant.</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Record</th><th>Purpose</th><th>Example</th></tr></thead>
+            <tbody>
+              <tr><td><code>A</code></td><td>Domain → IPv4 address</td><td><code>github.com → 140.82.112.4</code></td></tr>
+              <tr><td><code>AAAA</code></td><td>Domain → IPv6 address</td><td><code>github.com → 2606:50c0::...</code></td></tr>
+              <tr><td><code>CNAME</code></td><td>Domain → another domain (alias)</td><td><code>www.github.com → github.com</code></td></tr>
+              <tr><td><code>MX</code></td><td>Where to send email for this domain</td><td><code>github.com → mail.github.com</code></td></tr>
+              <tr><td><code>TXT</code></td><td>Arbitrary text — used for domain verification, SPF, DKIM</td><td><code>"v=spf1 include:..."</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>You will configure these in Phase 6</strong>
+            When you attach a real domain to your deployed app, you will set A or CNAME records in your domain registrar's dashboard. This is exactly the process above — you are becoming the authoritative nameserver for your domain.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.4 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-4">
+        <div class="lesson-header">
+          <span class="lesson-num">0.4</span>
+          <h2>TCP Connection: The Handshake</h2>
+        </div>
+
+        <p>After DNS resolves the IP, the browser needs to establish a reliable connection before sending any data. This is the <strong>TCP 3-way handshake</strong>:</p>
+
+        <pre class="diagram">Browser                              Server (140.82.112.4:443)
+   │                                       │
+   │  ── SYN ──────────────────────────►  │   "I want to connect"
+   │                                       │
+   │  ◄── SYN-ACK ───────────────────────  │   "Received. I'm ready."
+   │                                       │
+   │  ── ACK ──────────────────────────►  │   "Acknowledged."
+   │                                       │
+   │  [TCP connection established]         │
+   │                                       │
+   │  [TLS handshake begins — for HTTPS]   │
+   │  Exchange encryption keys,            │
+   │  verify server certificate            │
+   │                                       │
+   │  [HTTP request goes here]             │</pre>
+
+        <p>For <strong>HTTPS</strong>, a TLS handshake follows the TCP handshake. The two sides agree on an encryption algorithm, exchange cryptographic keys, and verify the server's identity via its <strong>SSL certificate</strong> (signed by a trusted Certificate Authority). After that, all data is encrypted — nobody intercepting packets in between can read anything useful.</p>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">
+            <strong>Port numbers</strong>
+            The server listens on port <code>443</code> for HTTPS and port <code>80</code> for plain HTTP. A port is just a number that identifies which program on the machine should receive the traffic — like an apartment number in a building. Your Node.js apps will typically use port <code>3000</code> in development.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.5 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-5">
+        <div class="lesson-header">
+          <span class="lesson-num">0.5</span>
+          <h2>HTTP: The Conversation</h2>
+        </div>
+
+        <p>HTTP is the text-based protocol browsers and servers use to actually talk. It is human-readable — you can see exactly what goes over the wire.</p>
+
+        <div class="code-label">HTTP Request (what the browser sends)</div>
+        <pre><code class="language-http">GET /index.html HTTP/1.1
+Host: github.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+Accept: text/html,application/xhtml+xml
+Accept-Language: en-US,en;q=0.9
+Connection: keep-alive
+(blank line = end of headers — GET has no body)</code></pre>
+
+        <div class="code-label">HTTP Response (what the server sends back)</div>
+        <pre><code class="language-http">HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 45231
+Cache-Control: max-age=0, private
+Set-Cookie: _gh_sess=abc123; Path=/; Secure; HttpOnly
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  ... 45,231 bytes of HTML ...
+&lt;/html&gt;</code></pre>
+
+        <p>Every HTTP message has the same anatomy: a <strong>start line</strong> (method + path, or status code), <strong>headers</strong> (key-value metadata), a blank line, and an optional <strong>body</strong>.</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Method</th><th>Meaning</th><th>Has Body?</th></tr></thead>
+            <tbody>
+              <tr><td><code>GET</code></td><td>Read / retrieve data</td><td>No</td></tr>
+              <tr><td><code>POST</code></td><td>Create something new</td><td>Yes</td></tr>
+              <tr><td><code>PUT</code></td><td>Replace an existing resource entirely</td><td>Yes</td></tr>
+              <tr><td><code>PATCH</code></td><td>Update part of an existing resource</td><td>Yes</td></tr>
+              <tr><td><code>DELETE</code></td><td>Delete a resource</td><td>No</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Status Code</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>200 OK</code></td><td>Success. Here's what you asked for.</td></tr>
+              <tr><td><code>201 Created</code></td><td>Resource was created successfully.</td></tr>
+              <tr><td><code>301 / 302</code></td><td>Redirect — go to this other URL instead.</td></tr>
+              <tr><td><code>400 Bad Request</code></td><td>You sent invalid data. Fix your request.</td></tr>
+              <tr><td><code>401 Unauthorized</code></td><td>Not logged in. Authentication required.</td></tr>
+              <tr><td><code>403 Forbidden</code></td><td>Logged in, but not allowed to do this.</td></tr>
+              <tr><td><code>404 Not Found</code></td><td>The resource doesn't exist at this URL.</td></tr>
+              <tr><td><code>500 Internal Server Error</code></td><td>The server crashed. Bug on the server side.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Version</th><th>Key behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code>HTTP/1.1</code></td><td>One request per TCP connection (with optional pipelining). Most of the web ran on this for 20 years.</td></tr>
+              <tr><td><code>HTTP/2</code></td><td>Multiple requests over one connection simultaneously (multiplexing) + header compression. Much faster.</td></tr>
+              <tr><td><code>HTTP/3</code></td><td>Built on UDP (QUIC protocol). Faster connection setup, better packet loss handling. Used by Google, Cloudflare.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.6 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-6">
+        <div class="lesson-header">
+          <span class="lesson-num">0.6</span>
+          <h2>What a Browser Actually Does</h2>
+        </div>
+
+        <p>A browser is not just a window that displays things. It is a <strong>rendering engine</strong> + a <strong>JavaScript engine</strong> + a <strong>networking layer</strong>. When it receives HTML from the server, this pipeline runs:</p>
+
+        <pre class="diagram">HTML text received from server
+        │
+        ▼
+┌─────────────────────────┐
+│      HTML Parser        │  Reads characters one by one.
+│                         │  Builds a tree of nodes in memory.
+└────────────┬────────────┘
+             │                    ← Meanwhile: parser hits &lt;link rel="stylesheet"&gt;
+             │                      → fires HTTP GET for style.css
+             │                      → builds CSSOM (CSS Object Model)
+             ▼
+┌─────────────────────────┐
+│        DOM Tree         │  Document Object Model
+│                         │  Every HTML element = a node
+│   &lt;html&gt;                │
+│   ├── &lt;head&gt;            │
+│   │   └── &lt;title&gt;       │
+│   └── &lt;body&gt;            │
+│       ├── &lt;h1&gt;          │
+│       └── &lt;p&gt;           │
+└────────────┬────────────┘
+             │
+             │  DOM + CSSOM merged
+             ▼
+┌─────────────────────────┐
+│      Render Tree        │  Only visible nodes (display:none excluded)
+│                         │  Each node has its computed styles attached
+└────────────┬────────────┘
+             ▼
+┌─────────────────────────┐
+│         Layout          │  Calculate exact pixel position + size
+│        (Reflow)         │  of every element on screen
+└────────────┬────────────┘
+             ▼
+┌─────────────────────────┐
+│          Paint          │  Fill pixels: backgrounds, borders, text
+└────────────┬────────────┘
+             ▼
+┌─────────────────────────┐
+│        Composite        │  Stack layers (z-index, position:fixed)
+│                         │  Send final image to GPU → screen
+└─────────────────────────┘</pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚡</span>
+          <div class="callout-body">
+            <strong>Why this matters for performance</strong>
+            Changing CSS <code>width</code> triggers Layout → Paint → Composite (expensive). Changing <code>color</code> skips Layout (cheaper). Changing <code>transform</code> or <code>opacity</code> skips both Layout and Paint — the GPU handles it alone (cheapest). This is why CSS animations using <code>transform</code> are smooth, while those using <code>width</code> or <code>top</code> can be janky.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.7 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-7">
+        <div class="lesson-header">
+          <span class="lesson-num">0.7</span>
+          <h2>Website Anatomy: The Full Stack</h2>
+        </div>
+
+        <p>Every web application is made of at most four layers. Understanding what each layer does — and crucially, what it does <em>not</em> do — is the most important architectural concept in web development.</p>
+
+        <pre class="diagram">┌──────────────────────────────────────────────────────┐
+│                  BROWSER (Client)                     │
+│                                                       │
+│   HTML ────── CSS ────── JavaScript                   │
+│  (structure)  (style)    (behavior)                   │
+│                                                       │
+│   Runs on: user's own machine                         │
+│   Can see: whatever the server chooses to send        │
+└────────────────────────┬─────────────────────────────┘
+                         │  HTTPS requests / responses
+                         │  (HTML files, JSON data, images)
+┌────────────────────────▼─────────────────────────────┐
+│                  CDN (Optional)                       │
+│   Content Delivery Network                            │
+│   Caches static files near the user.                  │
+│   Example: Cloudflare, Fastly, AWS CloudFront         │
+└────────────────────────┬─────────────────────────────┘
+                         │  (cache miss → goes to origin server)
+┌────────────────────────▼─────────────────────────────┐
+│                  SERVER (Backend)                     │
+│                                                       │
+│   Node.js + Express                                   │
+│   Receives HTTP requests → applies business logic     │
+│   → talks to the database → returns HTTP responses   │
+│                                                       │
+│   Runs on: a remote machine in a data center          │
+│   Always on: 24/7, publicly reachable                 │
+└────────────────────────┬─────────────────────────────┘
+                         │  SQL queries
+┌────────────────────────▼─────────────────────────────┐
+│                  DATABASE                             │
+│                                                       │
+│   PostgreSQL                                          │
+│   Stores data permanently: users, posts, orders       │
+│   Handles concurrent reads and writes safely          │
+│                                                       │
+│   Runs on: same data center as the server             │
+└──────────────────────────────────────────────────────┘</pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>The cardinal rule of web architecture</strong>
+            The browser <em>never</em> talks to the database directly. The server is the gatekeeper. This is not a performance choice — it is a security requirement. If the browser could query the database directly, any user could read any other user's data.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- ─── Lesson 0.8 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-8">
+        <div class="lesson-header">
+          <span class="lesson-num">0.8</span>
+          <h2>Full Request Lifecycle — End to End</h2>
+        </div>
+
+        <p>Let's trace everything that happens when you click the <strong>Like</strong> button on a tweet. Every step is real. Total time: 50–200 ms.</p>
+
+        <ol class="steps">
+          <li><strong>Click event fires.</strong> The browser detects a mouse click on <code>#like-button</code>. JavaScript event listener runs immediately.</li>
+          <li><strong>JS builds an HTTP request.</strong> <code>fetch()</code> is called with the endpoint URL, method POST, your login token in the Authorization header, and the tweet ID in the JSON body.</li>
+          <li><strong>DNS lookup.</strong> Browser checks its cache — <code>api.twitter.com</code> was resolved recently. IP found: <code>104.244.42.129</code>. (Skips the full chain.)</li>
+          <li><strong>TCP + TLS.</strong> Browser reuses an existing connection to Twitter's server (HTTP/2 multiplexing). No new handshake needed.</li>
+          <li><strong>Request sent over the wire.</strong> The encrypted HTTP/2 frame travels from your machine across the internet to Twitter's data center.</li>
+          <li><strong>Server receives the request.</strong> Express router matches <code>POST /2/tweets/:id/like</code>. Middleware decodes your JWT token → extracts <code>user_id = 9999</code>.</li>
+          <li><strong>Database write.</strong> Server runs two SQL queries: insert a row into the <code>likes</code> table, increment the like count on the tweet row.</li>
+          <li><strong>Server builds response.</strong> Serializes result to JSON: <code>{"liked": true, "like_count": 42301}</code>. Sets status <code>200 OK</code>.</li>
+          <li><strong>Response travels back.</strong> Encrypted frames return across the internet to your browser.</li>
+          <li><strong>JS callback runs.</strong> The <code>fetch()</code> Promise resolves. Your code updates the DOM: heart turns red, count increments from 42300 to 42301. Browser repaints only the changed elements.</li>
+        </ol>
+
+        <div class="code-label">The JavaScript making steps 2–10 happen</div>
+        <pre><code class="language-javascript">// The click handler
+document.querySelector('#like-button').addEventListener('click', async () => {
+
+  // Step 2: build and send the request
+  const response = await fetch('https://api.twitter.com/2/tweets/12345/like', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer eyJhbGc...',   // your login token
+      'Content-Type':  'application/json'
+    },
+    body: JSON.stringify({ tweet_id: '12345' })
+  });
+
+  // Steps 3–9 happen invisibly (network, server, DB)
+
+  // Step 10: update the UI with the response
+  const data = await response.json();            // parse JSON body
+  document.querySelector('#like-count').textContent = data.like_count;
+  document.querySelector('#like-button').classList.add('liked');   // heart → red
+});</code></pre>
+      </article>
+
+
+      <!-- ─── Lesson 0.9 ─────────────────────────────────────── -->
+      <article class="lesson" id="lesson-0-9">
+        <div class="lesson-header">
+          <span class="lesson-num">0.9</span>
+          <h2>Tools Setup</h2>
+        </div>
+
+        <p>Install these before moving to Phase 1. Every tool here will be used constantly throughout the course.</p>
+
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="tool-icon">💻</div>
+            <div class="tool-name">VS Code</div>
+            <div class="tool-desc">Your code editor. Free, fast, and has the best ecosystem of extensions.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">🌐</div>
+            <div class="tool-name">Chrome / Firefox</div>
+            <div class="tool-desc">The browser you'll use for testing. Both have excellent DevTools.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">⚙️</div>
+            <div class="tool-name">Node.js</div>
+            <div class="tool-desc">JavaScript runtime. Lets you run JS outside the browser — for servers, scripts, build tools.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">🖥️</div>
+            <div class="tool-name">Terminal</div>
+            <div class="tool-desc">Text interface to your OS. Servers have no GUI — everything runs here.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-icon">📦</div>
+            <div class="tool-name">Git + GitHub</div>
+            <div class="tool-desc">Version control + cloud hosting for code. Required for deployment.</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 2rem">VS Code Extensions</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Extension</th><th>What it does</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Prettier</strong></td><td>Auto-formats your code on every save. Enforces consistent style.</td></tr>
+              <tr><td><strong>ESLint</strong></td><td>Underlines JavaScript mistakes as you type, before you run the code.</td></tr>
+              <tr><td><strong>GitLens</strong></td><td>Shows git history and blame annotations inline in your files.</td></tr>
+              <tr><td><strong>Thunder Client</strong></td><td>Test HTTP API endpoints without leaving VS Code. Like Postman, built-in.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top: 2rem">Terminal — Essential Commands</h3>
+        <pre><code class="language-bash"># Navigate the filesystem
+pwd                     # where am I? (print working directory)
+ls                      # list files in current folder
+cd folder-name          # enter a folder
+cd ..                   # go up one level
+cd ~                    # go to your home directory
+
+# Files and folders
+mkdir my-project        # create a new folder
+touch index.html        # create an empty file (Mac/Linux)
+ni index.html           # create an empty file (Windows PowerShell)
+rm file.txt             # delete a file (irreversible!)
+cp source.txt dest.txt  # copy a file
+mv old.txt new.txt      # rename or move a file
+
+# Running programs
+node app.js             # run a JS file with Node
+npm install             # install all project dependencies
+npm start               # start the project (reads package.json)</code></pre>
+
+        <h3 style="margin-top: 2rem">Chrome DevTools — Tab Reference</h3>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Tab</th><th>What you use it for</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Elements</strong></td><td>Live DOM tree. Click any element to see and edit its HTML and CSS in real time.</td></tr>
+              <tr><td><strong>Console</strong></td><td>JavaScript REPL. All <code>console.log()</code> output. All errors (in red). Check this first when something breaks.</td></tr>
+              <tr><td><strong>Network</strong></td><td>Every HTTP request the browser makes. Headers, body, status code, timing. Filter to "Fetch/XHR" to see only API calls.</td></tr>
+              <tr><td><strong>Sources</strong></td><td>The actual JS files. Set breakpoints, step through code line by line.</td></tr>
+              <tr><td><strong>Application</strong></td><td>Cookies, localStorage, sessionStorage, cached files.</td></tr>
+              <tr><td><strong>Lighthouse</strong></td><td>Automated audit: performance score, SEO, accessibility.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 style="margin-top: 2rem">Git — Core Commands</h3>
+        <pre><code class="language-bash"># First-time setup (do this once)
+git config --global user.name  "Your Name"
+git config --global user.email "you@example.com"
+
+# Starting a project
+git init                       # initialize a repo in the current folder
+git status                     # what has changed?
+git add index.html             # stage a specific file
+git add .                      # stage all changes
+git commit -m "Add login page" # save a snapshot
+
+# The three states of a file:
+#   Untracked  → git doesn't know about it yet
+#   Staged     → marked for the next commit (after git add)
+#   Committed  → permanently saved in history
+
+# History
+git log                        # list all commits
+git log --oneline              # compact view
+
+# Undoing
+git diff                       # see unstaged changes
+git restore file.txt           # discard changes (WARNING: permanent)</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>Phase 0 exercises — do these before moving on</strong>
+            <ol style="margin-top:.5rem; padding-left:1.2rem;">
+              <li>Open any website in Chrome. Press F12. Go to Network tab. Reload. Click the first request and read its response headers.</li>
+              <li>Open the Console tab. Type <code>document.title</code> and press Enter. You just ran JavaScript in a live page.</li>
+              <li>Open Terminal. Run <code>node --version</code> to confirm Node.js is installed.</li>
+              <li>Create a folder. Run <code>git init</code>. Create a file. Run <code>git add .</code> and <code>git commit -m "first commit"</code>.</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase0 -->
+
+
+    <!-- ══════════════════════════════════════════════════════
+         COMING SOON PAGES (Phases 1–6)
+         ══════════════════════════════════════════════════════ -->
+
+    <div class="page" id="page-phase1">
+      <div class="coming-soon">
+        <div class="cs-icon">🎨</div>
+        <h2>Phase 1 — Frontend</h2>
+        <p>HTML, CSS, and JavaScript — the complete picture of what runs in your browser.</p>
+        <span class="cs-badge">Complete Phase 0 first · Coming Soon</span>
+      </div>
+    </div>
+
+    <div class="page" id="page-phase2">
+      <div class="coming-soon">
+        <div class="cs-icon">⚙️</div>
+        <h2>Phase 2 — Browser Internals</h2>
+        <p>The rendering pipeline, event loop, and how JavaScript execution really works.</p>
+        <span class="cs-badge">Coming Soon</span>
+      </div>
+    </div>
+
+    <div class="page" id="page-phase3">
+      <div class="coming-soon">
+        <div class="cs-icon">🌐</div>
+        <h2>Phase 3 — Network Layer</h2>
+        <p>HTTP in depth, REST APIs, JSON, and fetching data from servers.</p>
+        <span class="cs-badge">Coming Soon</span>
+      </div>
+    </div>
+
+    <div class="page" id="page-phase4">
+      <div class="coming-soon">
+        <div class="cs-icon">🖥️</div>
+        <h2>Phase 4 — Backend</h2>
+        <p>Node.js, Express.js, PostgreSQL, and authentication — the server side.</p>
+        <span class="cs-badge">Coming Soon</span>
+      </div>
+    </div>
+
+    <div class="page" id="page-phase5">
+      <div class="coming-soon">
+        <div class="cs-icon">🔗</div>
+        <h2>Phase 5 — Putting It Together</h2>
+        <p>Build a complete web app: frontend + backend + database, all wired up.</p>
+        <span class="cs-badge">Coming Soon</span>
+      </div>
+    </div>
+
+    <div class="page" id="page-phase6">
+      <div class="coming-soon">
+        <div class="cs-icon">🚀</div>
+        <h2>Phase 6 — Deployment</h2>
+        <p>Get your app live: frontend on Vercel, backend on Railway, domain and HTTPS.</p>
+        <span class="cs-badge">Coming Soon</span>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /main-wrap -->
+
+<script src="script.js"></script>
+</body>
+</html>
