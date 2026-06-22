@@ -740,6 +740,116 @@ td code { font-size: .8em; }
 .tool-name { font-weight: 700; color: var(--text-1); font-size: .88rem; }
 .tool-desc { font-size: .75rem; color: var(--text-3); line-height: 1.5; }
 
+/* ── Lifecycle Steps ───────────────────────────────────────────── */
+.lifecycle {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 0;
+}
+
+.lc-step {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.lc-step:not(:last-child) .lc-num-col::after {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 34px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.lc-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  padding-bottom: 8px;
+}
+
+.lc-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  border: 2px solid var(--accent-br);
+  color: var(--accent);
+  font-size: .72rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.lc-body {
+  flex: 1;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 13px 16px;
+  margin-bottom: 8px;
+  transition: border-color var(--t);
+}
+.lc-body:hover { border-color: var(--accent); }
+
+.lc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.lc-title {
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--text-1);
+}
+
+.lc-where {
+  font-size: .63rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  padding: 2px 9px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  border: 1px solid;
+}
+
+.lc-browser  { background: rgba(129,140,248,.12); color: var(--accent);  border-color: var(--accent-br); }
+.lc-network  { background: rgba(56,189,248,.1);   color: var(--sky);     border-color: #0c4a6e; }
+.lc-server   { background: rgba(251,191,36,.1);   color: var(--orange);  border-color: #92400e; }
+.lc-database { background: rgba(52,211,153,.1);   color: var(--green);   border-color: var(--green-br); }
+
+.lc-desc {
+  font-size: .84rem;
+  color: var(--text-2);
+  margin: 0;
+  line-height: 1.65;
+}
+
+.lc-timing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 1.25rem 0 .5rem;
+  font-size: .75rem;
+  color: var(--text-4);
+}
+
+.lc-timing-bar {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
 /* ── Coming Soon ───────────────────────────────────────────────── */
 .coming-soon {
   display: flex;

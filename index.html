@@ -740,42 +740,161 @@ Set-Cookie: _gh_sess=abc123; Path=/; Secure; HttpOnly
           <h2>Full Request Lifecycle — End to End</h2>
         </div>
 
-        <p>Let's trace everything that happens when you click the <strong>Like</strong> button on a tweet. Every step is real. Total time: 50–200 ms.</p>
+        <p>Let's trace every single thing that happens when you click the <strong>Like</strong> button on a tweet. Each step is real. Total round-trip time: <strong>50–200 ms</strong>.</p>
 
-        <ol class="steps">
-          <li><strong>Click event fires.</strong> The browser detects a mouse click on <code>#like-button</code>. JavaScript event listener runs immediately.</li>
-          <li><strong>JS builds an HTTP request.</strong> <code>fetch()</code> is called with the endpoint URL, method POST, your login token in the Authorization header, and the tweet ID in the JSON body.</li>
-          <li><strong>DNS lookup.</strong> Browser checks its cache — <code>api.twitter.com</code> was resolved recently. IP found: <code>104.244.42.129</code>. (Skips the full chain.)</li>
-          <li><strong>TCP + TLS.</strong> Browser reuses an existing connection to Twitter's server (HTTP/2 multiplexing). No new handshake needed.</li>
-          <li><strong>Request sent over the wire.</strong> The encrypted HTTP/2 frame travels from your machine across the internet to Twitter's data center.</li>
-          <li><strong>Server receives the request.</strong> Express router matches <code>POST /2/tweets/:id/like</code>. Middleware decodes your JWT token → extracts <code>user_id = 9999</code>.</li>
-          <li><strong>Database write.</strong> Server runs two SQL queries: insert a row into the <code>likes</code> table, increment the like count on the tweet row.</li>
-          <li><strong>Server builds response.</strong> Serializes result to JSON: <code>{"liked": true, "like_count": 42301}</code>. Sets status <code>200 OK</code>.</li>
-          <li><strong>Response travels back.</strong> Encrypted frames return across the internet to your browser.</li>
-          <li><strong>JS callback runs.</strong> The <code>fetch()</code> Promise resolves. Your code updates the DOM: heart turns red, count increments from 42300 to 42301. Browser repaints only the changed elements.</li>
-        </ol>
+        <div class="lc-timing">
+          <div class="lc-timing-bar"></div>
+          <span>Color shows where each step runs:</span>
+          <span style="color:var(--accent)">■ Browser</span>
+          <span style="color:var(--sky)">■ Network</span>
+          <span style="color:var(--orange)">■ Server</span>
+          <span style="color:var(--green)">■ Database</span>
+          <div class="lc-timing-bar"></div>
+        </div>
 
-        <div class="code-label">The JavaScript making steps 2–10 happen</div>
-        <pre><code class="language-javascript">// The click handler
-document.querySelector('#like-button').addEventListener('click', async () => {
+        <div class="lifecycle">
 
-  // Step 2: build and send the request
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">1</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">Click event fires</span>
+                <span class="lc-where lc-browser">Browser</span>
+              </div>
+              <p class="lc-desc">The browser detects a mouse click on <code>#like-button</code>. The JavaScript event listener registered with <code>addEventListener</code> runs immediately — no network involved yet.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">2</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">JS builds an HTTP request</span>
+                <span class="lc-where lc-browser">Browser</span>
+              </div>
+              <p class="lc-desc"><code>fetch()</code> is called with the URL, method <code>POST</code>, your login token in the Authorization header, and the tweet ID as a JSON body. The browser packages this into an HTTP frame ready to send.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">3</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">DNS lookup</span>
+                <span class="lc-where lc-network">Network</span>
+              </div>
+              <p class="lc-desc">Browser checks its local DNS cache — <code>api.twitter.com</code> was resolved recently. IP address <code>104.244.42.129</code> found instantly. The full DNS chain (Lesson 0.3) is skipped.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">4</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">TCP + TLS connection</span>
+                <span class="lc-where lc-network">Network</span>
+              </div>
+              <p class="lc-desc">Browser reuses an already-open TCP connection to Twitter's server (HTTP/2 multiplexing allows multiple requests to share one connection). No new handshake needed — saves ~100 ms.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">5</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">Request travels the internet</span>
+                <span class="lc-where lc-network">Network</span>
+              </div>
+              <p class="lc-desc">The encrypted HTTP/2 frame leaves your machine, hops through routers across the internet, and arrives at Twitter's data center. Takes roughly 10–80 ms depending on geography.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">6</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">Server receives &amp; routes the request</span>
+                <span class="lc-where lc-server">Server</span>
+              </div>
+              <p class="lc-desc">The Express router matches the pattern <code>POST /2/tweets/:id/like</code>. Auth middleware runs first: it decodes the JWT Authorization token and extracts <code>user_id = 9999</code>. Then the route handler is called.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">7</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">Database write</span>
+                <span class="lc-where lc-database">Database</span>
+              </div>
+              <p class="lc-desc">Server sends two SQL queries: an <code>INSERT</code> into the <code>likes</code> table (user 9999 liked tweet 12345), and an <code>UPDATE</code> on the tweet row to increment <code>like_count</code> by 1. Database confirms success.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">8</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">Server builds the response</span>
+                <span class="lc-where lc-server">Server</span>
+              </div>
+              <p class="lc-desc">Handler serializes the result to JSON: <code>{"liked": true, "like_count": 42301}</code>. Sets HTTP status <code>200 OK</code> and Content-Type header, then sends it back through the open connection.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">9</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">Response travels back</span>
+                <span class="lc-where lc-network">Network</span>
+              </div>
+              <p class="lc-desc">The encrypted response frames hop back across the internet and arrive in your browser's receive buffer. Same route, opposite direction.</p>
+            </div>
+          </div>
+
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">10</div></div>
+            <div class="lc-body">
+              <div class="lc-header">
+                <span class="lc-title">JS callback runs — UI updates</span>
+                <span class="lc-where lc-browser">Browser</span>
+              </div>
+              <p class="lc-desc">The <code>fetch()</code> Promise resolves. Your callback reads the JSON body, writes <code>42301</code> into the like count element, and adds a CSS class to turn the heart red. The browser repaints only those changed nodes — the rest of the page is untouched.</p>
+            </div>
+          </div>
+
+        </div><!-- /lifecycle -->
+
+        <div class="code-label">The JavaScript that drives all 10 steps</div>
+        <pre><code class="language-javascript">document.querySelector('#like-button').addEventListener('click', async () => {
+
+  // Steps 1–2: event fires, fetch() builds and sends the HTTP request
   const response = await fetch('https://api.twitter.com/2/tweets/12345/like', {
     method: 'POST',
     headers: {
-      'Authorization': 'Bearer eyJhbGc...',   // your login token
+      'Authorization': 'Bearer eyJhbGc...',  // your login token
       'Content-Type':  'application/json'
     },
     body: JSON.stringify({ tweet_id: '12345' })
   });
 
-  // Steps 3–9 happen invisibly (network, server, DB)
+  // Steps 3–9 happen invisibly while await suspends this function:
+  //   DNS lookup → TCP connection → Network → Server → Database → Network
 
-  // Step 10: update the UI with the response
-  const data = await response.json();            // parse JSON body
-  document.querySelector('#like-count').textContent = data.like_count;
-  document.querySelector('#like-button').classList.add('liked');   // heart → red
+  // Step 10: response arrived — update the DOM
+  const data = await response.json();
+  document.querySelector('#like-count').textContent = data.like_count;  // 42301
+  document.querySelector('#like-button').classList.add('liked');         // heart → red
 });</code></pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>The key takeaway</strong>
+            The browser and server are in a constant conversation — request and response, back and forth. The browser never knows what is in the database; it only knows what the server chooses to send it. Every modern web app you use runs this exact loop, thousands of times per minute.
+          </div>
+        </div>
       </article>
 
 
