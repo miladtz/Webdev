@@ -68,13 +68,27 @@
     </div>
 
     <!-- Phase 1 -->
-    <button class="phase-btn locked" data-page="page-phase1">
+    <button class="phase-btn done" data-page="page-phase1">
       <span class="phase-num">1</span>
       <div class="phase-info">
         <span class="phase-name">Frontend</span>
-        <span class="phase-status status-locked">Coming Soon</span>
+        <span class="phase-status status-done">✓ Complete</span>
       </div>
+      <span class="phase-chevron">›</span>
     </button>
+
+    <div class="lesson-nav" id="lessons-page-phase1">
+      <a href="#lesson-1-1"  class="lesson-link">1.1 HTML Structure</a>
+      <a href="#lesson-1-2"  class="lesson-link">1.2 Semantic HTML &amp; Forms</a>
+      <a href="#lesson-1-3"  class="lesson-link">1.3 Selectors &amp; Cascade</a>
+      <a href="#lesson-1-4"  class="lesson-link">1.4 The Box Model</a>
+      <a href="#lesson-1-5"  class="lesson-link">1.5 Flexbox</a>
+      <a href="#lesson-1-6"  class="lesson-link">1.6 Grid</a>
+      <a href="#lesson-1-7"  class="lesson-link">1.7 JS Fundamentals</a>
+      <a href="#lesson-1-8"  class="lesson-link">1.8 The DOM</a>
+      <a href="#lesson-1-9"  class="lesson-link">1.9 Events</a>
+      <a href="#lesson-1-10" class="lesson-link">1.10 Async &amp; fetch()</a>
+    </div>
 
     <!-- Phase 2 -->
     <button class="phase-btn locked" data-page="page-phase2">
@@ -125,10 +139,10 @@
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>1 / 7 phases</span>
+      <span>2 / 7 phases</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 14%"></div>
+      <div class="progress-fill" style="width: 28%"></div>
     </div>
   </div>
 </aside>
@@ -198,22 +212,25 @@
         </div>
 
         <!-- Phase 1 -->
-        <div class="phase-card locked" style="--card-color:#34d399">
+        <div class="phase-card done" data-page="page-phase1" style="--card-color:#34d399">
           <div class="card-top">
             <span class="card-num">1</span>
-            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
           </div>
           <div class="card-title">Frontend</div>
           <div class="card-desc">HTML structure, CSS styling, JavaScript behavior — and how they work together in the browser.</div>
           <div class="card-topics">
             <span class="tag">HTML</span>
             <span class="tag">CSS</span>
-            <span class="tag">JavaScript</span>
+            <span class="tag">Flexbox</span>
+            <span class="tag">Grid</span>
             <span class="tag">DOM</span>
             <span class="tag">Events</span>
+            <span class="tag">fetch()</span>
           </div>
           <div class="card-footer">
-            <span class="card-time">📅 Weeks 2–4 · ~12 lessons</span>
+            <span class="card-time">📅 Weeks 2–4 · 10 lessons</span>
+            <span class="card-arrow">Open →</span>
           </div>
         </div>
 
@@ -1031,13 +1048,628 @@ git restore file.txt           # discard changes (WARNING: permanent)</code></pr
          ══════════════════════════════════════════════════════ -->
 
     <div class="page" id="page-phase1">
-      <div class="coming-soon">
-        <div class="cs-icon">🎨</div>
-        <h2>Phase 1 — Frontend</h2>
-        <p>HTML, CSS, and JavaScript — the complete picture of what runs in your browser.</p>
-        <span class="cs-badge">Complete Phase 0 first · Coming Soon</span>
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 1</div>
+        <h1>Frontend: What the User Sees</h1>
+        <p>The three languages every browser understands — and how they work together to produce a living, interactive page.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Weeks 2–4</span>
+          <span class="chip">📝 10 Lessons</span>
+          <span class="chip">✅ Completed</span>
+        </div>
       </div>
-    </div>
+
+
+      <!-- 1.1 HTML Structure -->
+      <article class="lesson" id="lesson-1-1">
+        <div class="lesson-header">
+          <span class="lesson-num">1.1</span>
+          <h2>HTML: Structure &amp; Tags</h2>
+        </div>
+
+        <p>HTML is a <strong>markup language</strong>, not a programming language. You describe content using <strong>tags</strong>. Tags wrap content — they open, hold content, and close. Together they form the skeleton every browser renders.</p>
+
+        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;My Page&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hello World&lt;/h1&gt;
+  &lt;p&gt;A paragraph of text.&lt;/p&gt;
+  &lt;a href="https://github.com"&gt;Visit GitHub&lt;/a&gt;
+  &lt;img src="photo.jpg" alt="A photo"&gt;
+  &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Line</th><th>What the browser does</th></tr></thead>
+            <tbody>
+              <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Use HTML5 rules. Without it, browsers enter "quirks mode" and render incorrectly.</td></tr>
+              <tr><td><code>&lt;html lang="en"&gt;</code></td><td>Root element. <code>lang</code> helps screen readers and search engines.</td></tr>
+              <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Character encoding. Without this, <code>é ñ 中 😀</code> render as garbage.</td></tr>
+              <tr><td><code>&lt;meta name="viewport"&gt;</code></td><td>Tells mobile browsers not to zoom out and show a tiny desktop site. Critical.</td></tr>
+              <tr><td><code>&lt;link rel="stylesheet"&gt;</code></td><td>Browser fires a second HTTP GET for <code>style.css</code>. HTML parsing pauses — CSS is render-blocking.</td></tr>
+              <tr><td><code>&lt;script src="app.js"&gt;</code></td><td>Placed at the bottom so the DOM exists before JS tries to query it.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre class="diagram">&lt;a href="https://github.com" target="_blank"&gt;Visit GitHub&lt;/a&gt;
+ ↑  ↑───────────────────────↑  ↑────────────↑  ↑──────────↑  ↑───↑
+ │        attribute + value     attribute #2    content    closing tag
+ └── tag name</pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Type</th><th>Behavior</th><th>Examples</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Block</strong></td><td>Starts new line, takes full width</td><td><code>&lt;div&gt;</code> <code>&lt;p&gt;</code> <code>&lt;h1&gt;</code> <code>&lt;section&gt;</code></td></tr>
+              <tr><td><strong>Inline</strong></td><td>Flows with text, only as wide as its content</td><td><code>&lt;span&gt;</code> <code>&lt;a&gt;</code> <code>&lt;strong&gt;</code> <code>&lt;em&gt;</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+      <!-- 1.2 Semantic HTML & Forms -->
+      <article class="lesson" id="lesson-1-2">
+        <div class="lesson-header">
+          <span class="lesson-num">1.2</span>
+          <h2>Semantic HTML &amp; Forms</h2>
+        </div>
+
+        <p><strong>Semantic</strong> tags say what content <em>is</em>, not just how it looks. Same visual result — but screen readers, search engines, and other developers can understand the page structure.</p>
+
+        <pre><code class="language-html">&lt;!-- Non-semantic: just boxes with names --&gt;
+&lt;div id="header"&gt;&lt;div id="nav"&gt;...&lt;/div&gt;&lt;/div&gt;
+&lt;div id="content"&gt;&lt;div class="post"&gt;...&lt;/div&gt;&lt;/div&gt;
+&lt;div id="footer"&gt;...&lt;/div&gt;
+
+&lt;!-- Semantic: the tag name says what the content IS --&gt;
+&lt;header&gt;
+  &lt;nav&gt;&lt;a href="/"&gt;Home&lt;/a&gt;&lt;/nav&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;article&gt;&lt;h1&gt;Post Title&lt;/h1&gt;&lt;p&gt;Content...&lt;/p&gt;&lt;/article&gt;
+  &lt;aside&gt;Related links&lt;/aside&gt;
+&lt;/main&gt;
+&lt;footer&gt;&lt;p&gt;© 2026&lt;/p&gt;&lt;/footer&gt;</code></pre>
+
+        <p><strong>Forms</strong> collect user input and send it to the server via HTTP:</p>
+
+        <pre><code class="language-html">&lt;form action="/login" method="POST"&gt;
+  &lt;label for="email"&gt;Email&lt;/label&gt;
+  &lt;input type="email" id="email" name="email"
+         placeholder="you@example.com" required&gt;
+
+  &lt;label for="password"&gt;Password&lt;/label&gt;
+  &lt;input type="password" id="password" name="password" required&gt;
+
+  &lt;button type="submit"&gt;Log in&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">
+            <strong>GET vs POST</strong>
+            <code>method="GET"</code> — data goes in the URL: <code>/search?q=cats</code> (visible, bookmarkable, use for searches). <code>method="POST"</code> — data goes in the request body (hidden from URL — use for passwords, signups, anything sensitive).
+          </div>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Input type</th><th>What it renders</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td>Free text field (default)</td></tr>
+              <tr><td><code>email</code></td><td>Text field with email format validation</td></tr>
+              <tr><td><code>password</code></td><td>Text field with masked characters</td></tr>
+              <tr><td><code>number</code></td><td>Numeric input with up/down arrows</td></tr>
+              <tr><td><code>checkbox</code></td><td>On/off tick box (many can be checked)</td></tr>
+              <tr><td><code>radio</code></td><td>Multiple choice (only one per group)</td></tr>
+              <tr><td><code>file</code></td><td>File picker dialog</td></tr>
+              <tr><td><code>date</code></td><td>Native date picker calendar</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+      <!-- 1.3 CSS Selectors & Cascade -->
+      <article class="lesson" id="lesson-1-3">
+        <div class="lesson-header">
+          <span class="lesson-num">1.3</span>
+          <h2>How CSS Works: Selectors, Cascade &amp; Specificity</h2>
+        </div>
+
+        <p>CSS has three interlocking systems you must understand before anything else: <strong>selectors</strong> (which elements to style), the <strong>cascade</strong> (which rule wins when multiple apply), and <strong>inheritance</strong> (which properties flow from parent to child).</p>
+
+        <pre><code class="language-css">p              { }   /* all &lt;p&gt; elements */
+.card          { }   /* elements with class="card" */
+#main-nav      { }   /* element with id="main-nav" — only one */
+.card p        { }   /* &lt;p&gt; anywhere inside .card */
+.card &gt; p      { }   /* &lt;p&gt; that is a direct child of .card */
+a:hover        { }   /* &lt;a&gt; when mouse is over it */
+input:focus    { }   /* &lt;input&gt; when it has keyboard focus */
+p::first-line  { }   /* the first rendered line of every &lt;p&gt; */</code></pre>
+
+        <p>When multiple rules target the same element, <strong>specificity</strong> determines the winner. Each selector type earns points:</p>
+
+        <pre class="diagram">Priority (highest wins first, then points, then order):
+
+  1.  !important           →  nuclear override — avoid
+  2.  Inline style         →  style="color:red"
+  3.  ID selector          →  #nav             = 100 pts
+  4.  Class / pseudo-class →  .card   :hover   =  10 pts
+  5.  Element selector     →  p   h1           =   1 pt
+  6.  Last-written wins    →  when points are equal
+
+Example:
+  #nav .item a:hover   =  100 + 10 + 1 + 10  =  121 pts  ← wins
+  .nav-item            =  10                  =   10 pts</pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Inherited (flows to children)</th><th>Not inherited (set explicitly)</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><code>color</code> <code>font-family</code> <code>font-size</code> <code>font-weight</code> <code>line-height</code> <code>text-align</code></td>
+                <td><code>background</code> <code>border</code> <code>padding</code> <code>margin</code> <code>width</code> <code>height</code> <code>display</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+      <!-- 1.4 Box Model -->
+      <article class="lesson" id="lesson-1-4">
+        <div class="lesson-header">
+          <span class="lesson-num">1.4</span>
+          <h2>The Box Model</h2>
+        </div>
+
+        <p><strong>Every element on screen is a rectangular box</strong> with four layers. Getting this wrong is the source of most beginner layout bugs.</p>
+
+        <pre class="diagram">┌──────────────────────────────────────────────────┐
+│                     margin                        │  space outside (transparent)
+│   ┌──────────────────────────────────────────┐   │
+│   │                 border                   │   │  the visible outline
+│   │   ┌──────────────────────────────────┐   │   │
+│   │   │              padding             │   │   │  space inside (shows background)
+│   │   │   ┌──────────────────────────┐   │   │   │
+│   │   │   │         content          │   │   │   │  your text or image
+│   │   │   └──────────────────────────┘   │   │   │
+│   │   └──────────────────────────────────┘   │   │
+│   └──────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────┘</pre>
+
+        <p>The most common CSS beginner mistake — the <strong><code>box-sizing</code> trap</strong>:</p>
+
+        <pre><code class="language-css">/* DEFAULT behavior (box-sizing: content-box)
+   width only covers the content — padding and border are ADDED on top */
+.box { width: 200px; padding: 20px; border: 2px solid; }
+/* visual width = 200 + 20 + 20 + 2 + 2 = 244px  ← SURPRISE */
+
+/* FIX: border-box — width includes padding and border */
+*, *::before, *::after { box-sizing: border-box; }
+
+.box { width: 200px; padding: 20px; border: 2px solid; }
+/* visual width = 200px exactly  ← EXPECTED */</code></pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>The universal reset — write this at the top of every CSS file you ever create</strong>
+            <code>*, *::before, *::after &#123; box-sizing: border-box; &#125;</code>
+            It's a one-liner that prevents the most common source of layout confusion.
+          </div>
+        </div>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <strong>Margin collapsing</strong>
+            When two vertical margins meet, they don't add — the larger one wins. <code>.a &#123; margin-bottom: 30px; &#125;</code> + <code>.b &#123; margin-top: 20px; &#125;</code> = 30px gap (not 50px). This only happens vertically and not inside flex or grid containers.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 1.5 Flexbox -->
+      <article class="lesson" id="lesson-1-5">
+        <div class="lesson-header">
+          <span class="lesson-num">1.5</span>
+          <h2>Flexbox: 1D Layout</h2>
+        </div>
+
+        <p>Flexbox arranges items along <strong>one axis</strong> — row or column. It handles 95% of everyday layout problems. One line of CSS (<code>display: flex</code>) transforms a container and all its direct children.</p>
+
+        <pre><code class="language-css">.container {
+  display: flex;
+  flex-direction: row;            /* main axis = horizontal (default) */
+  justify-content: space-between; /* spread along main axis */
+  align-items: center;            /* center on cross axis */
+  gap: 16px;                      /* space between items */
+}</code></pre>
+
+        <pre class="diagram">flex-direction: row  (default)
+
+main axis ──────────────────────────────────►
+┌─────────┐   ┌─────────┐   ┌─────────┐
+│  item 1 │   │  item 2 │   │  item 3 │
+└─────────┘   └─────────┘   └─────────┘
+↑
+cross axis (perpendicular to main)</pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th><code>justify-content</code> (main axis)</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>flex-start</code></td><td>Pack at start (default)</td></tr>
+              <tr><td><code>center</code></td><td>Center</td></tr>
+              <tr><td><code>flex-end</code></td><td>Pack at end</td></tr>
+              <tr><td><code>space-between</code></td><td>Equal gaps between items, none at edges</td></tr>
+              <tr><td><code>space-evenly</code></td><td>Equal gaps everywhere including edges</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th><code>align-items</code> (cross axis)</th><th>Effect</th></tr></thead>
+            <tbody>
+              <tr><td><code>stretch</code></td><td>Items fill the cross axis height (default)</td></tr>
+              <tr><td><code>center</code></td><td>Center on cross axis</td></tr>
+              <tr><td><code>flex-start</code> / <code>flex-end</code></td><td>Align to start or end</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Three patterns you'll use constantly:</strong></p>
+
+        <pre><code class="language-css">/* 1. Center anything perfectly */
+.wrap { display: flex; justify-content: center; align-items: center; }
+
+/* 2. Navbar — logo left, links right */
+.nav  { display: flex; justify-content: space-between; align-items: center; }
+
+/* 3. Wrapping card row */
+.cards { display: flex; flex-wrap: wrap; gap: 16px; }
+
+/* Flex item — control growth and shrink */
+.item { flex: 1; }          /* all items share space equally */
+.sidebar { flex: 0 0 260px; } /* fixed 260px, never grow or shrink */</code></pre>
+      </article>
+
+
+      <!-- 1.6 Grid -->
+      <article class="lesson" id="lesson-1-6">
+        <div class="lesson-header">
+          <span class="lesson-num">1.6</span>
+          <h2>Grid: 2D Layout</h2>
+        </div>
+
+        <p>Grid defines <strong>rows and columns simultaneously</strong>. You describe the layout structure first, then place items into it. Perfect for page-level layouts and anything that needs alignment in two dimensions.</p>
+
+        <pre><code class="language-css">.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;   /* sidebar + main content */
+  grid-template-rows: 60px 1fr 80px;  /* header + content + footer */
+  min-height: 100vh;
+}</code></pre>
+
+        <pre class="diagram">grid-template-columns: 1fr 2fr 1fr;   (4 shares total)
+
+┌──────────┬────────────────────┬──────────┐
+│   25%    │        50%         │   25%    │
+│   (1fr)  │       (2fr)        │   (1fr)  │
+└──────────┴────────────────────┴──────────┘</pre>
+
+        <p><strong>Named grid areas</strong> — the clearest way to define a page layout:</p>
+
+        <pre><code class="language-css">.layout {
+  display: grid;
+  grid-template-areas:
+    "header  header"
+    "sidebar main  "
+    "footer  footer";
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 60px 1fr 80px;
+}
+
+header  { grid-area: header;  }
+.sidebar { grid-area: sidebar; }
+main     { grid-area: main;    }
+footer   { grid-area: footer;  }
+
+/* Responsive grid — no media queries needed */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  /* Each card is at least 280px. As many columns as fit. Auto-wraps. */
+}</code></pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Use Flexbox when…</th><th>Use Grid when…</th></tr></thead>
+            <tbody>
+              <tr><td>Centering a single element</td><td>Building a full page layout</td></tr>
+              <tr><td>Navbar, toolbar, button group</td><td>Image gallery (rows AND columns)</td></tr>
+              <tr><td>Items that might wrap to new rows</td><td>Items need to span multiple rows/columns</td></tr>
+              <tr><td>You don't know how many items there are</td><td>You're defining the structure first, then filling it</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+      <!-- 1.7 JS Fundamentals -->
+      <article class="lesson" id="lesson-1-7">
+        <div class="lesson-header">
+          <span class="lesson-num">1.7</span>
+          <h2>JavaScript Fundamentals</h2>
+        </div>
+
+        <p>JavaScript is the only programming language that runs natively in browsers. HTML and CSS are static — JavaScript adds dynamic, interactive behavior.</p>
+
+        <pre><code class="language-javascript">// Variables
+const name = "Alice";   // constant — cannot be reassigned (use by default)
+let   count = 0;        // mutable — can be reassigned (use when value changes)
+// Avoid var — confusing scoping rules
+
+// Types
+"hello world"           // string
+42                      // number (integers and floats are the same type)
+true / false            // boolean
+null                    // intentional absence of value
+undefined               // declared but never assigned
+["apple", "banana"]     // array
+{ name: "Alice", age: 30 }  // object</code></pre>
+
+        <pre><code class="language-javascript">// Functions
+function add(a, b) { return a + b; }          // declaration (hoisted)
+const add = (a, b) =&gt; a + b;                  // arrow function (preferred)
+
+const greet = (name) =&gt; {
+  return `Hello, ${name}!`;                   // template literal (backtick + ${})
+};
+
+// Control flow
+if (score &gt;= 90) { grade = "A"; }
+else if (score &gt;= 80) { grade = "B"; }
+else { grade = "C"; }
+
+const label = isAdmin ? "Admin" : "User";     // ternary: condition ? yes : no
+const city  = user?.address?.city;            // optional chaining — safe if null</code></pre>
+
+        <pre><code class="language-javascript">// Arrays — the most-used data structure
+const fruits = ["apple", "banana", "cherry"];
+fruits[0];                                    // "apple"
+fruits.push("date");                          // add to end
+
+// These three return NEW arrays (original is unchanged):
+fruits.map(f =&gt; f.toUpperCase());            // ["APPLE", "BANANA", "CHERRY"]
+fruits.filter(f =&gt; f.length &gt; 5);           // ["banana", "cherry"]
+fruits.find(f =&gt; f.startsWith("b"));         // "banana" (first match)
+
+// Objects
+const user = {
+  name: "Alice",
+  age: 30,
+  greet() { return `Hi, I'm ${this.name}`; }
+};
+
+user.name;                                    // "Alice"
+const { name, age } = user;                  // destructuring
+const updated = { ...user, age: 31 };        // spread + override</code></pre>
+      </article>
+
+
+      <!-- 1.8 The DOM -->
+      <article class="lesson" id="lesson-1-8">
+        <div class="lesson-header">
+          <span class="lesson-num">1.8</span>
+          <h2>The DOM: JavaScript Meets HTML</h2>
+        </div>
+
+        <p>The <strong>DOM</strong> (Document Object Model) is the live in-memory tree of every HTML element. JavaScript can read it, change it, add to it, and delete from it — and the page updates instantly without reloading.</p>
+
+        <pre><code class="language-javascript">// Query single element (returns first match)
+document.querySelector('.card');
+document.querySelector('#submit-btn');
+document.querySelector('input[type="email"]');
+
+// Query all matches (returns NodeList — iterable like an array)
+document.querySelectorAll('.card');
+
+// Reading
+const el = document.querySelector('h1');
+el.textContent;           // "Hello World" (text only, no HTML)
+el.innerHTML;             // "&lt;em&gt;Hello&lt;/em&gt; World" (HTML as string)
+el.value;                 // current value of &lt;input&gt; or &lt;select&gt;
+el.dataset.userId;        // reads data-user-id="..." attribute</code></pre>
+
+        <pre><code class="language-javascript">// Modifying
+el.textContent = "New Title";          // safe — treats value as plain text
+el.innerHTML = "&lt;em&gt;New&lt;/em&gt; Title";   // injects HTML — never use with user input!
+
+el.classList.add('highlighted');       // add CSS class
+el.classList.remove('highlighted');    // remove CSS class
+el.classList.toggle('active');         // toggle on/off
+
+// Creating and inserting elements
+const card = document.createElement('div');
+card.classList.add('card');
+card.innerHTML = `
+  &lt;h2&gt;Card Title&lt;/h2&gt;
+  &lt;p&gt;Card content.&lt;/p&gt;
+`;
+
+container.appendChild(card);   // add at end of container
+container.prepend(card);        // add at start
+existing.after(card);           // insert right after existing
+card.remove();                  // remove from the page entirely</code></pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <strong>innerHTML and security</strong>
+            Never set <code>innerHTML</code> to anything that came from user input. If a user types <code>&lt;script&gt;stealCookies()&lt;/script&gt;</code> and you inject it into the DOM, that script runs. Always use <code>textContent</code> for user-supplied text.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 1.9 Events -->
+      <article class="lesson" id="lesson-1-9">
+        <div class="lesson-header">
+          <span class="lesson-num">1.9</span>
+          <h2>Events &amp; Interactivity</h2>
+        </div>
+
+        <p>Events are signals the browser fires when something happens. You register a <strong>listener</strong> — a function that runs when the event fires. This is how every interaction on the web works.</p>
+
+        <pre><code class="language-javascript">const btn = document.querySelector('#submit');
+
+btn.addEventListener('click', (event) =&gt; {
+  event.target;   // the element that was clicked
+  event.type;     // "click"
+});
+
+// Prevent the browser's default behavior
+document.querySelector('form').addEventListener('submit', (e) =&gt; {
+  e.preventDefault();    // stops the page from reloading on submit
+  const email = e.target.querySelector('#email').value;
+  console.log("Submitting:", email);
+});
+
+// Read input as the user types
+document.querySelector('#search').addEventListener('input', (e) =&gt; {
+  console.log("User typed:", e.target.value);
+});</code></pre>
+
+        <p><strong>Event delegation</strong> — one listener on a parent handles all children (including ones added later):</p>
+
+        <pre><code class="language-javascript">// Bad: adding a listener to each button (breaks for dynamically added items)
+document.querySelectorAll('.delete-btn').forEach(btn =&gt;
+  btn.addEventListener('click', handleDelete)
+);
+
+// Good: one listener on the parent, check what was actually clicked
+document.querySelector('.item-list').addEventListener('click', (e) =&gt; {
+  if (e.target.matches('.delete-btn')) {
+    e.target.closest('.item').remove();  // find nearest ancestor with class .item
+  }
+});</code></pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Event</th><th>Fires when</th></tr></thead>
+            <tbody>
+              <tr><td><code>click</code></td><td>Element is clicked</td></tr>
+              <tr><td><code>input</code></td><td>Value changes in an input (every keystroke)</td></tr>
+              <tr><td><code>change</code></td><td>Value changes and focus leaves the element</td></tr>
+              <tr><td><code>submit</code></td><td>Form is submitted</td></tr>
+              <tr><td><code>keydown</code></td><td>A key is pressed</td></tr>
+              <tr><td><code>mouseover / mouseout</code></td><td>Mouse enters / leaves an element</td></tr>
+              <tr><td><code>scroll</code></td><td>User scrolls the page</td></tr>
+              <tr><td><code>DOMContentLoaded</code></td><td>HTML parsed, DOM ready — before images load</td></tr>
+              <tr><td><code>load</code></td><td>Page AND all images and fonts fully loaded</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+
+      <!-- 1.10 Async & fetch() -->
+      <article class="lesson" id="lesson-1-10">
+        <div class="lesson-header">
+          <span class="lesson-num">1.10</span>
+          <h2>Async JS &amp; fetch()</h2>
+        </div>
+
+        <p>JavaScript is <strong>single-threaded</strong> — one thing runs at a time. A network request can take 100–300 ms. If JS waited synchronously, the page would freeze solid. The solution: JavaScript delegates the waiting to the browser, keeps running other code, and picks up the result when it's ready.</p>
+
+        <pre class="diagram">Call Stack            Browser (Web APIs)         Task Queue
+──────────            ──────────────────         ──────────
+loadUsers()  →   fetch('/api/users')
+             →   [network request running…]
+main exits                              →    [callback ready]
+                                                    │
+             ←── call stack picks it up when empty ─┘</pre>
+
+        <pre><code class="language-javascript">// async/await — the clean, modern way to handle async operations
+async function loadUsers() {
+  try {
+    const response = await fetch('/api/users');  // suspend here (non-blocking)
+    const users    = await response.json();      // suspend until body is parsed
+    return users;
+  } catch (error) {
+    console.error('Failed:', error);
+  }
+}
+
+// await only suspends this function — the rest of the page keeps running
+loadUsers();</code></pre>
+
+        <pre><code class="language-javascript">// Checking the response before using it
+const response = await fetch('/api/users');
+
+response.ok;      // true if status 200–299
+response.status;  // the exact code: 200, 404, 500, etc.
+
+// Parse the body — only call ONE of these, only ONCE per response:
+const data = await response.json();   // parse JSON
+const text = await response.text();   // raw text</code></pre>
+
+        <p><strong>Real example — live search with debounce:</strong></p>
+
+        <pre><code class="language-javascript">const searchInput = document.querySelector('#search');
+const resultsList = document.querySelector('#results');
+let timer;
+
+searchInput.addEventListener('input', (e) =&gt; {
+  clearTimeout(timer);                  // cancel any previous pending search
+  timer = setTimeout(async () =&gt; {     // wait 300ms after user stops typing
+    const q = e.target.value.trim();
+    if (!q) { resultsList.innerHTML = ''; return; }
+
+    resultsList.innerHTML = '&lt;li&gt;Searching…&lt;/li&gt;';
+
+    const response = await fetch(`/api/search?q=${encodeURIComponent(q)}`);
+    const data     = await response.json();
+
+    resultsList.innerHTML = data.results
+      .map(r =&gt; `&lt;li&gt;${r.name}&lt;/li&gt;`)
+      .join('');
+  }, 300);
+});</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>Phase 1 exercises — do all six before moving to Phase 2</strong>
+            <ol style="margin-top:.5rem; padding-left:1.2rem;">
+              <li>Build a page using only semantic tags: <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code></li>
+              <li>Center a <code>&lt;div&gt;</code> both horizontally and vertically using Flexbox — 3 lines of CSS</li>
+              <li>Build a 3-column card grid that auto-collapses to 1 column using Grid + <code>minmax</code></li>
+              <li>Write a button that adds a new <code>&lt;li&gt;</code> to a <code>&lt;ul&gt;</code> on every click — DOM only, no libraries</li>
+              <li>Build a live character counter for a <code>&lt;textarea&gt;</code> using the <code>input</code> event</li>
+              <li>Fetch <code>https://jsonplaceholder.typicode.com/users</code> and render all 10 names on the page</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase1 -->
 
     <div class="page" id="page-phase2">
       <div class="coming-soon">
