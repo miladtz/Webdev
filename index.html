@@ -110,13 +110,22 @@
     </div>
 
     <!-- Phase 3 -->
-    <button class="phase-btn locked" data-page="page-phase3">
+    <button class="phase-btn done" data-page="page-phase3">
       <span class="phase-num">3</span>
       <div class="phase-info">
         <span class="phase-name">Network Layer</span>
-        <span class="phase-status status-locked">Coming Soon</span>
+        <span class="phase-status status-done">✓ Complete</span>
       </div>
+      <span class="phase-chevron">›</span>
     </button>
+
+    <div class="lesson-nav" id="lessons-page-phase3">
+      <a href="#lesson-3-1" class="lesson-link">3.1 HTTP Headers</a>
+      <a href="#lesson-3-2" class="lesson-link">3.2 REST API Design</a>
+      <a href="#lesson-3-3" class="lesson-link">3.3 JSON</a>
+      <a href="#lesson-3-4" class="lesson-link">3.4 fetch() Mastery</a>
+      <a href="#lesson-3-5" class="lesson-link">3.5 CORS</a>
+    </div>
 
     <!-- Phase 4 -->
     <button class="phase-btn locked" data-page="page-phase4">
@@ -149,10 +158,10 @@
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>3 / 7 phases</span>
+      <span>4 / 7 phases</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 42%"></div>
+      <div class="progress-fill" style="width: 57%"></div>
     </div>
   </div>
 </aside>
@@ -267,21 +276,23 @@
         </div>
 
         <!-- Phase 3 -->
-        <div class="phase-card locked" style="--card-color:#fb923c">
+        <div class="phase-card done" data-page="page-phase3" style="--card-color:#fb923c">
           <div class="card-top">
             <span class="card-num">3</span>
-            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
           </div>
           <div class="card-title">The Network Layer</div>
           <div class="card-desc">HTTP in depth, REST APIs, JSON, and how to fetch data from a server using JavaScript.</div>
           <div class="card-topics">
-            <span class="tag">REST API</span>
-            <span class="tag">fetch()</span>
+            <span class="tag">HTTP Headers</span>
+            <span class="tag">REST</span>
             <span class="tag">JSON</span>
-            <span class="tag">Status Codes</span>
+            <span class="tag">fetch()</span>
+            <span class="tag">CORS</span>
           </div>
           <div class="card-footer">
-            <span class="card-time">📅 Week 6 · ~5 lessons</span>
+            <span class="card-time">📅 Week 6 · 5 lessons</span>
+            <span class="card-arrow">Open →</span>
           </div>
         </div>
 
@@ -2133,13 +2144,445 @@ requestAnimationFrame(animate);</code></pre>
     </div><!-- /page-phase2 -->
 
     <div class="page" id="page-phase3">
-      <div class="coming-soon">
-        <div class="cs-icon">🌐</div>
-        <h2>Phase 3 — Network Layer</h2>
-        <p>HTTP in depth, REST APIs, JSON, and fetching data from servers.</p>
-        <span class="cs-badge">Coming Soon</span>
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 3</div>
+        <h1>The Network Layer</h1>
+        <p>Everything that travels between browser and server — HTTP headers, REST design, JSON, fetch() in full, and the Same-Origin Policy.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Week 6</span>
+          <span class="chip">📝 5 Lessons</span>
+          <span class="chip">✅ Completed</span>
+        </div>
       </div>
-    </div>
+
+
+      <!-- 3.1 HTTP Headers -->
+      <article class="lesson" id="lesson-3-1">
+        <div class="lesson-header">
+          <span class="lesson-num">3.1</span>
+          <h2>HTTP Headers: The Full Picture</h2>
+        </div>
+
+        <p>Headers are key-value pairs that carry metadata about a request or response. They control caching, authentication, content negotiation, security, and more — independently of the body.</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Request Header</th><th>Example value</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>Host</code></td><td><code>github.com</code></td><td>Which domain to serve — required in HTTP/1.1</td></tr>
+              <tr><td><code>Content-Type</code></td><td><code>application/json</code></td><td>Format of the request body</td></tr>
+              <tr><td><code>Accept</code></td><td><code>application/json</code></td><td>Formats the client can handle in the response</td></tr>
+              <tr><td><code>Authorization</code></td><td><code>Bearer eyJhbGc...</code></td><td>Credentials — API token or JWT</td></tr>
+              <tr><td><code>Cookie</code></td><td><code>session=abc123</code></td><td>Cookies the browser automatically sends</td></tr>
+              <tr><td><code>Origin</code></td><td><code>https://myapp.com</code></td><td>Where the request originated from — used by CORS</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Response Header</th><th>Example value</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>Content-Type</code></td><td><code>application/json; charset=utf-8</code></td><td>Format of the response body</td></tr>
+              <tr><td><code>Set-Cookie</code></td><td><code>session=abc; HttpOnly; Secure</code></td><td>Tell browser to store a cookie</td></tr>
+              <tr><td><code>Cache-Control</code></td><td><code>max-age=86400</code></td><td>How long to cache this response</td></tr>
+              <tr><td><code>ETag</code></td><td><code>"v3"</code></td><td>Version identifier for conditional caching</td></tr>
+              <tr><td><code>Location</code></td><td><code>/login</code></td><td>Redirect target (used with 301/302)</td></tr>
+              <tr><td><code>Access-Control-Allow-Origin</code></td><td><code>https://myapp.com</code></td><td>CORS permission grant</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Caching — how browsers avoid hitting the server again:</strong></p>
+
+        <pre class="diagram">First request:
+  Browser → Server:  GET /logo.png
+  Server → Browser:  200 OK
+                     Cache-Control: max-age=86400   ← cache for 24 hours
+                     ETag: "v3"
+
+Second request (within 24 hours):
+  Browser: serves from local cache — zero network request ← fastest possible
+
+Third request (after 24 hours, ETag revalidation):
+  Browser → Server:  GET /logo.png
+                     If-None-Match: "v3"      ← "I have version v3, still current?"
+
+  Server → Browser:  304 Not Modified          ← "yes, use your cache"
+                     (no body — saves all bandwidth)</pre>
+
+        <p><strong>Cookie security flags — always set all three:</strong></p>
+
+        <pre><code class="language-http">Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Strict
+
+HttpOnly      → JavaScript cannot read this cookie (blocks XSS theft)
+Secure        → Only sent over HTTPS, never plain HTTP
+SameSite=Strict → Not sent on cross-site requests (blocks CSRF attacks)</code></pre>
+      </article>
+
+
+      <!-- 3.2 REST API Design -->
+      <article class="lesson" id="lesson-3-2">
+        <div class="lesson-header">
+          <span class="lesson-num">3.2</span>
+          <h2>REST API Design &amp; Conventions</h2>
+        </div>
+
+        <p>REST is not a protocol — it's an <strong>architectural style</strong>. Follow its conventions and any developer can use your API without reading documentation. The core rule: <strong>URLs name resources (things), HTTP methods name actions (verbs)</strong>.</p>
+
+        <pre><code class="language-http">GET    /api/users          → list all users
+GET    /api/users/42       → get user 42
+POST   /api/users          → create a new user
+PUT    /api/users/42       → replace user 42 entirely
+PATCH  /api/users/42       → update specific fields of user 42
+DELETE /api/users/42       → delete user 42
+
+Nested resources:
+GET    /api/users/42/posts → all posts by user 42
+POST   /api/users/42/posts → create a post for user 42
+
+What breaks the convention:
+POST   /api/getUser        ← verb in URL (wrong — use GET /api/users/:id)
+GET    /api/deleteUser/42  ← GET must never modify data
+POST   /api/user/update    ← use PATCH instead</code></pre>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Status Code</th><th>When to use it</th></tr></thead>
+            <tbody>
+              <tr><td><code>200 OK</code></td><td>Successful GET, PATCH, DELETE</td></tr>
+              <tr><td><code>201 Created</code></td><td>Successful POST — resource created</td></tr>
+              <tr><td><code>204 No Content</code></td><td>Successful DELETE — nothing to return</td></tr>
+              <tr><td><code>400 Bad Request</code></td><td>Malformed request body or query</td></tr>
+              <tr><td><code>401 Unauthorized</code></td><td>No valid credentials provided</td></tr>
+              <tr><td><code>403 Forbidden</code></td><td>Credentials valid but action not allowed</td></tr>
+              <tr><td><code>404 Not Found</code></td><td>Resource doesn't exist at this URL</td></tr>
+              <tr><td><code>409 Conflict</code></td><td>Duplicate entry or version mismatch</td></tr>
+              <tr><td><code>422 Unprocessable</code></td><td>Valid JSON but fails validation rules</td></tr>
+              <tr><td><code>500 Internal Server Error</code></td><td>Bug on the server — shouldn't happen in production</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Consistent request/response shapes:</strong></p>
+
+        <pre><code class="language-json">// POST /api/users — request body
+{
+  "name": "Alice",
+  "email": "alice@example.com",
+  "password": "secret123"
+}
+
+// 201 Created — response (password never returned)
+{
+  "id": 42,
+  "name": "Alice",
+  "email": "alice@example.com",
+  "createdAt": "2026-06-23T10:30:00Z"
+}
+
+// 422 error — consistent error shape
+{
+  "error": "Validation failed",
+  "details": [
+    { "field": "email",    "message": "Must be a valid email address" },
+    { "field": "password", "message": "Must be at least 8 characters" }
+  ]
+}</code></pre>
+
+        <p><strong>Pagination — never return unbounded lists:</strong></p>
+
+        <pre><code class="language-json">// GET /api/posts?page=2&amp;limit=20
+{
+  "data": [ "...20 post objects..." ],
+  "pagination": {
+    "page": 2,
+    "limit": 20,
+    "total": 847,
+    "totalPages": 43
+  }
+}</code></pre>
+      </article>
+
+
+      <!-- 3.3 JSON -->
+      <article class="lesson" id="lesson-3-3">
+        <div class="lesson-header">
+          <span class="lesson-num">3.3</span>
+          <h2>JSON: The Web's Data Format</h2>
+        </div>
+
+        <p>JSON (JavaScript Object Notation) is the universal language of web APIs. Its syntax looks like JavaScript objects but has stricter rules — and those differences catch developers by surprise.</p>
+
+        <pre><code class="language-javascript">// JavaScript object — flexible
+const user = {
+  name: 'Alice',           // single quotes OK
+  greet() { },             // functions allowed
+  born: new Date(),        // Date objects allowed
+  id: undefined,           // undefined allowed
+};
+
+// JSON — strict
+{
+  "name": "Alice",         // double quotes REQUIRED on keys AND string values
+                           // no functions — silently omitted
+                           // Date becomes string: "2026-06-23T10:30:00.000Z"
+                           // undefined is omitted entirely
+  "score": 98.6,           // numbers as-is
+  "active": true,          // lowercase true/false/null only
+  "tags": ["admin"],
+  "address": { "city": "Berlin" },
+  "deletedAt": null
+}</code></pre>
+
+        <pre><code class="language-javascript">// JS object → JSON string (for sending in request body)
+const json = JSON.stringify({ name: "Alice", age: 30 });
+// '{"name":"Alice","age":30}'
+
+// Pretty-printed (for logs)
+JSON.stringify({ name: "Alice", age: 30 }, null, 2);
+
+// JSON string → JS object (after receiving response)
+const user = JSON.parse('{"name":"Alice","age":30}');
+user.name;   // "Alice"
+
+// Silent surprises:
+JSON.stringify({ fn: () => "hi" });    // '{}'      — function dropped
+JSON.stringify({ x: undefined });      // '{}'      — undefined dropped
+JSON.stringify({ d: new Date() });     // '{"d":"2026-06-23T...Z"}' — Date → string</code></pre>
+
+        <p><strong>Navigating nested API responses:</strong></p>
+
+        <pre><code class="language-javascript">const data = await fetch('/api/users/42/posts').then(r =&gt; r.json());
+
+// data shape:
+// {
+//   "user": { "id": 42, "name": "Alice" },
+//   "posts": [
+//     { "id": 1, "title": "First post", "tags": ["js", "web"] },
+//     { "id": 2, "title": "Second post", "tags": ["css"] }
+//   ],
+//   "pagination": { "total": 2 }
+// }
+
+data.user.name;                        // "Alice"
+data.posts[0].title;                   // "First post"
+data.posts[0].tags[1];                 // "web"
+data.posts.map(p =&gt; p.title);         // ["First post", "Second post"]
+data.pagination.total;                 // 2</code></pre>
+      </article>
+
+
+      <!-- 3.4 fetch() Mastery -->
+      <article class="lesson" id="lesson-3-4">
+        <div class="lesson-header">
+          <span class="lesson-num">3.4</span>
+          <h2>fetch() Mastery</h2>
+        </div>
+
+        <p>You know the basics from Phase 1. Now the complete picture: every option, proper error handling, cancellation, and parallel requests.</p>
+
+        <pre><code class="language-javascript">const response = await fetch('/api/users', {
+  method:      'POST',
+  headers: {
+    'Content-Type':  'application/json',
+    'Authorization': 'Bearer eyJhbGc...',
+    'Accept':        'application/json'
+  },
+  body:        JSON.stringify(data),  // only for POST / PUT / PATCH
+  credentials: 'include',            // send cookies on cross-origin requests
+  signal:      controller.signal     // for cancellation
+});</code></pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <strong>The most common fetch() mistake</strong>
+            <code>fetch()</code> only throws on <em>network failure</em> (no internet, DNS error). A <code>404</code> or <code>500</code> response does NOT throw — it resolves successfully with <code>response.ok === false</code>. Always check <code>response.ok</code>.
+          </div>
+        </div>
+
+        <pre><code class="language-javascript">// WRONG — silently swallows 404 and 500 errors
+const data = await fetch('/api/users').then(r =&gt; r.json());
+
+// CORRECT — check response.ok first
+const response = await fetch('/api/users');
+if (!response.ok) throw new Error(`HTTP ${response.status}`);
+const data = await response.json();</code></pre>
+
+        <p><strong>A reusable wrapper — write once, use everywhere:</strong></p>
+
+        <pre><code class="language-javascript">async function apiFetch(url, options = {}) {
+  const response = await fetch(url, {
+    headers: {
+      'Content-Type':  'application/json',
+      'Authorization': `Bearer ${getToken()}`,
+      ...options.headers                      // allow caller to override
+    },
+    ...options,
+    body: options.body ? JSON.stringify(options.body) : undefined
+  });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() =&gt; ({}));
+    throw new Error(err.message || `HTTP ${response.status}`);
+  }
+
+  return response.status === 204 ? null : response.json();
+}
+
+// Clean call sites
+const user    = await apiFetch('/api/users/42');
+const newUser = await apiFetch('/api/users', { method: 'POST', body: { name: 'Alice' } });
+await apiFetch(`/api/users/${id}`,  { method: 'DELETE' });   // returns null (204)</code></pre>
+
+        <p><strong>Cancellation with AbortController:</strong></p>
+
+        <pre><code class="language-javascript">// Timeout pattern
+async function fetchWithTimeout(url, ms = 5000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() =&gt; controller.abort(), ms);
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(timer);
+    return res.json();
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('Request timed out');
+    throw e;
+  }
+}
+
+// Cancel previous search on new keystroke
+let ctrl;
+async function search(query) {
+  ctrl?.abort();
+  ctrl = new AbortController();
+  return fetch(`/api/search?q=${query}`, { signal: ctrl.signal }).then(r =&gt; r.json());
+}</code></pre>
+
+        <p><strong>Parallel requests — don't await sequentially when you don't have to:</strong></p>
+
+        <pre><code class="language-javascript">// Sequential — slow (A finishes, then B starts)
+const user  = await fetch('/api/user/1').then(r =&gt; r.json());
+const posts = await fetch('/api/posts').then(r =&gt; r.json());
+
+// Parallel — fast (A and B fire simultaneously)
+const [user, posts] = await Promise.all([
+  fetch('/api/user/1').then(r =&gt; r.json()),
+  fetch('/api/posts').then(r  =&gt; r.json())
+]);
+
+// Promise.allSettled — continues even if one request fails
+const results = await Promise.allSettled([
+  fetch('/api/critical'),
+  fetch('/api/optional')
+]);
+results[0].status;   // "fulfilled" or "rejected"
+results[0].value;    // the resolved value (if fulfilled)</code></pre>
+      </article>
+
+
+      <!-- 3.5 CORS -->
+      <article class="lesson" id="lesson-3-5">
+        <div class="lesson-header">
+          <span class="lesson-num">3.5</span>
+          <h2>CORS &amp; The Same-Origin Policy</h2>
+        </div>
+
+        <p>CORS is the most misunderstood browser security feature. Developers encounter it as a cryptic console error and cargo-cult workarounds. This lesson explains exactly what it is, why it exists, and how to fix it properly.</p>
+
+        <p><strong>The Same-Origin Policy:</strong> by default, JavaScript cannot read responses from a different origin. Origin = protocol + hostname + port:</p>
+
+        <pre class="diagram">Your page is at:  https://myapp.com/dashboard
+
+Request target                     Same origin?
+https://myapp.com/api/users        ✓  (path doesn't matter)
+http://myapp.com/api/users         ✗  different protocol (http vs https)
+https://api.myapp.com/users        ✗  different subdomain
+https://myapp.com:3001/users       ✗  different port
+https://othersite.com/api/users    ✗  different domain
+
+Why this rule exists:
+  Without it, evil.com could use YOUR browser (with your cookies)
+  to make requests to bank.com and read your account data.</pre>
+
+        <p><strong>CORS — how servers explicitly grant cross-origin access:</strong></p>
+
+        <pre class="diagram">Simple request (GET, or POST with basic content-type):
+
+  Browser → Server:  GET /api/data
+                     Origin: https://myapp.com
+  Server → Browser:  200 OK
+                     Access-Control-Allow-Origin: https://myapp.com
+  Browser: header matches origin → ✓ deliver response to JS
+
+─────────────────────────────────────────────────────────────
+
+Preflight (POST with JSON body, or custom headers like Authorization):
+
+  Browser → Server:  OPTIONS /api/users
+                     Origin: https://myapp.com
+                     Access-Control-Request-Method: POST
+                     Access-Control-Request-Headers: Authorization
+  Server → Browser:  204 No Content
+                     Access-Control-Allow-Origin: https://myapp.com
+                     Access-Control-Allow-Methods: GET, POST, PATCH
+                     Access-Control-Allow-Headers: Authorization, Content-Type
+                     Access-Control-Max-Age: 86400
+  Browser: preflight approved → sends actual POST request</pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>The CORS error is thrown by the browser, not the server</strong>
+            The server DID respond. The browser inspected the response headers, found no <code>Access-Control-Allow-Origin</code> header, and hid the response from your JavaScript. The fix is always on the server — add the correct headers.
+          </div>
+        </div>
+
+        <pre><code class="language-javascript">// Express server — configuring CORS with the cors package
+
+const cors = require('cors');
+
+// Development: allow all origins
+app.use(cors());
+
+// Production: restrict to your frontend domain
+app.use(cors({
+  origin:         'https://myapp.com',
+  credentials:    true,          // required if sending cookies
+  methods:        ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));</code></pre>
+
+        <p><strong>Credentials + CORS — the extra step most tutorials miss:</strong></p>
+
+        <pre><code class="language-javascript">// Frontend: explicitly opt in to sending cookies cross-origin
+fetch('https://api.myapp.com/user', {
+  credentials: 'include'   // without this, cookies are NOT sent
+});
+
+// Backend: when credentials: 'include' is used,
+// Access-Control-Allow-Origin CANNOT be '*' — must be the exact origin
+// AND you must also send:
+// Access-Control-Allow-Credentials: true</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>Phase 3 exercises</strong>
+            <ol style="margin-top:.5rem; padding-left:1.2rem;">
+              <li>Open DevTools → Network → click any request. Read every header in both Request Headers and Response Headers. Find Cache-Control, Content-Type, and any cookies.</li>
+              <li>Design REST URLs for a blog: users, posts, comments. Write all 5 CRUD endpoints for each resource.</li>
+              <li>Fetch <code>https://jsonplaceholder.typicode.com/posts</code> and return only titles where <code>userId === 1</code>.</li>
+              <li>Write the <code>apiFetch()</code> wrapper from scratch and test it against <code>jsonplaceholder.typicode.com</code>.</li>
+              <li>Trigger a CORS error intentionally: open a local HTML file and <code>fetch()</code> an API that has no CORS headers. Read and understand the exact console error message.</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase3 -->
 
     <div class="page" id="page-phase4">
       <div class="coming-soon">
