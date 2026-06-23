@@ -128,13 +128,20 @@
     </div>
 
     <!-- Phase 4 -->
-    <button class="phase-btn locked" data-page="page-phase4">
+    <button class="phase-btn done" data-page="page-phase4">
       <span class="phase-num">4</span>
       <div class="phase-info">
         <span class="phase-name">Backend</span>
-        <span class="phase-status status-locked">Coming Soon</span>
+        <span class="phase-status status-done">✓ Complete</span>
       </div>
     </button>
+    <div class="lesson-nav" id="lessons-page-phase4">
+      <a href="#lesson-4-1" class="lesson-link">4.1 Node.js Runtime</a>
+      <a href="#lesson-4-2" class="lesson-link">4.2 Express.js</a>
+      <a href="#lesson-4-3" class="lesson-link">4.3 PostgreSQL & SQL</a>
+      <a href="#lesson-4-4" class="lesson-link">4.4 Authentication & JWT</a>
+      <a href="#lesson-4-5" class="lesson-link">4.5 Env Vars & Project Structure</a>
+    </div>
 
     <!-- Phase 5 -->
     <button class="phase-btn locked" data-page="page-phase5">
@@ -158,10 +165,10 @@
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>4 / 7 phases</span>
+      <span>5 / 7 phases</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 57%"></div>
+      <div class="progress-fill" style="width: 71%"></div>
     </div>
   </div>
 </aside>
@@ -297,10 +304,10 @@
         </div>
 
         <!-- Phase 4 -->
-        <div class="phase-card locked" style="--card-color:#f87171">
+        <div class="phase-card done" data-page="page-phase4" style="--card-color:#f87171">
           <div class="card-top">
             <span class="card-num">4</span>
-            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
           </div>
           <div class="card-title">Backend</div>
           <div class="card-desc">Node.js, Express.js, PostgreSQL, and authentication — building a real server-side API.</div>
@@ -311,7 +318,8 @@
             <span class="tag">Auth / JWT</span>
           </div>
           <div class="card-footer">
-            <span class="card-time">📅 Weeks 7–9 · ~10 lessons</span>
+            <span class="card-time">📅 Weeks 7–9 · 5 lessons</span>
+            <span class="card-arrow">Open →</span>
           </div>
         </div>
 
@@ -2585,12 +2593,416 @@ fetch('https://api.myapp.com/user', {
     </div><!-- /page-phase3 -->
 
     <div class="page" id="page-phase4">
-      <div class="coming-soon">
-        <div class="cs-icon">🖥️</div>
-        <h2>Phase 4 — Backend</h2>
-        <p>Node.js, Express.js, PostgreSQL, and authentication — the server side.</p>
-        <span class="cs-badge">Coming Soon</span>
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 4</div>
+        <h1>Backend</h1>
+        <p>The server side — Node.js runtime, Express routing, PostgreSQL databases, and JWT authentication. By the end you can build a complete, secure REST API.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Weeks 7–9</span>
+          <span class="chip">📝 5 Lessons</span>
+          <span class="chip">✅ Completed</span>
+        </div>
       </div>
+
+
+      <!-- 4.1 Node.js -->
+      <article class="lesson" id="lesson-4-1">
+        <div class="lesson-header">
+          <span class="lesson-num">4.1</span>
+          <h2>Node.js: JavaScript on the Server</h2>
+        </div>
+
+        <p>Node.js is not a language — it's a <strong>runtime</strong>. It takes V8 (the same engine Chrome uses) and adds APIs that only make sense outside the browser: file system access, network sockets, the ability to listen for TCP connections.</p>
+
+        <pre class="diagram">Browser JS:  V8 engine + Web APIs (DOM, fetch, localStorage, setTimeout...)
+Node.js:     V8 engine + Node APIs (fs, http, net, process, Buffer...)
+
+They share the same language. They have completely different standard libraries.</pre>
+
+        <p>When you run <code>node server.js</code>, Node starts its event loop and your file runs top-to-bottom, registering callbacks. The event loop then waits for I/O — incoming HTTP connections, database responses, file reads — and fires your callbacks when they're ready. One thread, never blocking.</p>
+
+        <p><strong>The module system — two flavors:</strong></p>
+
+        <pre><code class="language-javascript">// CommonJS (older, still dominant in Node backends)
+const fs      = require('fs');
+const express = require('express');
+module.exports = { myFunction };
+
+// ES Modules (add "type": "module" to package.json)
+import fs      from 'fs';
+import express from 'express';
+export { myFunction };</code></pre>
+
+        <p><strong>package.json — the project manifest:</strong></p>
+
+        <pre><code class="language-json">{
+  "name": "my-api",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev":   "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express":     "^4.18.2",
+    "pg":          "^8.11.0",
+    "bcryptjs":    "^2.4.3",
+    "jsonwebtoken":"^9.0.0",
+    "cors":        "^2.8.5",
+    "dotenv":      "^16.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body"><strong>nodemon</strong> watches your files and restarts the server automatically on every save — essential for development. Never use it in production.</div>
+        </div>
+
+        <p><code>npm install</code> reads package.json and downloads everything into <code>node_modules/</code>. The <code>package-lock.json</code> pins exact versions — always commit it, never commit <code>node_modules/</code>.</p>
+      </article>
+
+
+      <!-- 4.2 Express -->
+      <article class="lesson" id="lesson-4-2">
+        <div class="lesson-header">
+          <span class="lesson-num">4.2</span>
+          <h2>Express.js: HTTP Routing &amp; Middleware</h2>
+        </div>
+
+        <p>Express is a minimal routing and middleware framework. At its core: match an incoming URL + method → run a handler → send a response. Every incoming request flows through a pipeline:</p>
+
+        <pre class="diagram">Incoming request
+      ↓
+  Middleware 1 (CORS headers)
+      ↓
+  Middleware 2 (parse JSON body)
+      ↓
+  Middleware 3 (logging)
+      ↓
+  Route handler  ←  GET /api/users/:id
+      ↓
+  Send response</pre>
+
+        <p><strong>Bare minimum server:</strong></p>
+
+        <pre><code class="language-javascript">const express = require('express');
+const app = express();
+
+app.use(express.json());   // parse JSON request bodies — must come first
+
+app.get('/', (req, res) =&gt; {
+  res.json({ message: 'Hello world' });
+});
+
+app.listen(3000, () =&gt; console.log('Server on :3000'));</code></pre>
+
+        <p><strong>req and res — what's inside:</strong></p>
+
+        <pre><code class="language-javascript">app.post('/api/users/:id', (req, res) =&gt; {
+  // req — the incoming request
+  req.method           // 'POST'
+  req.params.id        // route param: /api/users/42 → '42'
+  req.query.page       // query string: ?page=2 → '2'
+  req.body             // parsed JSON body (requires express.json())
+  req.headers['authorization']
+
+  // res — build the response
+  res.status(201).json({ id: 1, name: 'Alice' });  // status + JSON
+  res.status(404).json({ error: 'Not found' });
+  res.sendStatus(204);                              // body-less (DELETE)
+});</code></pre>
+
+        <p><strong>Middleware — the power pattern:</strong></p>
+
+        <pre><code class="language-javascript">// Custom logging middleware
+app.use((req, res, next) =&gt; {
+  console.log(`${req.method} ${req.url}`);
+  next();   // ← MUST call next() or requests hang forever
+});
+
+// Error-handling middleware — 4 params, always LAST
+app.use((err, req, res, next) =&gt; {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong' });
+});</code></pre>
+
+        <p><strong>Router — split routes into separate files:</strong></p>
+
+        <pre><code class="language-javascript">// routes/users.js
+const router = require('express').Router();
+
+router.get('/',       listUsers);
+router.get('/:id',    getUser);
+router.post('/',      createUser);
+router.patch('/:id',  updateUser);
+router.delete('/:id', deleteUser);
+
+module.exports = router;
+
+// src/index.js — mount routers at a base path
+app.use('/api/users', require('./routes/users'));
+app.use('/api/posts', require('./routes/posts'));</code></pre>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">When a route is mounted at <code>/api/users</code>, the router sees paths <em>relative</em> to that prefix. So <code>router.get('/:id', ...)</code> matches <code>/api/users/42</code>, not just <code>/42</code>.</div>
+        </div>
+      </article>
+
+
+      <!-- 4.3 PostgreSQL -->
+      <article class="lesson" id="lesson-4-3">
+        <div class="lesson-header">
+          <span class="lesson-num">4.3</span>
+          <h2>PostgreSQL &amp; SQL</h2>
+        </div>
+
+        <p>A relational database stores data in <strong>tables</strong> (rows + columns) and enforces relationships via <strong>foreign keys</strong>. It guarantees ACID: data is never half-written, never corrupt — even if the server crashes mid-write.</p>
+
+        <pre class="diagram">Table: users
+┌────┬─────────┬───────────────────────┬─────────────────────┐
+│ id │ name    │ email                 │ created_at          │
+├────┼─────────┼───────────────────────┼─────────────────────┤
+│  1 │ Alice   │ alice@example.com     │ 2026-01-15 10:00:00 │
+│  2 │ Bob     │ bob@example.com       │ 2026-02-20 14:30:00 │
+└────┴─────────┴───────────────────────┴─────────────────────┘
+
+Table: posts
+┌────┬─────────┬─────────────────────────┐
+│ id │ user_id │ title                   │
+├────┼─────────┼─────────────────────────┤
+│  1 │       1 │ My first post           │  ← Alice's post
+│  2 │       2 │ Hello from Bob          │  ← Bob's post
+└────┴─────────┴─────────────────────────┘
+         ↑ FOREIGN KEY — links to users.id</pre>
+
+        <pre><code class="language-sql">-- Create tables
+CREATE TABLE users (
+  id         SERIAL PRIMARY KEY,       -- auto-incrementing integer
+  name       VARCHAR(100) NOT NULL,
+  email      VARCHAR(255) UNIQUE NOT NULL,
+  password   TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE posts (
+  id      SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  title   VARCHAR(255) NOT NULL,
+  body    TEXT
+);
+
+-- CRUD
+SELECT id, name FROM users WHERE id = 1;
+INSERT INTO users (name, email, password) VALUES ('Alice', 'a@b.com', 'hash') RETURNING id, name;
+UPDATE users SET name = 'Alice Smith' WHERE id = 1;
+DELETE FROM posts WHERE id = 3;
+
+-- JOIN — combine two tables in one query
+SELECT posts.title, users.name AS author
+FROM posts
+JOIN users ON posts.user_id = users.id
+ORDER BY posts.id DESC
+LIMIT 10;</code></pre>
+
+        <p><strong>Using PostgreSQL from Node (the <code>pg</code> package):</strong></p>
+
+        <pre><code class="language-javascript">// db.js — connection pool (reuse connections, never open one per query)
+const { Pool } = require('pg');
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+module.exports = pool;
+
+// In a route handler
+const pool = require('./db');
+
+app.get('/api/users/:id', async (req, res, next) =&gt; {
+  try {
+    const { rows } = await pool.query(
+      'SELECT id, name, email FROM users WHERE id = $1',
+      [req.params.id]    // ← parameterized — NEVER string-concatenate
+    );
+    if (!rows.length) return res.status(404).json({ error: 'Not found' });
+    res.json(rows[0]);
+  } catch (err) {
+    next(err);           // pass to error-handling middleware
+  }
+});</code></pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <strong>SQL injection — never concatenate user input into queries</strong>
+            <pre style="margin:.5rem 0 0;padding:.75rem;background:rgba(0,0,0,.25);border-radius:6px;font-size:.82rem"><code>// VULNERABLE — attacker can destroy your entire database
+pool.query(`SELECT * FROM users WHERE email = '${req.body.email}'`);
+
+// SAFE — $1 is always treated as data, never as SQL syntax
+pool.query('SELECT * FROM users WHERE email = $1', [req.body.email]);</code></pre>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 4.4 Auth & JWT -->
+      <article class="lesson" id="lesson-4-4">
+        <div class="lesson-header">
+          <span class="lesson-num">4.4</span>
+          <h2>Authentication &amp; JWT</h2>
+        </div>
+
+        <p><strong>Authentication</strong> answers "who is this user?" <strong>Authorization</strong> answers "what are they allowed to do?" — always in that order.</p>
+
+        <p><strong>You never store passwords. You store their hash.</strong> A hash is a one-way function. <code>bcrypt</code> adds a random salt per password and is deliberately slow to defeat brute-force attacks:</p>
+
+        <pre><code class="language-javascript">const bcrypt = require('bcryptjs');
+
+// Registration — hash before storing
+const hash = await bcrypt.hash(req.body.password, 12);  // 2^12 iterations ≈ 100ms
+await pool.query(
+  'INSERT INTO users (email, password) VALUES ($1, $2)',
+  [req.body.email, hash]
+);
+
+// Login — compare submitted password against stored hash
+const { rows } = await pool.query(
+  'SELECT * FROM users WHERE email = $1', [req.body.email]
+);
+if (!rows.length) return res.status(401).json({ error: 'Invalid credentials' });
+
+const match = await bcrypt.compare(req.body.password, rows[0].password);
+if (!match)   return res.status(401).json({ error: 'Invalid credentials' });
+// ↑ Same error message both cases — don't tell an attacker which field was wrong</code></pre>
+
+        <p><strong>JWT — stateless authentication. No database lookup needed to verify.</strong></p>
+
+        <pre class="diagram">A JWT has three base64url-encoded parts, joined by dots:
+
+eyJhbGciOiJIUzI1NiJ9 . eyJpZCI6NDIsImVtYWlsIjoiYUBiLmNvbSIsImlhdCI6MTcxOX0 . 8xQ4kA...
+         ↑                                    ↑                                       ↑
+      Header                              Payload                              Signature
+    {alg:"HS256"}              {id:42, email:"a@b.com", iat:1719...}       HMAC-SHA256
+                               (base64url — NOT encrypted, readable)     (only server can forge)</pre>
+
+        <pre><code class="language-javascript">const jwt = require('jsonwebtoken');
+
+// After login — sign and issue a token
+const token = jwt.sign(
+  { id: user.id, email: user.email },   // payload — keep small, no passwords
+  process.env.JWT_SECRET,               // signing secret — 32+ random chars
+  { expiresIn: '24h' }
+);
+res.json({ token });
+
+// Middleware — protect routes that require login
+function requireAuth(req, res, next) {
+  const header = req.headers.authorization;
+  if (!header?.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
+  try {
+    const decoded = jwt.verify(header.slice(7), process.env.JWT_SECRET);
+    req.user = decoded;   // attach decoded payload to request
+    next();
+  } catch {
+    res.status(401).json({ error: 'Invalid or expired token' });
+  }
+}
+
+// Apply to protected routes
+app.get('/api/me', requireAuth, async (req, res) =&gt; {
+  const { rows } = await pool.query(
+    'SELECT id, name, email FROM users WHERE id = $1', [req.user.id]
+  );
+  res.json(rows[0]);
+});</code></pre>
+
+        <p><strong>The complete auth flow end-to-end:</strong></p>
+
+        <div class="lifecycle">
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">1</div></div>
+            <div class="lc-body lc-browser"><strong>Register</strong> — <code>POST /api/auth/register { email, password }</code><br>Server validates → bcrypt.hash → INSERT INTO users → <code>201 { id, email }</code></div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">2</div></div>
+            <div class="lc-body lc-browser"><strong>Login</strong> — <code>POST /api/auth/login { email, password }</code><br>SELECT user → bcrypt.compare → jwt.sign → <code>200 { token: "eyJ..." }</code></div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">3</div></div>
+            <div class="lc-body lc-network"><strong>Client stores token</strong> — typically in memory or <code>localStorage</code><br>Every subsequent request adds: <code>Authorization: Bearer eyJ...</code></div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">4</div></div>
+            <div class="lc-body lc-server"><strong>Protected route</strong> — <code>GET /api/me</code><br><code>requireAuth</code> middleware: <code>jwt.verify(token, secret)</code> → attach <code>req.user</code> → handler runs → <code>200 { name, email }</code></div>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 4.5 Env Vars & Project Structure -->
+      <article class="lesson" id="lesson-4-5">
+        <div class="lesson-header">
+          <span class="lesson-num">4.5</span>
+          <h2>Environment Variables &amp; Project Structure</h2>
+        </div>
+
+        <p>Secrets — database URLs, JWT secrets, API keys — must never appear in source code. Environment variables solve this: they live outside the codebase, different per environment (dev vs production).</p>
+
+        <pre><code class="language-bash"># .env — NEVER commit this file
+DATABASE_URL=postgresql://alice:password@localhost:5432/myapp
+JWT_SECRET=a-long-random-string-at-least-32-characters-long
+PORT=3000
+NODE_ENV=development</code></pre>
+
+        <pre><code class="language-javascript">// src/index.js — load at the very top, before anything else
+require('dotenv').config();
+
+// Now available anywhere in the process
+process.env.DATABASE_URL
+process.env.JWT_SECRET
+const port = process.env.PORT || 3000;</code></pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">Add <code>.env</code> to <code>.gitignore</code> immediately. Provide a <code>.env.example</code> with dummy values so teammates know which variables are needed. Once a secret is committed to git history, it must be considered compromised — even after deletion.</div>
+        </div>
+
+        <p><strong>Production project structure:</strong></p>
+
+        <pre class="diagram">my-api/
+├── src/
+│   ├── index.js              ← entry: load env, init app, mount routes, listen
+│   ├── db.js                 ← pg Pool singleton
+│   ├── routes/
+│   │   ├── auth.js           ← POST /api/auth/register, POST /api/auth/login
+│   │   ├── users.js          ← GET /PATCH /DELETE /api/users/:id
+│   │   └── posts.js          ← CRUD /api/posts
+│   └── middleware/
+│       └── auth.js           ← requireAuth middleware
+├── .env                      ← never commit
+├── .env.example              ← commit this (dummy values)
+├── .gitignore
+├── package.json
+└── package-lock.json         ← always commit</pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>Phase 4 exercises</strong>
+            <ol style="margin-top:.5rem; padding-left:1.2rem;">
+              <li>Run <code>npm init -y</code>, install Express, write a server with three routes: GET /, GET /api/users, POST /api/users. Test with Postman or <code>curl</code>.</li>
+              <li>Install PostgreSQL locally. Create a database, create a users table, and connect from Node using <code>pg</code>.</li>
+              <li>Write a register route: validate input, hash password, insert into DB, return the user (without password).</li>
+              <li>Write a login route: look up user, bcrypt.compare, sign JWT, return token.</li>
+              <li>Write a <code>requireAuth</code> middleware and protect a <code>GET /api/me</code> route. Test with a valid and invalid token.</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase4 -->
     </div>
 
     <div class="page" id="page-phase5">
