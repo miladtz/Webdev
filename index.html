@@ -160,22 +160,29 @@
     </div>
 
     <!-- Phase 6 -->
-    <button class="phase-btn locked" data-page="page-phase6">
+    <button class="phase-btn done" data-page="page-phase6">
       <span class="phase-num">6</span>
       <div class="phase-info">
         <span class="phase-name">Deployment</span>
-        <span class="phase-status status-locked">Coming Soon</span>
+        <span class="phase-status status-done">✓ Complete</span>
       </div>
     </button>
+    <div class="lesson-nav" id="lessons-page-phase6">
+      <a href="#lesson-6-1" class="lesson-link">6.1 How Deployment Works</a>
+      <a href="#lesson-6-2" class="lesson-link">6.2 Frontend on Vercel</a>
+      <a href="#lesson-6-3" class="lesson-link">6.3 Backend on Railway</a>
+      <a href="#lesson-6-4" class="lesson-link">6.4 Domain &amp; HTTPS</a>
+      <a href="#lesson-6-5" class="lesson-link">6.5 Production Checklist</a>
+    </div>
   </nav>
 
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>6 / 7 phases</span>
+      <span>7 / 7 phases</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 86%"></div>
+      <div class="progress-fill" style="width: 100%"></div>
     </div>
   </div>
 </aside>
@@ -351,21 +358,22 @@
         </div>
 
         <!-- Phase 6 -->
-        <div class="phase-card locked" style="--card-color:#fbbf24">
+        <div class="phase-card done" data-page="page-phase6" style="--card-color:#fbbf24">
           <div class="card-top">
             <span class="card-num">6</span>
-            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
           </div>
           <div class="card-title">Deployment</div>
           <div class="card-desc">Get your app live on the real internet — frontend, backend, database, domain, and HTTPS.</div>
           <div class="card-topics">
             <span class="tag">Vercel</span>
             <span class="tag">Railway</span>
-            <span class="tag">PostgreSQL</span>
             <span class="tag">DNS / HTTPS</span>
+            <span class="tag">Checklist</span>
           </div>
           <div class="card-footer">
-            <span class="card-time">📅 Weeks 11–12 · ~6 lessons</span>
+            <span class="card-time">📅 Weeks 11–12 · 5 lessons</span>
+            <span class="card-arrow">Open →</span>
           </div>
         </div>
 
@@ -3424,13 +3432,269 @@ User sees: "That email is already taken"</pre>
     </div><!-- /page-phase5 -->
 
     <div class="page" id="page-phase6">
-      <div class="coming-soon">
-        <div class="cs-icon">🚀</div>
-        <h2>Phase 6 — Deployment</h2>
-        <p>Get your app live: frontend on Vercel, backend on Railway, domain and HTTPS.</p>
-        <span class="cs-badge">Coming Soon</span>
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 6 · Final Phase</div>
+        <h1>Deployment</h1>
+        <p>Take your working app from <code>localhost:3000</code> to a real URL on the internet — frontend on Vercel, backend + database on Railway, custom domain, HTTPS, and a production-ready checklist.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Weeks 11–12</span>
+          <span class="chip">📝 5 Lessons</span>
+          <span class="chip">✅ Course Complete</span>
+        </div>
       </div>
-    </div>
+
+
+      <!-- 6.1 How Deployment Works -->
+      <article class="lesson" id="lesson-6-1">
+        <div class="lesson-header">
+          <span class="lesson-num">6.1</span>
+          <h2>How Deployment Works</h2>
+        </div>
+
+        <p>Running <code>node index.js</code> on your laptop gives you <code>localhost:3000</code> — only you can reach it. Deployment means running that same code on a server that is publicly reachable, running 24/7, and served over HTTPS.</p>
+
+        <pre class="diagram">Your laptop  →  git push  →  GitHub repo
+                                  ↓
+                         Hosting platform pulls code
+                                  ↓
+                         npm install  (installs dependencies)
+                                  ↓
+                         npm start    (runs your server)
+                                  ↓
+                    Public URL: https://myapp.railway.app
+                                  ↓
+                    Domain:     https://myapp.com  (optional, ~$10/yr)</pre>
+
+        <p><strong>The two platforms used in this course:</strong></p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Platform</th><th>Best for</th><th>Key feature</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Vercel</strong></td><td>Static sites, React, plain HTML/CSS/JS</td><td>Push to GitHub → live in 30 seconds. Free tier is generous.</td></tr>
+              <tr><td><strong>Railway</strong></td><td>Express servers, Node.js backends</td><td>Runs persistent processes. Provisions PostgreSQL with one click.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>For the separate-origin model (frontend on Vercel + backend on Railway), traffic flows like this:</p>
+
+        <pre class="diagram">Browser
+  → GET https://myapp.com        → Vercel CDN serves index.html + JS/CSS
+  → fetch('https://api.myapp.com/posts')
+      → Railway runs your Express server
+          → pg queries your Railway PostgreSQL database
+          → Express sends JSON back
+      → Browser renders the posts</pre>
+      </article>
+
+
+      <!-- 6.2 Frontend on Vercel -->
+      <article class="lesson" id="lesson-6-2">
+        <div class="lesson-header">
+          <span class="lesson-num">6.2</span>
+          <h2>Deploying the Frontend on Vercel</h2>
+        </div>
+
+        <ol class="steps">
+          <li><strong>Push your frontend folder to GitHub.</strong> If your project is just <code>/public</code> with HTML/CSS/JS, push that folder as the root of a repo.</li>
+          <li><strong>Go to vercel.com → "Add New Project" → import your repository.</strong> Vercel auto-detects static sites. If you're using Vite or React it detects the build settings automatically.</li>
+          <li><strong>Click Deploy.</strong> Vercel gives you <code>https://yourproject.vercel.app</code> within seconds.</li>
+          <li><strong>Every <code>git push</code> to <code>main</code> → automatic redeploy.</strong> Every pull request → preview URL.</li>
+        </ol>
+
+        <p><strong>Environment variables on Vercel:</strong></p>
+
+        <pre class="diagram">Vercel dashboard → your project → Settings → Environment Variables
+
+Add:
+  Name:   VITE_API_URL
+  Value:  https://myapi.railway.app
+  (prefix VITE_ so Vite/React bundles the value into the build)
+
+For plain HTML/JS: hardcode the API URL in a config constant at the top of app.js
+  const API = 'https://myapi.railway.app';</pre>
+
+        <p><strong>SPA fallback — client-side routing fix:</strong></p>
+        <p>If someone navigates directly to <code>https://myapp.vercel.app/posts/42</code>, Vercel looks for a file at that path, finds nothing, and returns 404. Fix it with a rewrite rule:</p>
+
+        <pre><code class="language-json">// vercel.json — place in the root of your frontend repo
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">Vercel's free tier handles millions of requests per month. For a portfolio project or small app, you will never hit the limit.</div>
+        </div>
+      </article>
+
+
+      <!-- 6.3 Backend on Railway -->
+      <article class="lesson" id="lesson-6-3">
+        <div class="lesson-header">
+          <span class="lesson-num">6.3</span>
+          <h2>Deploying the Backend on Railway</h2>
+        </div>
+
+        <ol class="steps">
+          <li><strong>Push your Express app to GitHub.</strong> Make sure <code>package.json</code> has a <code>"start"</code> script: <code>"start": "node src/index.js"</code>.</li>
+          <li><strong>Go to railway.app → "New Project" → "Deploy from GitHub repo".</strong> Select your backend repo. Railway detects Node.js and runs <code>npm install</code> then <code>npm start</code>.</li>
+          <li><strong>Generate a public URL.</strong> Settings → Networking → Generate Domain. You get <code>https://yourapp.railway.app</code>.</li>
+          <li><strong>Add a PostgreSQL database.</strong> Railway dashboard → New → Database → PostgreSQL. Railway automatically injects <code>DATABASE_URL</code> into your service. Your <code>new Pool({ connectionString: process.env.DATABASE_URL })</code> just works.</li>
+          <li><strong>Set environment variables.</strong> Your service → Variables tab. Add every line from your <code>.env</code> file.</li>
+        </ol>
+
+        <p><strong>Required variables on Railway:</strong></p>
+
+        <pre class="diagram">DATABASE_URL    → set automatically when you add PostgreSQL
+JWT_SECRET      → paste your 32+ character random secret
+NODE_ENV        → production
+FRONTEND_URL    → https://yourapp.vercel.app  (for CORS origin)</pre>
+
+        <p><strong>Your app must listen on Railway's dynamic port:</strong></p>
+
+        <pre><code class="language-javascript">// Railway assigns the port via PORT environment variable — always use it
+const port = process.env.PORT || 3000;
+app.listen(port, () =&gt; console.log(`Listening on :${port}`));</code></pre>
+
+        <p><strong>Run your database migrations on Railway:</strong></p>
+        <p>After your PostgreSQL database is provisioned, open the Railway shell (your service → Shell tab) and run your <code>CREATE TABLE</code> statements, or connect to the database URL from your local machine using <code>psql</code>:</p>
+
+        <pre><code class="language-bash">psql $DATABASE_URL -f schema.sql</code></pre>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">Railway auto-redeploys on every <code>git push</code> to <code>main</code>, just like Vercel. Check the deployment logs in the Railway dashboard if something goes wrong — they show your server's stdout/stderr in real time.</div>
+        </div>
+      </article>
+
+
+      <!-- 6.4 Domain & HTTPS -->
+      <article class="lesson" id="lesson-6-4">
+        <div class="lesson-header">
+          <span class="lesson-num">6.4</span>
+          <h2>Custom Domain &amp; HTTPS</h2>
+        </div>
+
+        <p>Buy a domain from Namecheap, Cloudflare, or Google Domains (~$10/year). Then point it at your deployed services.</p>
+
+        <p><strong>Attaching the domain to Vercel (frontend):</strong></p>
+
+        <pre class="diagram">Vercel dashboard → your project → Settings → Domains → Add domain
+Enter: myapp.com
+
+Vercel tells you to add these DNS records at your registrar:
+
+  Type   Name   Value
+  A      @      76.76.21.21          ← apex domain (myapp.com)
+  CNAME  www    cname.vercel-dns.com ← www subdomain</pre>
+
+        <p><strong>Attaching a subdomain to Railway (backend):</strong></p>
+
+        <pre class="diagram">Railway dashboard → your service → Settings → Networking → Custom Domain
+Enter: api.myapp.com
+
+At your domain registrar, add:
+  Type   Name   Value
+  CNAME  api    yourapp.railway.app</pre>
+
+        <p><strong>HTTPS — fully automatic:</strong></p>
+        <p>Both Vercel and Railway provision TLS certificates via Let's Encrypt automatically when you attach a domain. No purchase, no configuration — it just works within a few minutes of the DNS record propagating.</p>
+
+        <pre class="diagram">Before:  http://myapp.com   → plain text, no padlock, HTTP/1.1
+After:   https://myapp.com  → TLS encrypted, padlock, HTTP/2, trusted by all browsers</pre>
+
+        <p><strong>Update your CORS origin for the real domain:</strong></p>
+
+        <pre><code class="language-javascript">// src/index.js — swap the Railway FRONTEND_URL env var to your real domain
+app.use(cors({
+  origin:      process.env.FRONTEND_URL,  // 'https://myapp.com'
+  credentials: true
+}));</code></pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">DNS changes propagate across the internet in minutes to 48 hours. During propagation, some users see the old server and some see the new. This is normal — don't panic if it's not instant.</div>
+        </div>
+      </article>
+
+
+      <!-- 6.5 Production Checklist -->
+      <article class="lesson" id="lesson-6-5">
+        <div class="lesson-header">
+          <span class="lesson-num">6.5</span>
+          <h2>Production Checklist &amp; What's Next</h2>
+        </div>
+
+        <p>Before you share a URL with the world, run through this list. Each item represents a real category of bugs or security vulnerabilities that bite developers in production.</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Check</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Secrets</strong></td><td><code>.env</code> is in <code>.gitignore</code> and never committed to git</td></tr>
+              <tr><td><strong>Secrets</strong></td><td><code>JWT_SECRET</code> is 32+ random characters — not <code>"secret"</code></td></tr>
+              <tr><td><strong>Secrets</strong></td><td>All env vars set in the hosting dashboard, not in code</td></tr>
+              <tr><td><strong>SQL</strong></td><td>Every query uses <code>$1, $2</code> parameterization — no string concatenation</td></tr>
+              <tr><td><strong>Passwords</strong></td><td>bcrypt with saltRounds ≥ 10</td></tr>
+              <tr><td><strong>Cookies</strong></td><td><code>HttpOnly; Secure; SameSite=Strict</code> flags set</td></tr>
+              <tr><td><strong>CORS</strong></td><td>Origin is your specific domain — not <code>"*"</code></td></tr>
+              <tr><td><strong>Errors</strong></td><td>500 responses don't leak stack traces to the client</td></tr>
+              <tr><td><strong>Validation</strong></td><td>All user input validated server-side before reaching the DB</td></tr>
+              <tr><td><strong>Auth</strong></td><td>All write routes protected by <code>requireAuth</code> middleware</td></tr>
+              <tr><td><strong>Port</strong></td><td><code>app.listen(process.env.PORT || 3000)</code></td></tr>
+              <tr><td><strong>Start script</strong></td><td><code>"start": "node src/index.js"</code> in package.json</td></tr>
+              <tr><td><strong>Domain</strong></td><td>DNS records added, HTTPS padlock visible</td></tr>
+              <tr><td><strong>Database</strong></td><td>Schema created on the production database</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Where to go from here:</strong></p>
+
+        <div class="vocab-grid">
+          <div class="vocab-item">
+            <div class="vocab-term">TypeScript</div>
+            <div class="vocab-def">Add static types to JavaScript. Catches entire classes of bugs before runtime. The industry standard for any serious project.</div>
+          </div>
+          <div class="vocab-item">
+            <div class="vocab-term">React / Next.js</div>
+            <div class="vocab-def">Component-based UI library + full-stack framework. The mental model you built in Phase 5 (state → render) is exactly how React works — just formalized.</div>
+          </div>
+          <div class="vocab-item">
+            <div class="vocab-term">Prisma</div>
+            <div class="vocab-def">Type-safe database client that replaces raw SQL with auto-completed queries and automatic migrations. Works with PostgreSQL.</div>
+          </div>
+          <div class="vocab-item">
+            <div class="vocab-term">Docker</div>
+            <div class="vocab-def">Package your app + its runtime into a container. Guarantees the app runs identically on every machine — no "works on my laptop" bugs.</div>
+          </div>
+          <div class="vocab-item">
+            <div class="vocab-term">Redis</div>
+            <div class="vocab-def">In-memory data store. Used for caching expensive database queries, rate limiting, and storing sessions.</div>
+          </div>
+          <div class="vocab-item">
+            <div class="vocab-term">GitHub Actions</div>
+            <div class="vocab-def">Run tests, linting, and deployment automatically on every pull request. The entry point to CI/CD — continuous integration and delivery.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>The foundation you built here applies to everything above.</strong><br>
+            Every framework builds on HTML, CSS, and JavaScript.<br>
+            Every ORM builds on SQL and parameterized queries.<br>
+            Every cloud platform runs a server with a port and environment variables.<br>
+            Every auth system uses the same hash → compare → sign → verify pattern.<br><br>
+            You now understand the <em>why</em> behind all of it — not just the syntax.
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase6 -->
 
   </main>
 </div><!-- /main-wrap -->
