@@ -144,13 +144,20 @@
     </div>
 
     <!-- Phase 5 -->
-    <button class="phase-btn locked" data-page="page-phase5">
+    <button class="phase-btn done" data-page="page-phase5">
       <span class="phase-num">5</span>
       <div class="phase-info">
         <span class="phase-name">Full Stack</span>
-        <span class="phase-status status-locked">Coming Soon</span>
+        <span class="phase-status status-done">✓ Complete</span>
       </div>
     </button>
+    <div class="lesson-nav" id="lessons-page-phase5">
+      <a href="#lesson-5-1" class="lesson-link">5.1 Frontend ↔ Backend</a>
+      <a href="#lesson-5-2" class="lesson-link">5.2 State Management</a>
+      <a href="#lesson-5-3" class="lesson-link">5.3 A Worked Example</a>
+      <a href="#lesson-5-4" class="lesson-link">5.4 Error Handling E2E</a>
+      <a href="#lesson-5-5" class="lesson-link">5.5 The Mental Model</a>
+    </div>
 
     <!-- Phase 6 -->
     <button class="phase-btn locked" data-page="page-phase6">
@@ -165,10 +172,10 @@
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>5 / 7 phases</span>
+      <span>6 / 7 phases</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 71%"></div>
+      <div class="progress-fill" style="width: 86%"></div>
     </div>
   </div>
 </aside>
@@ -324,21 +331,22 @@
         </div>
 
         <!-- Phase 5 -->
-        <div class="phase-card locked" style="--card-color:#c084fc">
+        <div class="phase-card done" data-page="page-phase5" style="--card-color:#c084fc">
           <div class="card-top">
             <span class="card-num">5</span>
-            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
           </div>
           <div class="card-title">Putting It Together</div>
           <div class="card-desc">Build a complete web app: frontend + backend + database, wired into a single working system.</div>
           <div class="card-topics">
             <span class="tag">Full Stack</span>
-            <span class="tag">API Design</span>
-            <span class="tag">Env Vars</span>
+            <span class="tag">State Mgmt</span>
+            <span class="tag">Error Flow</span>
             <span class="tag">Project</span>
           </div>
           <div class="card-footer">
-            <span class="card-time">📅 Week 10 · ~5 lessons</span>
+            <span class="card-time">📅 Week 10 · 5 lessons</span>
+            <span class="card-arrow">Open →</span>
           </div>
         </div>
 
@@ -3006,13 +3014,414 @@ const port = process.env.PORT || 3000;</code></pre>
     </div>
 
     <div class="page" id="page-phase5">
-      <div class="coming-soon">
-        <div class="cs-icon">🔗</div>
-        <h2>Phase 5 — Putting It Together</h2>
-        <p>Build a complete web app: frontend + backend + database, all wired up.</p>
-        <span class="cs-badge">Coming Soon</span>
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 5</div>
+        <h1>Putting It Together</h1>
+        <p>Frontend + backend + database → one working application. This phase is about integration: wiring every layer into a single coherent system and debugging it end-to-end.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Week 10</span>
+          <span class="chip">📝 5 Lessons</span>
+          <span class="chip">✅ Completed</span>
+        </div>
       </div>
-    </div>
+
+
+      <!-- 5.1 Frontend ↔ Backend -->
+      <article class="lesson" id="lesson-5-1">
+        <div class="lesson-header">
+          <span class="lesson-num">5.1</span>
+          <h2>How Frontend and Backend Talk</h2>
+        </div>
+
+        <p>You've built frontends and backends separately. The integration challenge is that <strong>they must agree on a contract</strong> — the API shape — and nothing enforces that contract except discipline.</p>
+
+        <p><strong>Two deployment models:</strong></p>
+
+        <pre class="diagram">Model A — Separate origins (most common in production)
+  Frontend:  https://myapp.vercel.app    (HTML/CSS/JS, hosted on Vercel)
+  Backend:   https://myapi.railway.app   (Express, hosted on Railway)
+  → Different domains → CORS required
+  → Frontend fetches backend over the internet
+
+Model B — Same origin (Express serves everything)
+  https://myapp.com/          → Express serves index.html
+  https://myapp.com/api/users → Express handles the API
+  → No CORS needed. One deployment. Simpler for small projects.</pre>
+
+        <p><strong>Same-origin setup — Express serving the frontend:</strong></p>
+
+        <pre><code class="language-javascript">const path = require('path');
+
+// Serve HTML/CSS/JS from a /public folder
+app.use(express.static(path.join(__dirname, '../public')));
+
+// API routes still work normally
+app.use('/api/auth',  require('./routes/auth'));
+app.use('/api/posts', require('./routes/posts'));
+
+// Fallback: unknown routes → serve index.html (for client-side routing)
+app.get('*', (req, res) =&gt; {
+  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+});</code></pre>
+
+        <p><strong>The API contract — write this before building either side:</strong></p>
+
+        <pre class="diagram">POST /api/auth/login
+  Request:  { "email": string, "password": string }
+  Success:  200 { "token": string, "user": { "id", "name", "email" } }
+  Error:    401 { "error": "Invalid credentials" }
+
+GET /api/posts   (Authorization: Bearer &lt;token&gt;)
+  Success:  200 { "data": Post[], "pagination": { "total": number } }
+  Error:    401 { "error": "No token provided" }
+
+POST /api/posts  (Authorization: Bearer &lt;token&gt;)
+  Request:  { "title": string, "body": string }
+  Success:  201 Post
+  Error:    422 { "error": "Title and body are required" }</pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">Changing the API contract mid-build means updating two codebases simultaneously. Write it down first. Treat it as a commitment.</div>
+        </div>
+      </article>
+
+
+      <!-- 5.2 State Management -->
+      <article class="lesson" id="lesson-5-2">
+        <div class="lesson-header">
+          <span class="lesson-num">5.2</span>
+          <h2>State Management in the Frontend</h2>
+        </div>
+
+        <p>When your app has a session and server data, you need a clear answer to: <em>where does this piece of information live?</em></p>
+
+        <p><strong>Where to keep the JWT:</strong></p>
+
+        <pre><code class="language-javascript">// Option A: localStorage — simple, survives refresh, readable by JS
+localStorage.setItem('token', token);
+const token = localStorage.getItem('token');
+localStorage.removeItem('token');
+
+// Option B: memory variable — gone on refresh, immune to XSS
+let _token = null;
+function setToken(t) { _token = t; }
+function getToken()  { return _token; }
+
+// Option C: HttpOnly cookie (set by server) — best security
+// Server: res.cookie('token', jwt, { httpOnly: true, secure: true, sameSite: 'strict' })
+// Browser: sends it automatically; JS cannot access it at all</code></pre>
+
+        <div class="callout callout-info">
+          <span class="callout-icon">ℹ️</span>
+          <div class="callout-body">For a beginner project, <code>localStorage</code> is fine. For production with sensitive data, HttpOnly cookies are the correct choice — they're invisible to XSS attacks entirely.</div>
+        </div>
+
+        <p><strong>A minimal state pattern — the core idea behind every framework:</strong></p>
+
+        <pre><code class="language-javascript">// Single source of truth
+const state = {
+  user:    null,   // { id, name, email } or null
+  posts:   [],
+  loading: false,
+  error:   null,
+};
+
+// One function to update state + trigger re-render
+function setState(patch) {
+  Object.assign(state, patch);
+  render();
+}
+
+// One function to update the DOM from state
+function render() {
+  // Auth state
+  document.getElementById('auth-section').hidden = !!state.user;
+  document.getElementById('post-form').hidden    = !state.user;
+  document.getElementById('user-info').textContent =
+    state.user ? `Logged in as ${state.user.name}` : '';
+
+  // Posts list
+  const list = document.getElementById('posts-list');
+  if (state.loading) {
+    list.innerHTML = '&lt;p class="loading"&gt;Loading...&lt;/p&gt;';
+  } else if (state.error) {
+    list.innerHTML = `&lt;p class="error"&gt;${state.error}&lt;/p&gt;`;
+  } else {
+    list.innerHTML = state.posts
+      .map(p =&gt; `&lt;article&gt;&lt;h3&gt;${p.title}&lt;/h3&gt;&lt;p&gt;${p.body}&lt;/p&gt;&lt;/article&gt;`)
+      .join('');
+  }
+}</code></pre>
+
+        <p>This pattern — one state object, one render function, explicit updates — is the core concept behind React, Vue, and Svelte. They make it faster and handle edge cases, but the mental model is identical.</p>
+      </article>
+
+
+      <!-- 5.3 Worked Example -->
+      <article class="lesson" id="lesson-5-3">
+        <div class="lesson-header">
+          <span class="lesson-num">5.3</span>
+          <h2>A Worked Example: Blog App</h2>
+        </div>
+
+        <p>A minimal but complete app: users register, log in, and create posts. Every layer wired together.</p>
+
+        <p><strong>Project layout:</strong></p>
+
+        <pre class="diagram">my-app/
+├── src/
+│   ├── index.js              ← Express entry: env, middleware, routes, listen
+│   ├── db.js                 ← pg Pool singleton
+│   ├── routes/
+│   │   ├── auth.js           ← register + login
+│   │   └── posts.js          ← list + create
+│   └── middleware/
+│       └── auth.js           ← requireAuth
+├── public/
+│   ├── index.html            ← HTML shell
+│   ├── style.css
+│   └── app.js                ← all frontend logic
+├── .env
+└── package.json</pre>
+
+        <p><strong>The posts route — public read, protected write:</strong></p>
+
+        <pre><code class="language-javascript">// src/routes/posts.js
+const router      = require('express').Router();
+const pool        = require('../db');
+const requireAuth = require('../middleware/auth');
+
+// Public — anyone can read posts
+router.get('/', async (req, res, next) =&gt; {
+  try {
+    const { rows } = await pool.query(`
+      SELECT posts.id, posts.title, posts.body, posts.created_at,
+             users.name AS author
+      FROM posts
+      JOIN users ON posts.user_id = users.id
+      ORDER BY posts.created_at DESC LIMIT 20
+    `);
+    res.json({ data: rows });
+  } catch (err) { next(err); }
+});
+
+// Protected — only logged-in users can create posts
+router.post('/', requireAuth, async (req, res, next) =&gt; {
+  const { title, body } = req.body;
+  if (!title?.trim() || !body?.trim())
+    return res.status(422).json({ error: 'Title and body are required' });
+  try {
+    const { rows } = await pool.query(
+      'INSERT INTO posts (user_id, title, body) VALUES ($1, $2, $3) RETURNING *',
+      [req.user.id, title.trim(), body.trim()]
+    );
+    res.status(201).json(rows[0]);
+  } catch (err) { next(err); }
+});
+
+module.exports = router;</code></pre>
+
+        <p><strong>The frontend — apiFetch wrapper + actions + event listeners:</strong></p>
+
+        <pre><code class="language-javascript">// public/app.js
+
+const API = '';   // '' = same origin; or 'https://myapi.railway.app'
+
+// Auth token helpers
+function getToken()  { return localStorage.getItem('token'); }
+function setToken(t) { localStorage.setItem('token', t); }
+function clearToken(){ localStorage.removeItem('token'); }
+
+// Reusable fetch wrapper
+async function apiFetch(path, options = {}) {
+  const token = getToken();
+  const res = await fetch(API + path, {
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    ...options,
+    body: options.body ? JSON.stringify(options.body) : undefined
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() =&gt; ({}));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
+  return res.status === 204 ? null : res.json();
+}
+
+// Actions
+async function login(email, password) {
+  const { token, user } = await apiFetch('/api/auth/login', {
+    method: 'POST', body: { email, password }
+  });
+  setToken(token);
+  setState({ user });
+}
+
+async function logout() {
+  clearToken();
+  setState({ user: null });
+}
+
+async function loadPosts() {
+  setState({ loading: true, error: null });
+  try {
+    const { data } = await apiFetch('/api/posts');
+    setState({ posts: data, loading: false });
+  } catch (err) {
+    setState({ error: err.message, loading: false });
+  }
+}
+
+async function createPost(title, body) {
+  await apiFetch('/api/posts', { method: 'POST', body: { title, body } });
+  await loadPosts();
+}
+
+// Bootstrap on page load
+(async function init() {
+  await loadPosts();
+  if (getToken()) {
+    try {
+      const user = await apiFetch('/api/me');
+      setState({ user });
+    } catch {
+      clearToken();   // expired or invalid — start fresh
+    }
+  }
+})();</code></pre>
+      </article>
+
+
+      <!-- 5.4 Error Handling E2E -->
+      <article class="lesson" id="lesson-5-4">
+        <div class="lesson-header">
+          <span class="lesson-num">5.4</span>
+          <h2>Error Handling End to End</h2>
+        </div>
+
+        <p>Most bugs in full-stack apps happen when errors are swallowed silently at one layer and the next layer receives <code>undefined</code>. Errors need a clean path from the database all the way to a user-visible message.</p>
+
+        <pre class="diagram">Database error (e.g. unique violation: email already exists)
+    ↓  caught in route try/catch
+    ↓  code '23505' detected → res.status(409).json({ error: 'Email taken' })
+    ↓  fetch() gets 409 response
+    ↓  apiFetch(): response.ok is false → throws Error('Email taken')
+    ↓  caller's catch block → setState({ error: 'Email taken' })
+    ↓  render() reads state.error → shows message in DOM
+    ↓
+User sees: "That email is already taken"</pre>
+
+        <p><strong>Backend validation — catch bad input before it hits the database:</strong></p>
+
+        <pre><code class="language-javascript">router.post('/register', async (req, res, next) =&gt; {
+  const { name, email, password } = req.body;
+
+  const errors = [];
+  if (!name?.trim())                errors.push('Name is required');
+  if (!email?.includes('@'))        errors.push('Valid email required');
+  if ((password?.length ?? 0) &lt; 8) errors.push('Password must be 8+ chars');
+  if (errors.length)
+    return res.status(422).json({ error: errors.join(', ') });
+
+  try {
+    const hash = await bcrypt.hash(password, 12);
+    const { rows } = await pool.query(
+      'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING id, name, email',
+      [name.trim(), email.toLowerCase(), hash]
+    );
+    res.status(201).json(rows[0]);
+  } catch (err) {
+    if (err.code === '23505')   // PostgreSQL unique violation
+      return res.status(409).json({ error: 'That email is already taken' });
+    next(err);
+  }
+});</code></pre>
+
+        <p><strong>Frontend loading + error states in render():</strong></p>
+
+        <pre><code class="language-javascript">function render() {
+  const list = document.getElementById('posts-list');
+
+  if (state.loading) {
+    list.innerHTML = '&lt;p class="loading"&gt;Loading posts...&lt;/p&gt;';
+    return;
+  }
+  if (state.error) {
+    list.innerHTML = `&lt;p class="error"&gt;${state.error}&lt;/p&gt;`;
+    return;
+  }
+  if (!state.posts.length) {
+    list.innerHTML = '&lt;p&gt;No posts yet. Be the first!&lt;/p&gt;';
+    return;
+  }
+  list.innerHTML = state.posts.map(renderPost).join('');
+}</code></pre>
+      </article>
+
+
+      <!-- 5.5 Mental Model -->
+      <article class="lesson" id="lesson-5-5">
+        <div class="lesson-header">
+          <span class="lesson-num">5.5</span>
+          <h2>The Mental Model: Request → Response → Render</h2>
+        </div>
+
+        <p>When something doesn't work in a full-stack app, this flow tells you <em>exactly</em> which layer to investigate:</p>
+
+        <div class="lifecycle">
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">1</div></div>
+            <div class="lc-body lc-browser"><strong>Frontend validation</strong> — Did the input pass client-side checks? If not, the request never fires. Check the form logic.</div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">2</div></div>
+            <div class="lc-body lc-network"><strong>Request sent?</strong> — Open DevTools → Network tab. Find the request. Did it fire? If not, check the fetch() call and event listener.</div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">3</div></div>
+            <div class="lc-body lc-server"><strong>Express received it?</strong> — Check server logs. Did the route match? Did middleware run (CORS, express.json, requireAuth)?</div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">4</div></div>
+            <div class="lc-body lc-database"><strong>Database query?</strong> — Did the pg query succeed? Check pg error codes. Is the connection string correct?</div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">5</div></div>
+            <div class="lc-body lc-network"><strong>Response shape?</strong> — Back in the Network tab: check the status code and response body. Is it what the frontend expects?</div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">6</div></div>
+            <div class="lc-body lc-browser"><strong>State updated?</strong> — Did <code>setState()</code> get called with the right data? Did <code>render()</code> run? Check with <code>console.log(state)</code>.</div>
+          </div>
+        </div>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body"><strong>The golden rule of full-stack debugging:</strong> open DevTools → Network → find the failing request → read the response body. That one action answers 80% of full-stack bugs.</div>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>Phase 5 Project: Build the Blog App</strong>
+            <ol style="margin-top:.5rem;padding-left:1.2rem;">
+              <li>Set up the folder structure: Express backend + <code>/public</code> folder for the frontend.</li>
+              <li>Create the PostgreSQL schema (users + posts tables).</li>
+              <li>Implement register and login routes with bcrypt + JWT.</li>
+              <li>Implement GET /api/posts (public) and POST /api/posts (protected with requireAuth).</li>
+              <li>Build the frontend: apiFetch wrapper, state object, render function, event listeners.</li>
+              <li>Wire up the form submissions, test the full flow: register → login → create post → see it appear.</li>
+              <li>Test error cases: wrong password, duplicate email, expired token, missing fields.</li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase5 -->
 
     <div class="page" id="page-phase6">
       <div class="coming-soon">
