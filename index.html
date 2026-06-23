@@ -91,13 +91,23 @@
     </div>
 
     <!-- Phase 2 -->
-    <button class="phase-btn locked" data-page="page-phase2">
+    <button class="phase-btn done" data-page="page-phase2">
       <span class="phase-num">2</span>
       <div class="phase-info">
         <span class="phase-name">Browser Internals</span>
-        <span class="phase-status status-locked">Coming Soon</span>
+        <span class="phase-status status-done">✓ Complete</span>
       </div>
+      <span class="phase-chevron">›</span>
     </button>
+
+    <div class="lesson-nav" id="lessons-page-phase2">
+      <a href="#lesson-2-1" class="lesson-link">2.1 The HTML Parser</a>
+      <a href="#lesson-2-2" class="lesson-link">2.2 CSS &amp; The CSSOM</a>
+      <a href="#lesson-2-3" class="lesson-link">2.3 Render, Layout &amp; Paint</a>
+      <a href="#lesson-2-4" class="lesson-link">2.4 The JS Engine</a>
+      <a href="#lesson-2-5" class="lesson-link">2.5 The Event Loop</a>
+      <a href="#lesson-2-6" class="lesson-link">2.6 Memory &amp; Performance</a>
+    </div>
 
     <!-- Phase 3 -->
     <button class="phase-btn locked" data-page="page-phase3">
@@ -139,10 +149,10 @@
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>2 / 7 phases</span>
+      <span>3 / 7 phases</span>
     </div>
     <div class="progress-bar">
-      <div class="progress-fill" style="width: 28%"></div>
+      <div class="progress-fill" style="width: 42%"></div>
     </div>
   </div>
 </aside>
@@ -235,21 +245,24 @@
         </div>
 
         <!-- Phase 2 -->
-        <div class="phase-card locked" style="--card-color:#38bdf8">
+        <div class="phase-card done" data-page="page-phase2" style="--card-color:#38bdf8">
           <div class="card-top">
             <span class="card-num">2</span>
-            <span class="c-badge c-badge-locked">🔒 Coming Soon</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
           </div>
           <div class="card-title">Browser Internals</div>
           <div class="card-desc">Rendering pipeline, event loop, async/await, and how JS execution actually works.</div>
           <div class="card-topics">
+            <span class="tag">HTML Parser</span>
+            <span class="tag">CSSOM</span>
             <span class="tag">Render Tree</span>
             <span class="tag">Event Loop</span>
-            <span class="tag">async/await</span>
-            <span class="tag">Promises</span>
+            <span class="tag">V8 Engine</span>
+            <span class="tag">Memory</span>
           </div>
           <div class="card-footer">
-            <span class="card-time">📅 Week 5 · ~6 lessons</span>
+            <span class="card-time">📅 Week 5 · 6 lessons</span>
+            <span class="card-arrow">Open →</span>
           </div>
         </div>
 
@@ -1672,13 +1685,452 @@ searchInput.addEventListener('input', (e) =&gt; {
     </div><!-- /page-phase1 -->
 
     <div class="page" id="page-phase2">
-      <div class="coming-soon">
-        <div class="cs-icon">⚙️</div>
-        <h2>Phase 2 — Browser Internals</h2>
-        <p>The rendering pipeline, event loop, and how JavaScript execution really works.</p>
-        <span class="cs-badge">Coming Soon</span>
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 2</div>
+        <h1>Browser Internals</h1>
+        <p>What happens inside the browser engine after it receives your HTML, CSS, and JavaScript — from raw bytes to pixels on screen.</p>
+        <div class="phase-chips">
+          <span class="chip">📅 Week 5</span>
+          <span class="chip">📝 6 Lessons</span>
+          <span class="chip">✅ Completed</span>
+        </div>
       </div>
-    </div>
+
+
+      <!-- 2.1 The HTML Parser -->
+      <article class="lesson" id="lesson-2-1">
+        <div class="lesson-header">
+          <span class="lesson-num">2.1</span>
+          <h2>The HTML Parser</h2>
+        </div>
+
+        <p>The browser doesn't wait for the full HTML file to arrive before it starts working. It parses <strong>incrementally</strong> — processing bytes as they stream in from the network, building the DOM in real time.</p>
+
+        <p><strong>Two stages: Tokenization → Tree Construction</strong></p>
+
+        <pre class="diagram">Raw bytes arrive:  3C 68 31 3E 48 65 6C 6C 6F 3C 2F 68 31 3E
+Decoded text:      &lt; h  1  &gt;  H  e  l  l  o  &lt;  /  h  1  &gt;
+
+Tokenizer produces:
+  StartTag token  →  { name: "h1" }
+  Character token →  { data: "Hello" }
+  EndTag token    →  { name: "h1" }
+
+Tree builder turns tokens into DOM nodes:
+  Element: HTMLHeadingElement (h1)
+    └── Text: "Hello"</pre>
+
+        <p>The parser is intentionally <strong>error-tolerant</strong>. Missing closing tags, overlapping tags, illegal nesting — the browser fixes them silently following a defined error-recovery algorithm. That's why broken HTML still renders.</p>
+
+        <p><strong>Render-blocking resources</strong> — the most important performance concept in HTML loading:</p>
+
+        <pre><code class="language-html">&lt;!-- Blocks RENDERING — browser won't paint until this is downloaded + parsed --&gt;
+&lt;link rel="stylesheet" href="style.css"&gt;
+
+&lt;!-- Blocks PARSING — synchronous JS can rewrite the DOM, so parser must stop --&gt;
+&lt;script src="app.js"&gt;&lt;/script&gt;
+
+&lt;!-- Non-blocking — deferred until after HTML parsing; executes in order --&gt;
+&lt;script src="app.js" defer&gt;&lt;/script&gt;
+
+&lt;!-- Non-blocking — loads in parallel; executes immediately when ready --&gt;
+&lt;script src="analytics.js" async&gt;&lt;/script&gt;</code></pre>
+
+        <p>The <strong>preload scanner</strong> is a second lightweight parser that runs ahead through the HTML while the main parser is blocked. It finds <code>&lt;link&gt;</code>, <code>&lt;img&gt;</code>, and <code>&lt;script&gt;</code> tags and fires early HTTP requests so resources are already downloading when the main parser unblocks.</p>
+
+        <pre class="diagram">Network bytes arriving continuously
+        │
+        ▼
+┌──────────────────┐    ┌─────────────────────────────────────┐
+│   HTML Parser    │───►│      DOM Tree (grows in real time)   │
+└──────────────────┘    └─────────────────────────────────────┘
+        │
+        │  hits &lt;link rel="stylesheet"&gt;
+        ▼
+┌──────────────────┐    ┌─────────────────────────────────────┐
+│  CSS Download    │───►│   CSSOM (built when fully loaded)    │
+└──────────────────┘    └─────────────────────────────────────┘
+        │
+        │  hits &lt;script&gt; (no defer/async)
+        ▼
+┌──────────────────┐
+│  Parser STOPS    │  ← waiting for JS download + execution
+└──────────────────┘
+        │  script done
+        ▼
+   Parser resumes</pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>The rule derived from this</strong>
+            CSS goes in <code>&lt;head&gt;</code> (blocks render, not parse — acceptable). JS goes at the bottom of <code>&lt;body&gt;</code> or uses <code>defer</code> (blocks both parse and render — not acceptable in the middle of your HTML).
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 2.2 CSS Parsing & CSSOM -->
+      <article class="lesson" id="lesson-2-2">
+        <div class="lesson-header">
+          <span class="lesson-num">2.2</span>
+          <h2>CSS Parsing &amp; The CSSOM</h2>
+        </div>
+
+        <p>After CSS is downloaded, it is parsed into a <strong>CSSOM</strong> (CSS Object Model) — a tree that mirrors the DOM structure but holds style information instead of content.</p>
+
+        <pre class="diagram">Raw CSS text
+    │
+    ▼  Tokenizer → Parser
+StyleSheet
+  ├── Rule: h1         →  { color: red;   font-size: 2rem  }
+  ├── Rule: .card      →  { background: white;  padding: 24px }
+  └── Rule: .card h1   →  { color: blue }   ← overrides h1 when inside .card</pre>
+
+        <p><strong>Selector matching runs right-to-left.</strong> This is a deliberate performance decision:</p>
+
+        <pre class="diagram">CSS rule:  .card h1 { color: blue; }
+
+Browser reads this as:
+  "Find all &lt;h1&gt; elements..."          ← start from rightmost key selector
+  "...that have an ancestor with class .card"
+
+Why right-to-left?
+  Starting from the key selector (h1) immediately filters the full element set.
+  Starting from the left (.card) would require walking all descendants first.</pre>
+
+        <p><strong>Computed styles</strong> — every node gets fully resolved, concrete values. Relative units are converted to pixels, inherited values are filled in, shorthand properties are expanded:</p>
+
+        <pre><code class="language-css">/* What you write */
+body { font-size: 16px; color: #333; }
+h1   { font-size: 2em; }    /* relative unit */
+p    { }                     /* no color set */
+
+/* What the CSSOM stores (computed values) */
+/* h1: font-size = 32px   (2 × 16px parent)  */
+/* p:  color = rgb(51,51,51)  (inherited from body) */</code></pre>
+
+        <div class="callout callout-warn">
+          <span class="callout-icon">⚠️</span>
+          <div class="callout-body">
+            <strong>CSS is render-blocking by design</strong>
+            The browser will not render a single pixel until all CSS is downloaded and the CSSOM is complete. If a CSS file is slow, the user sees a blank screen. This is why CSS performance matters: keep stylesheets small, eliminate unused CSS, and use <code>media</code> attributes to mark print/non-screen stylesheets as non-blocking.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 2.3 Render Tree, Layout & Paint -->
+      <article class="lesson" id="lesson-2-3">
+        <div class="lesson-header">
+          <span class="lesson-num">2.3</span>
+          <h2>Render Tree, Layout &amp; Paint</h2>
+        </div>
+
+        <p>Once both the DOM and CSSOM are ready, the browser merges them into the <strong>Render Tree</strong>. Only visible nodes make it in — <code>display: none</code> elements are excluded entirely (unlike <code>visibility: hidden</code>, which stays in the tree but is transparent).</p>
+
+        <pre class="diagram">DOM                  CSSOM rule          Render Tree
+───────              ──────────          ───────────
+&lt;html&gt;               display:block  ──►  RenderBlock (html)
+  &lt;body&gt;             display:block  ──►  RenderBlock (body)
+    &lt;h1&gt;             display:block  ──►  RenderBlock (h1)
+    &lt;span&gt;           display:none   ──►  (excluded — invisible)
+    &lt;p&gt;              display:block  ──►  RenderBlock (p)</pre>
+
+        <p><strong>Layout (Reflow)</strong> — calculate exact pixel position and size for every render tree node:</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Action</th><th>Why it triggers reflow</th></tr></thead>
+            <tbody>
+              <tr><td>Change <code>width</code>, <code>height</code>, <code>padding</code>, <code>margin</code></td><td>Box dimensions change — everything downstream re-calculates</td></tr>
+              <tr><td>Change <code>font-size</code></td><td>Text reflows — line breaks change, everything shifts</td></tr>
+              <tr><td>Add or remove a DOM element</td><td>Surrounding elements may shift position</td></tr>
+              <tr><td>Read <code>offsetWidth</code> or <code>getBoundingClientRect()</code></td><td>Browser must finish layout to give you the correct value</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p><strong>Paint</strong> fills in the pixels. <strong>Composite</strong> stacks GPU layers and sends the final image to the screen. The key insight: properties that only affect appearance (not position/size) skip layout. Properties that only animate via GPU skip both layout and paint.</p>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Property changed</th><th>Layout</th><th>Paint</th><th>Composite</th><th>Cost</th></tr></thead>
+            <tbody>
+              <tr><td><code>width</code> / <code>margin</code> / <code>font-size</code></td><td>✓</td><td>✓</td><td>✓</td><td>Highest</td></tr>
+              <tr><td><code>color</code> / <code>background</code> / <code>border-color</code></td><td>—</td><td>✓</td><td>✓</td><td>Medium</td></tr>
+              <tr><td><code>transform</code> / <code>opacity</code></td><td>—</td><td>—</td><td>✓</td><td>Lowest (GPU only)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre><code class="language-css">/* JANKY — triggers layout on every animation frame */
+@keyframes slide-bad {
+  from { left: 0; }
+  to   { left: 300px; }
+}
+
+/* SMOOTH — only triggers composite, handled entirely by GPU */
+@keyframes slide-good {
+  from { transform: translateX(0); }
+  to   { transform: translateX(300px); }
+}
+
+/* Hint: promote to GPU layer before animation starts (avoids mid-animation promotion) */
+.card { will-change: transform; }</code></pre>
+      </article>
+
+
+      <!-- 2.4 The JavaScript Engine -->
+      <article class="lesson" id="lesson-2-4">
+        <div class="lesson-header">
+          <span class="lesson-num">2.4</span>
+          <h2>The JavaScript Engine</h2>
+        </div>
+
+        <p>Chrome, Node.js, and Edge use <strong>V8</strong>. Firefox uses SpiderMonkey. Safari uses JavaScriptCore. They all implement the same ECMAScript specification but differ in how they compile and optimize code.</p>
+
+        <p><strong>V8's execution pipeline:</strong></p>
+
+        <pre class="diagram">Your JS source code
+        │
+        ▼  Parser
+AST (Abstract Syntax Tree)
+        │
+        ▼  Ignition (interpreter)
+Bytecode  ─────────────────────────────────► Execute immediately
+        │
+        │  "Hot" code detected (called many times)
+        ▼  TurboFan (JIT compiler)
+Optimized machine code  ─────────────────► Execute much faster
+        │
+        │  Assumption violated (e.g. variable type changed)
+        ▼  Deoptimize
+Back to bytecode interpreter</pre>
+
+        <p><strong>Execution contexts and the scope chain</strong> — every function call creates a new context:</p>
+
+        <pre><code class="language-javascript">const x = 1;               // global scope
+
+function outer() {
+  const x = 2;             // outer's scope
+  function inner() {
+    const x = 3;           // inner's own scope
+    console.log(x);        // 3 — found in own scope first
+  }
+  inner();
+  console.log(x);          // 2 — inner's x not visible here
+}
+
+outer();
+console.log(x);            // 1 — global
+// Lookup chain: own scope → parent scope → ... → global scope → ReferenceError</code></pre>
+
+        <p><strong>Closures</strong> — a function remembers the scope it was defined in, even after that scope's execution context has exited:</p>
+
+        <pre><code class="language-javascript">function makeCounter() {
+  let count = 0;           // lives on the heap (not the stack)
+
+  return {
+    increment() { count++; },
+    value()     { return count; }
+  };
+}
+
+const counter = makeCounter();   // makeCounter()'s context is gone
+counter.increment();
+counter.increment();
+counter.value();   // 2 — count is still alive because the returned
+                   // object holds a reference (a closure) to it</code></pre>
+
+        <p><strong>Hoisting</strong> — declarations are processed before any code runs:</p>
+
+        <pre><code class="language-javascript">// Function declarations: fully hoisted — callable before the definition line
+sayHi();                         // works fine
+function sayHi() { console.log("Hi"); }
+
+// const / let: hoisted but NOT initialized — Temporal Dead Zone
+console.log(name);               // ReferenceError: Cannot access before initialization
+const name = "Alice";</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div class="callout-body">
+            <strong>Help V8 optimize your code</strong>
+            V8 optimizes based on type assumptions. If a function always receives a number, TurboFan compiles a fast numeric version. If you later pass a string, it deoptimizes. Write functions that consistently receive the same types of arguments — avoid mixing types in the same variable.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 2.5 The Event Loop -->
+      <article class="lesson" id="lesson-2-5">
+        <div class="lesson-header">
+          <span class="lesson-num">2.5</span>
+          <h2>The Event Loop</h2>
+        </div>
+
+        <p>The event loop is <strong>the mechanism that makes async JavaScript possible</strong> without threads. Understanding it means you can predict exactly when any piece of code will run.</p>
+
+        <pre class="diagram">┌──────────────────┐    ┌────────────────────────────────────────┐
+│   Call Stack     │    │          Heap (Memory)                  │
+│                  │    │  Objects, closures, allocated data       │
+│  main()          │    └────────────────────────────────────────┘
+│  loadData()      │
+│  await (paused)  │    ┌────────────────────────────────────────┐
+└────────┬─────────┘    │        Web APIs (Browser)               │
+         │              │  setTimeout · fetch · DOM events         │
+         │              │  Run OUTSIDE the JS call stack           │
+         │              └──────────────┬─────────────────────────┘
+         │                             │  when done →
+         │              ┌──────────────▼─────────────────────────┐
+         │              │       Microtask Queue                   │
+         │              │  Promise .then · async/await resume     │
+         │              │  DRAINS COMPLETELY before next render   │
+         │              └────────────────────────────────────────┘
+         │
+         │              ┌────────────────────────────────────────┐
+         └──────────────│       Macrotask Queue                  │
+                        │  setTimeout · setInterval · I/O events  │
+                        │  ONE task picked per event loop cycle   │
+                        └────────────────────────────────────────┘
+
+Event Loop algorithm (repeats forever):
+  1. Run call stack to completion (current synchronous code)
+  2. Drain ALL microtasks (every Promise .then queued so far)
+  3. Render frame (if browser decides a repaint is due)
+  4. Pick ONE macrotask from the queue
+  5. Go to step 1</pre>
+
+        <p><strong>Proof with code — predict the output before running it:</strong></p>
+
+        <pre><code class="language-javascript">console.log('A');                           // synchronous → Call Stack
+
+setTimeout(() =&gt; console.log('B'), 0);     // macrotask queue (even at 0ms)
+
+Promise.resolve()
+  .then(() =&gt; console.log('C'));            // microtask queue
+
+console.log('D');                           // synchronous → Call Stack
+
+// Output order:  A  D  C  B
+//
+// Step 1: A and D run — they are synchronous, on the call stack
+// Step 2: microtasks drain — C runs (Promise .then)
+// Step 3: no render needed
+// Step 4: one macrotask — B runs (setTimeout)</code></pre>
+
+        <p><strong>Why async/await doesn't block:</strong></p>
+
+        <pre><code class="language-javascript">async function load() {
+  console.log('start');                   // synchronous — runs now
+  const data = await fetch('/api');       // suspends load(), returns to caller
+  console.log('done');                    // resumes here via microtask queue
+}
+
+load();
+console.log('after call');               // runs while load() is suspended
+
+// Output:  start → after call → done
+//
+// await = "push the rest of this function into the microtask queue,
+//          then give control back to whoever called me"</code></pre>
+
+        <div class="callout callout-key">
+          <span class="callout-icon">🔑</span>
+          <div class="callout-body">
+            <strong>Microtasks vs Macrotasks</strong>
+            Promises use the microtask queue, which drains <em>completely</em> before the next render or the next setTimeout. This means: chaining ten <code>.then()</code> calls will run all ten before any <code>setTimeout</code> fires — and before the browser gets a chance to repaint. Don't do expensive work in Promise chains without yielding to the event loop occasionally.
+          </div>
+        </div>
+      </article>
+
+
+      <!-- 2.6 Memory & Performance -->
+      <article class="lesson" id="lesson-2-6">
+        <div class="lesson-header">
+          <span class="lesson-num">2.6</span>
+          <h2>Memory, Leaks &amp; Performance</h2>
+        </div>
+
+        <p>V8 uses <strong>mark-and-sweep garbage collection</strong>. Starting from "roots" (global scope, call stack, active closures), it follows every reference and marks reachable objects. Everything unreached is swept — freed. Objects are only collected when nothing references them.</p>
+
+        <p><strong>Common memory leaks — unintentional references that keep objects alive:</strong></p>
+
+        <pre><code class="language-javascript">// Leak 1: accidental global variable
+function process() {
+  result = "oops";   // missing const/let → becomes window.result → never collected
+}
+
+// Leak 2: event listener on a removed element
+const el = document.querySelector('.modal');
+el.addEventListener('click', heavyHandler);
+el.remove();
+// el is gone from the DOM but heavyHandler holds a reference → not collected
+
+// Fix: use AbortController to remove all listeners at once
+const controller = new AbortController();
+el.addEventListener('click', handler, { signal: controller.signal });
+controller.abort();   // removes all listeners attached with this signal
+
+// Leak 3: closure holding large data unnecessarily
+function setup() {
+  const bigArray = new Array(100000).fill('data');
+  return () =&gt; bigArray.length;   // bigArray can never be freed
+}</code></pre>
+
+        <p><strong>Layout thrashing</strong> — the most common performance mistake in DOM manipulation:</p>
+
+        <pre><code class="language-javascript">// BAD: interleaves reads and writes → forces full reflow each iteration
+elements.forEach(el =&gt; {
+  const h = el.offsetHeight;          // READ → forces layout to finish
+  el.style.height = h + 10 + 'px';   // WRITE → invalidates layout
+});
+// 100 elements = 100 forced reflows
+
+// GOOD: batch all reads first, then all writes
+const heights = elements.map(el =&gt; el.offsetHeight);   // all reads
+elements.forEach((el, i) =&gt; {
+  el.style.height = heights[i] + 10 + 'px';             // all writes
+});
+// 1 reflow total</code></pre>
+
+        <p><strong>requestAnimationFrame</strong> — the right tool for smooth animations:</p>
+
+        <pre><code class="language-javascript">// BAD: setInterval is not synced to screen refresh
+setInterval(() =&gt; moveBox(), 16);
+
+// GOOD: rAF is called exactly once per frame, synced to display refresh rate
+const startTime = performance.now();
+
+function animate(timestamp) {
+  const elapsed = timestamp - startTime;
+  box.style.transform = `translateX(${elapsed * 0.2}px)`;
+
+  if (elapsed &lt; 2000) {
+    requestAnimationFrame(animate);   // schedule next frame
+  }
+}
+
+requestAnimationFrame(animate);</code></pre>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">✅</span>
+          <div class="callout-body">
+            <strong>Phase 2 exercises — use DevTools for all of these</strong>
+            <ol style="margin-top:.5rem; padding-left:1.2rem;">
+              <li>Open DevTools → Performance → record a page load. Identify HTML parse, layout, and paint events.</li>
+              <li>Open DevTools → Memory → take a heap snapshot. Find the largest retained objects.</li>
+              <li>Paste the event-loop example (<code>A D C B</code>) into Console and verify the output order.</li>
+              <li>Write a <code>makeCounter()</code> function using closures with <code>increment()</code>, <code>decrement()</code>, and <code>value()</code> methods.</li>
+              <li>Fix this layout-thrash: <code>els.forEach(el =&gt; &#123; el.style.width = el.offsetWidth + 'px'; &#125;)</code></li>
+            </ol>
+          </div>
+        </div>
+      </article>
+
+    </div><!-- /page-phase2 -->
 
     <div class="page" id="page-phase3">
       <div class="coming-soon">
