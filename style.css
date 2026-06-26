@@ -873,6 +873,25 @@ td code { font-size: .8em; }
   border-radius: 20px;
 }
 
+/* ── Phase 7 Mind-Map ──────────────────────────────────────────── */
+
+.rm-mindmap-wrap {
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow-x: auto;
+  margin: 0 0 48px;
+  padding: 12px;
+  scroll-margin-top: calc(var(--topbar-h) + 20px);
+}
+
+.rm-mindmap-svg {
+  width: 100%;
+  min-width: 700px;
+  height: auto;
+  display: block;
+}
+
 /* ── Phase 7 Roadmap ───────────────────────────────────────────── */
 
 .rm-section-label {

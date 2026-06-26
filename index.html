@@ -184,8 +184,7 @@
       </div>
     </button>
     <div class="lesson-nav" id="lessons-page-phase7">
-      <a href="#rm-journey" class="lesson-link">Your Journey</a>
-      <a href="#rm-tracks" class="lesson-link">What's Next</a>
+      <a href="#rm-mindmap" class="lesson-link">Mind Map</a>
       <a href="#rm-stack" class="lesson-link">The Pro Stack</a>
     </div>
   </nav>
@@ -3869,189 +3868,196 @@ app.use(cors({
       </div>
 
 
-      <!-- ── Your Journey ──────────────────────────────────── -->
-      <div class="rm-section-label" id="rm-journey">Your Journey — 7 Phases Completed</div>
+      <p>Every topic you covered and every path that branches from it — laid out as one connected map. Left side is the course. Right side is what comes next.</p>
 
-      <div class="rm-course-path">
-        <!-- Row 1: Phase 0–3 -->
-        <div class="rm-row">
-          <div class="rm-phase-card">
-            <div class="rm-phase-num">0</div>
-            <div class="rm-phase-name">The Web</div>
-            <div class="rm-phase-sub">HTTP · DNS · Browsers · Servers</div>
-          </div>
-          <div class="rm-h-arrow"></div>
-          <div class="rm-phase-card">
-            <div class="rm-phase-num">1</div>
-            <div class="rm-phase-name">HTML &amp; CSS</div>
-            <div class="rm-phase-sub">Structure · Flexbox · Grid</div>
-          </div>
-          <div class="rm-h-arrow"></div>
-          <div class="rm-phase-card">
-            <div class="rm-phase-num">2</div>
-            <div class="rm-phase-name">JavaScript</div>
-            <div class="rm-phase-sub">DOM · Events · Async/Await</div>
-          </div>
-          <div class="rm-h-arrow"></div>
-          <div class="rm-phase-card">
-            <div class="rm-phase-num">3</div>
-            <div class="rm-phase-name">Networking</div>
-            <div class="rm-phase-sub">HTTP APIs · REST · CORS</div>
-          </div>
-        </div>
+      <!-- ── Mind-Map ───────────────────────────────────────── -->
+      <div class="rm-mindmap-wrap" id="rm-mindmap">
+        <svg viewBox="-15 -10 1110 740" xmlns="http://www.w3.org/2000/svg" class="rm-mindmap-svg">
 
-        <!-- Turn connector: row 1 → row 2 -->
-        <div class="rm-row-connector">
-          <div class="rm-connector-line rm-conn-right"></div>
-          <div class="rm-connector-down"></div>
-          <div class="rm-connector-line rm-conn-left"></div>
-        </div>
+          <!-- ══ CENTER NODE ═══════════════════════════════════════ -->
+          <rect x="450" y="330" width="160" height="62" rx="12"
+                fill="#1e293b" stroke="#475569" stroke-width="2"/>
+          <text x="530" y="352" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700" fill="#f1f5f9">Full-Stack</text>
+          <text x="530" y="370" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="700" fill="#f1f5f9">Web Dev</text>
+          <text x="530" y="385" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="8.5" fill="#64748b">Phases 0 – 6  ✓  Complete</text>
 
-        <!-- Row 2: Phase 4–6 (left-aligned, mirrors row 1 start) -->
-        <div class="rm-row">
-          <div class="rm-phase-card">
-            <div class="rm-phase-num">4</div>
-            <div class="rm-phase-name">Backend</div>
-            <div class="rm-phase-sub">Node.js · Express · SQL · JWT</div>
-          </div>
-          <div class="rm-h-arrow"></div>
-          <div class="rm-phase-card">
-            <div class="rm-phase-num">5</div>
-            <div class="rm-phase-name">Full Stack</div>
-            <div class="rm-phase-sub">Integration · State · Debug</div>
-          </div>
-          <div class="rm-h-arrow"></div>
-          <div class="rm-phase-card rm-phase-end">
-            <div class="rm-phase-num">6</div>
-            <div class="rm-phase-name">Deployment</div>
-            <div class="rm-phase-sub">Vercel · Railway · HTTPS · DNS</div>
-          </div>
-          <div class="rm-finish">
-            <span class="rm-finish-label">You are here</span>
-            <span class="rm-finish-icon">🏁</span>
-          </div>
-        </div>
-      </div>
+          <!-- ══ LEFT SIDE — THE COURSE ════════════════════════════ -->
 
+          <!-- ─ BRANCH A: Web Foundations · purple ──────────────── -->
+          <path d="M450,348 C385,338 360,112 285,112" fill="none" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M285,112 C232,112 192,55 145,55"   fill="none" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M285,112 C232,112 192,88 145,88"   fill="none" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M285,112 C232,112 192,121 145,121" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M285,112 C232,112 192,154 145,154" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- endpoint dots -->
+          <circle cx="145" cy="55"  r="4.5" fill="#c084fc"/>
+          <circle cx="145" cy="88"  r="4.5" fill="#c084fc"/>
+          <circle cx="145" cy="121" r="4.5" fill="#c084fc"/>
+          <circle cx="145" cy="154" r="4.5" fill="#c084fc"/>
+          <!-- junction circle -->
+          <circle cx="285" cy="112" r="7" fill="#1e293b" stroke="#c084fc" stroke-width="2"/>
+          <!-- branch label -->
+          <text x="278" y="97"  text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#c084fc">Web Foundations</text>
+          <text x="278" y="109" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Phases 0 – 3</text>
+          <!-- sub labels -->
+          <text x="138" y="52"  text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Phase 0: The Web</text>
+          <text x="138" y="64"  text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">HTTP · DNS · Browsers</text>
+          <text x="138" y="85"  text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Phase 1: HTML &amp; CSS</text>
+          <text x="138" y="97"  text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Flexbox · Grid · Responsive</text>
+          <text x="138" y="118" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Phase 2: JavaScript</text>
+          <text x="138" y="130" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">DOM · Events · Async/Await</text>
+          <text x="138" y="151" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Phase 3: Networking</text>
+          <text x="138" y="163" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">REST · CORS · HTTP APIs</text>
 
-      <!-- ── What's Next ────────────────────────────────────── -->
-      <div class="rm-section-label" id="rm-tracks">What to Learn Next — Choose Your Path</div>
+          <!-- ─ BRANCH B: Backend · orange ───────────────────────── -->
+          <path d="M450,354 C388,354 348,270 265,270" fill="none" stroke="#fb923c" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M265,270 C217,270 183,208 135,208" fill="none" stroke="#fb923c" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M265,270 C217,270 183,243 135,243" fill="none" stroke="#fb923c" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M265,270 C217,270 183,278 135,278" fill="none" stroke="#fb923c" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M265,270 C217,270 183,313 135,313" fill="none" stroke="#fb923c" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="135" cy="208" r="4.5" fill="#fb923c"/>
+          <circle cx="135" cy="243" r="4.5" fill="#fb923c"/>
+          <circle cx="135" cy="278" r="4.5" fill="#fb923c"/>
+          <circle cx="135" cy="313" r="4.5" fill="#fb923c"/>
+          <circle cx="265" cy="270" r="7" fill="#1e293b" stroke="#fb923c" stroke-width="2"/>
+          <text x="258" y="255" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#fb923c">Backend</text>
+          <text x="258" y="267" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Phase 4</text>
+          <text x="128" y="205" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Node.js</text>
+          <text x="128" y="217" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">JS runtime on the server</text>
+          <text x="128" y="240" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Express.js</text>
+          <text x="128" y="252" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">HTTP routing · REST</text>
+          <text x="128" y="275" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">PostgreSQL</text>
+          <text x="128" y="287" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Relational DB · SQL</text>
+          <text x="128" y="310" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">JWT Auth</text>
+          <text x="128" y="322" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">bcrypt · stateless tokens</text>
 
-      <div class="rm-tracks-grid">
+          <!-- ─ BRANCH C: Full Stack · green ─────────────────────── -->
+          <path d="M450,366 C388,370 343,445 260,445" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M260,445 C213,445 177,388 130,388" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M260,445 C213,445 177,423 130,423" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M260,445 C213,445 177,458 130,458" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M260,445 C213,445 177,493 130,493" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="130" cy="388" r="4.5" fill="#4ade80"/>
+          <circle cx="130" cy="423" r="4.5" fill="#4ade80"/>
+          <circle cx="130" cy="458" r="4.5" fill="#4ade80"/>
+          <circle cx="130" cy="493" r="4.5" fill="#4ade80"/>
+          <circle cx="260" cy="445" r="7" fill="#1e293b" stroke="#4ade80" stroke-width="2"/>
+          <text x="253" y="430" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#4ade80">Full Stack</text>
+          <text x="253" y="442" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Phase 5</text>
+          <text x="123" y="385" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">State → Render</text>
+          <text x="123" y="397" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Core frontend pattern</text>
+          <text x="123" y="420" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">API Integration</text>
+          <text x="123" y="432" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Frontend ↔ backend</text>
+          <text x="123" y="455" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">E2E Error Flow</text>
+          <text x="123" y="467" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">DB → Express → UI</text>
+          <text x="123" y="490" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Full-Stack Debug</text>
+          <text x="123" y="502" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">DevTools · server logs</text>
 
-        <!-- Track 1: Strengthen the Foundation -->
-        <div class="rm-track">
-          <div class="rm-track-head rm-track-head-fe">Frontend Track</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">TypeScript</span>
-              <span class="rm-node-badge rm-badge-now">Start Here</span>
-            </div>
-            <div class="rm-node-desc">Static types for JavaScript. Catches entire classes of bugs before runtime. The industry default for serious frontend projects.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">React</span>
-              <span class="rm-node-badge rm-badge-now">Core</span>
-            </div>
-            <div class="rm-node-desc">Component-based UI. The mental model you built in Phase 5 (state → render) is exactly React — just formalized and optimised.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">Next.js</span>
-              <span class="rm-node-badge rm-badge-soon">After React</span>
-            </div>
-            <div class="rm-node-desc">Full-stack React framework. Server-side rendering, file-based routing, API routes, image optimisation — built for production.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">State Management</span>
-              <span class="rm-node-badge rm-badge-later">When Needed</span>
-            </div>
-            <div class="rm-node-desc">Zustand (simple), Redux Toolkit (complex). You will only need these when component state becomes hard to coordinate across the tree.</div>
-          </div>
-        </div>
+          <!-- ─ BRANCH D: Deployment · sky ───────────────────────── -->
+          <path d="M450,372 C388,382 358,590 285,590" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M285,590 C233,590 193,538 145,538" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M285,590 C233,590 193,573 145,573" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M285,590 C233,590 193,608 145,608" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M285,590 C233,590 193,643 145,643" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="145" cy="538" r="4.5" fill="#38bdf8"/>
+          <circle cx="145" cy="573" r="4.5" fill="#38bdf8"/>
+          <circle cx="145" cy="608" r="4.5" fill="#38bdf8"/>
+          <circle cx="145" cy="643" r="4.5" fill="#38bdf8"/>
+          <circle cx="285" cy="590" r="7" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+          <text x="278" y="575" text-anchor="end" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#38bdf8">Deployment</text>
+          <text x="278" y="587" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Phase 6</text>
+          <text x="138" y="535" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Vercel</text>
+          <text x="138" y="547" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Frontend hosting</text>
+          <text x="138" y="570" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Railway</text>
+          <text x="138" y="582" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Backend + database</text>
+          <text x="138" y="605" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">HTTPS &amp; TLS</text>
+          <text x="138" y="617" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Auto-certificates</text>
+          <text x="138" y="640" text-anchor="end" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">DNS &amp; Domains</text>
+          <text x="138" y="652" text-anchor="end" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Custom domain setup</text>
 
-        <!-- Track 2: Backend -->
-        <div class="rm-track">
-          <div class="rm-track-head rm-track-head-be">Backend Track</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">Prisma</span>
-              <span class="rm-node-badge rm-badge-now">Start Here</span>
-            </div>
-            <div class="rm-node-desc">Type-safe ORM that replaces raw SQL with auto-completed queries and handles migrations automatically. Works with PostgreSQL.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">Redis</span>
-              <span class="rm-node-badge rm-badge-soon">Next</span>
-            </div>
-            <div class="rm-node-desc">In-memory data store. Used for caching expensive DB queries, rate limiting, session storage, and real-time pub/sub messaging.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">GraphQL</span>
-              <span class="rm-node-badge rm-badge-later">Advanced</span>
-            </div>
-            <div class="rm-node-desc">Query language for APIs. Clients request exactly the fields they need — eliminates over-fetching and under-fetching. Built on the REST mental model you already have.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">Microservices</span>
-              <span class="rm-node-badge rm-badge-later">Expert</span>
-            </div>
-            <div class="rm-node-desc">Split a monolith into independently deployable services that communicate via HTTP or message queues. Learn monoliths first — split only when scale demands it.</div>
-          </div>
-        </div>
+          <!-- ══ RIGHT SIDE — WHAT'S NEXT ══════════════════════════ -->
 
-        <!-- Track 3: DevOps -->
-        <div class="rm-track">
-          <div class="rm-track-head rm-track-head-ops">DevOps Track</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">Docker</span>
-              <span class="rm-node-badge rm-badge-now">Start Here</span>
-            </div>
-            <div class="rm-node-desc">Package your app and its runtime into a container. Eliminates "works on my machine" — the same image runs on your laptop and in production.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">GitHub Actions</span>
-              <span class="rm-node-badge rm-badge-now">CI / CD</span>
-            </div>
-            <div class="rm-node-desc">Run tests, linting, and deployment automatically on every pull request. Entry point to CI/CD. Write a workflow YAML file — GitHub runs it for free.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">AWS / GCP / Azure</span>
-              <span class="rm-node-badge rm-badge-soon">Cloud</span>
-            </div>
-            <div class="rm-node-desc">The three major cloud platforms. Start with AWS: EC2 (VMs), S3 (storage), RDS (managed PostgreSQL), Lambda (serverless functions). Everything else builds on these primitives.</div>
-          </div>
-          <div class="rm-track-arrow">↓</div>
-          <div class="rm-track-node">
-            <div class="rm-node-top">
-              <span class="rm-node-name">Kubernetes</span>
-              <span class="rm-node-badge rm-badge-later">Expert</span>
-            </div>
-            <div class="rm-node-desc">Orchestrates containers at scale: auto-scaling, rolling deploys, self-healing. Used at companies running hundreds of services. Learn Docker thoroughly first.</div>
-          </div>
-        </div>
+          <!-- ─ BRANCH E: Frontend Track · indigo ────────────────── -->
+          <path d="M610,348 C672,338 722,145 778,145" fill="none" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M778,145 C828,145 873,65  952,65"  fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,145 C828,145 873,100 952,100" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,145 C828,145 873,135 952,135" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,145 C828,145 873,170 952,170" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,145 C828,145 873,205 952,205" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="952" cy="65"  r="4.5" fill="#818cf8"/>
+          <circle cx="952" cy="100" r="4.5" fill="#818cf8"/>
+          <circle cx="952" cy="135" r="4.5" fill="#818cf8"/>
+          <circle cx="952" cy="170" r="4.5" fill="#818cf8"/>
+          <circle cx="952" cy="205" r="4.5" fill="#818cf8"/>
+          <circle cx="778" cy="145" r="7" fill="#1e293b" stroke="#818cf8" stroke-width="2"/>
+          <text x="785" y="130" text-anchor="start" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#818cf8">Frontend Track</text>
+          <text x="785" y="142" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">What to learn next</text>
+          <text x="960" y="62"  text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">TypeScript</text>
+          <text x="960" y="74"  text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Static types for JS</text>
+          <text x="960" y="97"  text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">React</text>
+          <text x="960" y="109" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Component-based UI</text>
+          <text x="960" y="132" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Next.js</text>
+          <text x="960" y="144" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Full-stack React</text>
+          <text x="960" y="167" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">State Mgmt</text>
+          <text x="960" y="179" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Zustand · Redux</text>
+          <text x="960" y="202" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Testing</text>
+          <text x="960" y="214" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Jest · Vitest · Cypress</text>
 
-      </div><!-- /rm-tracks-grid -->
+          <!-- ─ BRANCH F: Backend Track · amber ──────────────────── -->
+          <path d="M610,360 C672,360 748,360 793,360" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M793,360 C843,360 887,295 960,295" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M793,360 C843,360 887,330 960,330" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M793,360 C843,360 887,365 960,365" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M793,360 C843,360 887,400 960,400" fill="none" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="960" cy="295" r="4.5" fill="#fbbf24"/>
+          <circle cx="960" cy="330" r="4.5" fill="#fbbf24"/>
+          <circle cx="960" cy="365" r="4.5" fill="#fbbf24"/>
+          <circle cx="960" cy="400" r="4.5" fill="#fbbf24"/>
+          <circle cx="793" cy="360" r="7" fill="#1e293b" stroke="#fbbf24" stroke-width="2"/>
+          <text x="800" y="345" text-anchor="start" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#fbbf24">Backend Track</text>
+          <text x="800" y="357" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Scale the server side</text>
+          <text x="968" y="292" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Prisma ORM</text>
+          <text x="968" y="304" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Type-safe DB queries</text>
+          <text x="968" y="327" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Redis</text>
+          <text x="968" y="339" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Cache · rate limiting</text>
+          <text x="968" y="362" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">GraphQL</text>
+          <text x="968" y="374" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Flexible API queries</text>
+          <text x="968" y="397" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Microservices</text>
+          <text x="968" y="409" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Distributed systems</text>
 
+          <!-- ─ BRANCH G: DevOps Track · cyan ────────────────────── -->
+          <path d="M610,372 C672,382 722,565 778,565" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M778,565 C828,565 873,495 952,495" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,565 C828,565 873,530 952,530" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,565 C828,565 873,565 952,565" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M778,565 C828,565 873,600 952,600" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="952" cy="495" r="4.5" fill="#22d3ee"/>
+          <circle cx="952" cy="530" r="4.5" fill="#22d3ee"/>
+          <circle cx="952" cy="565" r="4.5" fill="#22d3ee"/>
+          <circle cx="952" cy="600" r="4.5" fill="#22d3ee"/>
+          <circle cx="778" cy="565" r="7" fill="#1e293b" stroke="#22d3ee" stroke-width="2"/>
+          <text x="785" y="550" text-anchor="start" font-family="Inter,sans-serif" font-size="11.5" font-weight="700" fill="#22d3ee">DevOps Track</text>
+          <text x="785" y="562" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Infra &amp; automation</text>
+          <text x="960" y="492" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Docker</text>
+          <text x="960" y="504" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Containerization</text>
+          <text x="960" y="527" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">GitHub Actions</text>
+          <text x="960" y="539" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">CI/CD pipelines</text>
+          <text x="960" y="562" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">AWS / GCP</text>
+          <text x="960" y="574" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Cloud platforms</text>
+          <text x="960" y="597" text-anchor="start" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#f1f5f9">Kubernetes</text>
+          <text x="960" y="609" text-anchor="start" font-family="Inter,sans-serif" font-size="8.5"  fill="#94a3b8">Container orchestration</text>
+
+          <!-- ══ LEGEND ══════════════════════════════════════════════ -->
+          <circle cx="340" cy="695" r="5" fill="#4ade80"/>
+          <text x="350" y="699" text-anchor="start" font-family="Inter,sans-serif" font-size="9" fill="#64748b">Completed in this course</text>
+          <circle cx="558" cy="695" r="5" fill="#818cf8"/>
+          <text x="568" y="699" text-anchor="start" font-family="Inter,sans-serif" font-size="9" fill="#64748b">What to learn next</text>
+
+        </svg>
+      </div><!-- /rm-mindmap-wrap -->
 
       <!-- ── The Professional Stack ─────────────────────────── -->
-      <div class="rm-section-label" id="rm-stack">The Professional Stack — What a Real App Looks Like</div>
+      <div class="rm-section-label" id="rm-stack">The Professional Stack — A Real Production App</div>
 
       <div class="rm-pro-stack">
 
@@ -4076,9 +4082,9 @@ app.use(cors({
         <div class="rm-stack-row">
           <div class="rm-stack-layer-label">API Layer</div>
           <div class="rm-stack-layer-content">
-            <span class="rm-tech rm-tech-be">Express.js</span>
             <span class="rm-tech rm-tech-be">Fastify</span>
             <span class="rm-tech rm-tech-be">GraphQL</span>
+            <span class="rm-tech rm-tech-done">Express.js ✓</span>
             <span class="rm-tech rm-tech-done">REST ✓</span>
             <span class="rm-tech rm-tech-done">JWT Auth ✓</span>
             <span class="rm-tech rm-tech-done">CORS ✓</span>
@@ -4087,7 +4093,7 @@ app.use(cors({
 
         <div class="rm-stack-divider">
           <span class="rm-stack-divider-arrow">↕</span>
-          <span class="rm-stack-divider-label">SQL queries · Connection pools · Transactions</span>
+          <span class="rm-stack-divider-label">SQL queries · connection pools · transactions</span>
           <span class="rm-stack-divider-arrow">↕</span>
         </div>
 
@@ -4108,7 +4114,7 @@ app.use(cors({
         </div>
 
         <div class="rm-stack-row">
-          <div class="rm-stack-layer-label">Infra / DevOps</div>
+          <div class="rm-stack-layer-label">Infra</div>
           <div class="rm-stack-layer-content">
             <span class="rm-tech rm-tech-ops">Docker</span>
             <span class="rm-tech rm-tech-ops">GitHub Actions</span>
@@ -4124,7 +4130,7 @@ app.use(cors({
       <div class="callout callout-key">
         <span class="callout-icon">🔑</span>
         <div class="callout-body">
-          <strong>Every technology above builds on exactly what you learned in this course.</strong><br>
+          <strong>Every technology in that map builds on exactly what you learned here.</strong><br>
           React formalises the state → render pattern from Phase 5.<br>
           Prisma builds on the SQL queries from Phase 4.<br>
           Docker packages the Node.js process you already know how to run.<br>
@@ -4132,6 +4138,7 @@ app.use(cors({
           You have the foundation. Everything else is a layer on top.
         </div>
       </div>
+
 
     </div><!-- /page-phase7 -->
 
