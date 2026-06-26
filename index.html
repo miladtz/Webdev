@@ -174,12 +174,26 @@
       <a href="#lesson-6-4" class="lesson-link">6.4 Domain &amp; HTTPS</a>
       <a href="#lesson-6-5" class="lesson-link">6.5 Production Checklist</a>
     </div>
+
+    <!-- Phase 7 -->
+    <button class="phase-btn done" data-page="page-phase7">
+      <span class="phase-num">7</span>
+      <div class="phase-info">
+        <span class="phase-name">Roadmap</span>
+        <span class="phase-status status-done">✓ Complete</span>
+      </div>
+    </button>
+    <div class="lesson-nav" id="lessons-page-phase7">
+      <a href="#rm-journey" class="lesson-link">Your Journey</a>
+      <a href="#rm-tracks" class="lesson-link">What's Next</a>
+      <a href="#rm-stack" class="lesson-link">The Pro Stack</a>
+    </div>
   </nav>
 
   <div class="sidebar-footer">
     <div class="progress-header">
       <span>Course Progress</span>
-      <span>7 / 7 phases</span>
+      <span>8 / 8 phases</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill" style="width: 100%"></div>
@@ -202,7 +216,7 @@
       <span class="bc-current" id="bc-current">Roadmap</span>
     </div>
     <div class="topbar-right">
-      <span class="lesson-badge-chip" id="lesson-count">7 phases · 12 weeks</span>
+      <span class="lesson-badge-chip" id="lesson-count">8 phases · 12 weeks</span>
     </div>
   </header>
 
@@ -373,6 +387,26 @@
           </div>
           <div class="card-footer">
             <span class="card-time">📅 Weeks 11–12 · 5 lessons</span>
+            <span class="card-arrow">Open →</span>
+          </div>
+        </div>
+
+        <!-- Phase 7 -->
+        <div class="phase-card done" data-page="page-phase7" style="--card-color:#38bdf8">
+          <div class="card-top">
+            <span class="card-num">7</span>
+            <span class="c-badge c-badge-done">✓ Complete</span>
+          </div>
+          <div class="card-title">Roadmap</div>
+          <div class="card-desc">The big picture: your full learning journey visualised, and every path forward from here.</div>
+          <div class="card-topics">
+            <span class="tag">Journey</span>
+            <span class="tag">Frontend Track</span>
+            <span class="tag">Backend Track</span>
+            <span class="tag">DevOps Track</span>
+          </div>
+          <div class="card-footer">
+            <span class="card-time">🗺️ Your next steps</span>
             <span class="card-arrow">Open →</span>
           </div>
         </div>
@@ -3069,7 +3103,6 @@ const port = process.env.PORT || 3000;</code></pre>
       </article>
 
     </div><!-- /page-phase4 -->
-    </div>
 
     <div class="page" id="page-phase5">
 
@@ -3547,32 +3580,66 @@ User sees: "That email is already taken"</pre>
           <h2>Deploying the Frontend on Vercel</h2>
         </div>
 
-        <ol class="steps">
-          <li><strong>Push your frontend folder to GitHub.</strong> If your project is just <code>/public</code> with HTML/CSS/JS, push that folder as the root of a repo.</li>
-          <li><strong>Go to vercel.com → "Add New Project" → import your repository.</strong> Vercel auto-detects static sites. If you're using Vite or React it detects the build settings automatically.</li>
-          <li><strong>Click Deploy.</strong> Vercel gives you <code>https://yourproject.vercel.app</code> within seconds.</li>
-          <li><strong>Every <code>git push</code> to <code>main</code> → automatic redeploy.</strong> Every pull request → preview URL.</li>
-        </ol>
+        <p>Vercel is purpose-built for frontend deployments. Push to GitHub once, and every future <code>git push</code> redeploys automatically — no server to manage, no SSH.</p>
 
-        <p><strong>Environment variables on Vercel:</strong></p>
+        <div class="lifecycle">
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">1</div></div>
+            <div class="lc-body lc-browser">
+              <div class="lc-header">
+                <span class="lc-title">Push your frontend to GitHub</span>
+                <span class="lc-where" style="background:rgba(129,140,248,.12);color:var(--accent);border-color:var(--accent-br)">Local → GitHub</span>
+              </div>
+              If your project is just a <code>/public</code> folder with HTML/CSS/JS, push that folder as the root of a new repo. Vercel deploys from GitHub — there is no manual file upload.
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">2</div></div>
+            <div class="lc-body lc-browser">
+              <div class="lc-header">
+                <span class="lc-title">Import the repo on vercel.com</span>
+                <span class="lc-where" style="background:rgba(129,140,248,.12);color:var(--accent);border-color:var(--accent-br)">Vercel Dashboard</span>
+              </div>
+              Go to <strong>vercel.com → Add New Project → import your GitHub repository.</strong> Vercel auto-detects static sites. If you are using Vite or React it also detects the correct build command and output folder automatically.
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">3</div></div>
+            <div class="lc-body lc-browser">
+              <div class="lc-header">
+                <span class="lc-title">Set environment variables</span>
+                <span class="lc-where" style="background:rgba(129,140,248,.12);color:var(--accent);border-color:var(--accent-br)">Settings → Env Vars</span>
+              </div>
+              Before clicking Deploy, go to <strong>Settings → Environment Variables</strong> and add your API URL:
+              <pre class="diagram" style="margin-top:8px;margin-bottom:0">Name:  VITE_API_URL
+Value: https://myapi.railway.app
 
-        <pre class="diagram">Vercel dashboard → your project → Settings → Environment Variables
-
-Add:
-  Name:   VITE_API_URL
-  Value:  https://myapi.railway.app
-  (prefix VITE_ so Vite/React bundles the value into the build)
-
-For plain HTML/JS: hardcode the API URL in a config constant at the top of app.js
-  const API = 'https://myapi.railway.app';</pre>
-
-        <p><strong>SPA fallback — client-side routing fix:</strong></p>
-        <p>If someone navigates directly to <code>https://myapp.vercel.app/posts/42</code>, Vercel looks for a file at that path, finds nothing, and returns 404. Fix it with a rewrite rule:</p>
-
-        <pre><code class="language-json">// vercel.json — place in the root of your frontend repo
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}</code></pre>
+For plain HTML/JS (no build step):
+  const API = 'https://myapi.railway.app';  // hardcode in app.js</pre>
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">4</div></div>
+            <div class="lc-body lc-browser">
+              <div class="lc-header">
+                <span class="lc-title">Click Deploy — you're live</span>
+                <span class="lc-where" style="background:rgba(52,211,153,.12);color:var(--green);border-color:var(--green-br)">Production</span>
+              </div>
+              Vercel gives you <code>https://yourproject.vercel.app</code> within 30 seconds. From now on, every <code>git push</code> to <code>main</code> triggers an automatic redeploy. Every pull request gets its own <strong>preview URL</strong> so you can test changes before merging.
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">5</div></div>
+            <div class="lc-body lc-network">
+              <div class="lc-header">
+                <span class="lc-title">Fix client-side routing (SPA only)</span>
+                <span class="lc-where" style="background:rgba(56,189,248,.1);color:var(--sky);border-color:#0c4a6e">vercel.json</span>
+              </div>
+              If someone navigates directly to <code>/posts/42</code>, Vercel looks for a file at that path, finds nothing, and returns 404. Fix it with a single rewrite rule — add this file to the root of your repo:
+              <pre style="margin-top:8px;margin-bottom:0"><code class="language-json">{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }</code></pre>
+            </div>
+          </div>
+        </div>
 
         <div class="callout callout-tip">
           <span class="callout-icon">✅</span>
@@ -3588,35 +3655,73 @@ For plain HTML/JS: hardcode the API URL in a config constant at the top of app.j
           <h2>Deploying the Backend on Railway</h2>
         </div>
 
-        <ol class="steps">
-          <li><strong>Push your Express app to GitHub.</strong> Make sure <code>package.json</code> has a <code>"start"</code> script: <code>"start": "node src/index.js"</code>.</li>
-          <li><strong>Go to railway.app → "New Project" → "Deploy from GitHub repo".</strong> Select your backend repo. Railway detects Node.js and runs <code>npm install</code> then <code>npm start</code>.</li>
-          <li><strong>Generate a public URL.</strong> Settings → Networking → Generate Domain. You get <code>https://yourapp.railway.app</code>.</li>
-          <li><strong>Add a PostgreSQL database.</strong> Railway dashboard → New → Database → PostgreSQL. Railway automatically injects <code>DATABASE_URL</code> into your service. Your <code>new Pool({ connectionString: process.env.DATABASE_URL })</code> just works.</li>
-          <li><strong>Set environment variables.</strong> Your service → Variables tab. Add every line from your <code>.env</code> file.</li>
-        </ol>
+        <p>Railway runs persistent Node.js processes and provisions a PostgreSQL database with one click — the entire backend stack in a single dashboard.</p>
 
-        <p><strong>Required variables on Railway:</strong></p>
-
-        <pre class="diagram">DATABASE_URL    → set automatically when you add PostgreSQL
-JWT_SECRET      → paste your 32+ character random secret
-NODE_ENV        → production
-FRONTEND_URL    → https://yourapp.vercel.app  (for CORS origin)</pre>
-
-        <p><strong>Your app must listen on Railway's dynamic port:</strong></p>
-
-        <pre><code class="language-javascript">// Railway assigns the port via PORT environment variable — always use it
+        <div class="lifecycle">
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">1</div></div>
+            <div class="lc-body lc-server">
+              <div class="lc-header">
+                <span class="lc-title">Prepare your Express app for production</span>
+                <span class="lc-where" style="background:rgba(251,191,36,.1);color:var(--orange);border-color:#92400e">package.json</span>
+              </div>
+              Make sure <code>package.json</code> has a <code>"start"</code> script and your app reads its port from the environment — Railway injects <code>PORT</code> automatically:
+              <pre style="margin-top:8px;margin-bottom:0"><code class="language-javascript">// Railway assigns the port — always read it from the environment
 const port = process.env.PORT || 3000;
-app.listen(port, () =&gt; console.log(`Listening on :${port}`));</code></pre>
-
-        <p><strong>Run your database migrations on Railway:</strong></p>
-        <p>After your PostgreSQL database is provisioned, open the Railway shell (your service → Shell tab) and run your <code>CREATE TABLE</code> statements, or connect to the database URL from your local machine using <code>psql</code>:</p>
-
-        <pre><code class="language-bash">psql $DATABASE_URL -f schema.sql</code></pre>
+app.listen(port, () => console.log(`Listening on :${port}`));</code></pre>
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">2</div></div>
+            <div class="lc-body lc-server">
+              <div class="lc-header">
+                <span class="lc-title">Deploy from GitHub on railway.app</span>
+                <span class="lc-where" style="background:rgba(251,191,36,.1);color:var(--orange);border-color:#92400e">Railway Dashboard</span>
+              </div>
+              Go to <strong>railway.app → New Project → Deploy from GitHub repo.</strong> Select your backend repo. Railway detects Node.js, runs <code>npm install</code>, then <code>npm start</code>. Logs stream in real time — use them to debug any startup errors.
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">3</div></div>
+            <div class="lc-body lc-network">
+              <div class="lc-header">
+                <span class="lc-title">Generate a public URL</span>
+                <span class="lc-where" style="background:rgba(56,189,248,.1);color:var(--sky);border-color:#0c4a6e">Settings → Networking</span>
+              </div>
+              Your service → <strong>Settings → Networking → Generate Domain.</strong> Railway gives you <code>https://yourapp.railway.app</code>. This is the URL your Vercel frontend will call.
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">4</div></div>
+            <div class="lc-body lc-database">
+              <div class="lc-header">
+                <span class="lc-title">Add a PostgreSQL database</span>
+                <span class="lc-where" style="background:rgba(52,211,153,.1);color:var(--green);border-color:var(--green-br)">New → Database → PostgreSQL</span>
+              </div>
+              Railway dashboard → <strong>New → Database → PostgreSQL.</strong> Railway provisions the database and automatically injects <code>DATABASE_URL</code> into your Node.js service as an environment variable. Your existing <code>new Pool({ connectionString: process.env.DATABASE_URL })</code> just works — no changes needed. Then run your schema:
+              <pre style="margin-top:8px;margin-bottom:0"><code class="language-bash"># From your local machine — connect to the Railway database
+psql $DATABASE_URL -f schema.sql</code></pre>
+            </div>
+          </div>
+          <div class="lc-step">
+            <div class="lc-num-col"><div class="lc-num">5</div></div>
+            <div class="lc-body lc-server">
+              <div class="lc-header">
+                <span class="lc-title">Set all environment variables</span>
+                <span class="lc-where" style="background:rgba(251,191,36,.1);color:var(--orange);border-color:#92400e">Service → Variables</span>
+              </div>
+              Your service → <strong>Variables tab.</strong> Add every line from your local <code>.env</code> file — except <code>DATABASE_URL</code>, which Railway sets automatically:
+              <pre class="diagram" style="margin-top:8px;margin-bottom:0">DATABASE_URL  → auto-injected by Railway (do not set manually)
+JWT_SECRET    → your 32+ character random secret
+NODE_ENV      → production
+FRONTEND_URL  → https://yourapp.vercel.app   (used for CORS origin)</pre>
+            </div>
+          </div>
+        </div>
 
         <div class="callout callout-info">
           <span class="callout-icon">ℹ️</span>
-          <div class="callout-body">Railway auto-redeploys on every <code>git push</code> to <code>main</code>, just like Vercel. Check the deployment logs in the Railway dashboard if something goes wrong — they show your server's stdout/stderr in real time.</div>
+          <div class="callout-body">Railway auto-redeploys on every <code>git push</code> to <code>main</code>, just like Vercel. If something breaks, the deployment logs in the Railway dashboard show your server's stdout/stderr in real time — that is always the first place to look.</div>
         </div>
       </article>
 
@@ -3745,6 +3850,290 @@ app.use(cors({
       </article>
 
     </div><!-- /page-phase6 -->
+
+
+    <!-- ══════════════════════════════════════════════════════
+         PAGE: PHASE 7 — ROADMAP
+         ══════════════════════════════════════════════════════ -->
+    <div class="page" id="page-phase7">
+
+      <div class="phase-hero">
+        <div class="phase-eyebrow">Phase 7</div>
+        <h1>Your Roadmap</h1>
+        <p>The complete picture — where you've been, what you've built, and every path forward. Use this as your permanent reference for what to learn next.</p>
+        <div class="phase-chips">
+          <span class="chip">🗺️ Big Picture</span>
+          <span class="chip">📍 What's Next</span>
+          <span class="chip">✅ Course Complete</span>
+        </div>
+      </div>
+
+
+      <!-- ── Your Journey ──────────────────────────────────── -->
+      <div class="rm-section-label" id="rm-journey">Your Journey — 7 Phases Completed</div>
+
+      <div class="rm-course-path">
+        <!-- Row 1: Phase 0–3 -->
+        <div class="rm-row">
+          <div class="rm-phase-card">
+            <div class="rm-phase-num">0</div>
+            <div class="rm-phase-name">The Web</div>
+            <div class="rm-phase-sub">HTTP · DNS · Browsers · Servers</div>
+          </div>
+          <div class="rm-h-arrow"></div>
+          <div class="rm-phase-card">
+            <div class="rm-phase-num">1</div>
+            <div class="rm-phase-name">HTML &amp; CSS</div>
+            <div class="rm-phase-sub">Structure · Flexbox · Grid</div>
+          </div>
+          <div class="rm-h-arrow"></div>
+          <div class="rm-phase-card">
+            <div class="rm-phase-num">2</div>
+            <div class="rm-phase-name">JavaScript</div>
+            <div class="rm-phase-sub">DOM · Events · Async/Await</div>
+          </div>
+          <div class="rm-h-arrow"></div>
+          <div class="rm-phase-card">
+            <div class="rm-phase-num">3</div>
+            <div class="rm-phase-name">Networking</div>
+            <div class="rm-phase-sub">HTTP APIs · REST · CORS</div>
+          </div>
+        </div>
+
+        <!-- Turn connector: row 1 → row 2 -->
+        <div class="rm-row-connector">
+          <div class="rm-connector-line rm-conn-right"></div>
+          <div class="rm-connector-down"></div>
+          <div class="rm-connector-line rm-conn-left"></div>
+        </div>
+
+        <!-- Row 2: Phase 4–6 (left-aligned, mirrors row 1 start) -->
+        <div class="rm-row">
+          <div class="rm-phase-card">
+            <div class="rm-phase-num">4</div>
+            <div class="rm-phase-name">Backend</div>
+            <div class="rm-phase-sub">Node.js · Express · SQL · JWT</div>
+          </div>
+          <div class="rm-h-arrow"></div>
+          <div class="rm-phase-card">
+            <div class="rm-phase-num">5</div>
+            <div class="rm-phase-name">Full Stack</div>
+            <div class="rm-phase-sub">Integration · State · Debug</div>
+          </div>
+          <div class="rm-h-arrow"></div>
+          <div class="rm-phase-card rm-phase-end">
+            <div class="rm-phase-num">6</div>
+            <div class="rm-phase-name">Deployment</div>
+            <div class="rm-phase-sub">Vercel · Railway · HTTPS · DNS</div>
+          </div>
+          <div class="rm-finish">
+            <span class="rm-finish-label">You are here</span>
+            <span class="rm-finish-icon">🏁</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ── What's Next ────────────────────────────────────── -->
+      <div class="rm-section-label" id="rm-tracks">What to Learn Next — Choose Your Path</div>
+
+      <div class="rm-tracks-grid">
+
+        <!-- Track 1: Strengthen the Foundation -->
+        <div class="rm-track">
+          <div class="rm-track-head rm-track-head-fe">Frontend Track</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">TypeScript</span>
+              <span class="rm-node-badge rm-badge-now">Start Here</span>
+            </div>
+            <div class="rm-node-desc">Static types for JavaScript. Catches entire classes of bugs before runtime. The industry default for serious frontend projects.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">React</span>
+              <span class="rm-node-badge rm-badge-now">Core</span>
+            </div>
+            <div class="rm-node-desc">Component-based UI. The mental model you built in Phase 5 (state → render) is exactly React — just formalized and optimised.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">Next.js</span>
+              <span class="rm-node-badge rm-badge-soon">After React</span>
+            </div>
+            <div class="rm-node-desc">Full-stack React framework. Server-side rendering, file-based routing, API routes, image optimisation — built for production.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">State Management</span>
+              <span class="rm-node-badge rm-badge-later">When Needed</span>
+            </div>
+            <div class="rm-node-desc">Zustand (simple), Redux Toolkit (complex). You will only need these when component state becomes hard to coordinate across the tree.</div>
+          </div>
+        </div>
+
+        <!-- Track 2: Backend -->
+        <div class="rm-track">
+          <div class="rm-track-head rm-track-head-be">Backend Track</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">Prisma</span>
+              <span class="rm-node-badge rm-badge-now">Start Here</span>
+            </div>
+            <div class="rm-node-desc">Type-safe ORM that replaces raw SQL with auto-completed queries and handles migrations automatically. Works with PostgreSQL.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">Redis</span>
+              <span class="rm-node-badge rm-badge-soon">Next</span>
+            </div>
+            <div class="rm-node-desc">In-memory data store. Used for caching expensive DB queries, rate limiting, session storage, and real-time pub/sub messaging.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">GraphQL</span>
+              <span class="rm-node-badge rm-badge-later">Advanced</span>
+            </div>
+            <div class="rm-node-desc">Query language for APIs. Clients request exactly the fields they need — eliminates over-fetching and under-fetching. Built on the REST mental model you already have.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">Microservices</span>
+              <span class="rm-node-badge rm-badge-later">Expert</span>
+            </div>
+            <div class="rm-node-desc">Split a monolith into independently deployable services that communicate via HTTP or message queues. Learn monoliths first — split only when scale demands it.</div>
+          </div>
+        </div>
+
+        <!-- Track 3: DevOps -->
+        <div class="rm-track">
+          <div class="rm-track-head rm-track-head-ops">DevOps Track</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">Docker</span>
+              <span class="rm-node-badge rm-badge-now">Start Here</span>
+            </div>
+            <div class="rm-node-desc">Package your app and its runtime into a container. Eliminates "works on my machine" — the same image runs on your laptop and in production.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">GitHub Actions</span>
+              <span class="rm-node-badge rm-badge-now">CI / CD</span>
+            </div>
+            <div class="rm-node-desc">Run tests, linting, and deployment automatically on every pull request. Entry point to CI/CD. Write a workflow YAML file — GitHub runs it for free.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">AWS / GCP / Azure</span>
+              <span class="rm-node-badge rm-badge-soon">Cloud</span>
+            </div>
+            <div class="rm-node-desc">The three major cloud platforms. Start with AWS: EC2 (VMs), S3 (storage), RDS (managed PostgreSQL), Lambda (serverless functions). Everything else builds on these primitives.</div>
+          </div>
+          <div class="rm-track-arrow">↓</div>
+          <div class="rm-track-node">
+            <div class="rm-node-top">
+              <span class="rm-node-name">Kubernetes</span>
+              <span class="rm-node-badge rm-badge-later">Expert</span>
+            </div>
+            <div class="rm-node-desc">Orchestrates containers at scale: auto-scaling, rolling deploys, self-healing. Used at companies running hundreds of services. Learn Docker thoroughly first.</div>
+          </div>
+        </div>
+
+      </div><!-- /rm-tracks-grid -->
+
+
+      <!-- ── The Professional Stack ─────────────────────────── -->
+      <div class="rm-section-label" id="rm-stack">The Professional Stack — What a Real App Looks Like</div>
+
+      <div class="rm-pro-stack">
+
+        <div class="rm-stack-row">
+          <div class="rm-stack-layer-label">Browser</div>
+          <div class="rm-stack-layer-content">
+            <span class="rm-tech rm-tech-fe">React</span>
+            <span class="rm-tech rm-tech-fe">Next.js</span>
+            <span class="rm-tech rm-tech-fe">TypeScript</span>
+            <span class="rm-tech rm-tech-fe">Tailwind CSS</span>
+            <span class="rm-tech rm-tech-done">HTML / CSS ✓</span>
+            <span class="rm-tech rm-tech-done">JavaScript ✓</span>
+          </div>
+        </div>
+
+        <div class="rm-stack-divider">
+          <span class="rm-stack-divider-arrow">↕</span>
+          <span class="rm-stack-divider-label">HTTPS · JSON · REST or GraphQL</span>
+          <span class="rm-stack-divider-arrow">↕</span>
+        </div>
+
+        <div class="rm-stack-row">
+          <div class="rm-stack-layer-label">API Layer</div>
+          <div class="rm-stack-layer-content">
+            <span class="rm-tech rm-tech-be">Express.js</span>
+            <span class="rm-tech rm-tech-be">Fastify</span>
+            <span class="rm-tech rm-tech-be">GraphQL</span>
+            <span class="rm-tech rm-tech-done">REST ✓</span>
+            <span class="rm-tech rm-tech-done">JWT Auth ✓</span>
+            <span class="rm-tech rm-tech-done">CORS ✓</span>
+          </div>
+        </div>
+
+        <div class="rm-stack-divider">
+          <span class="rm-stack-divider-arrow">↕</span>
+          <span class="rm-stack-divider-label">SQL queries · Connection pools · Transactions</span>
+          <span class="rm-stack-divider-arrow">↕</span>
+        </div>
+
+        <div class="rm-stack-row">
+          <div class="rm-stack-layer-label">Data Layer</div>
+          <div class="rm-stack-layer-content">
+            <span class="rm-tech rm-tech-db">Prisma ORM</span>
+            <span class="rm-tech rm-tech-db">Redis</span>
+            <span class="rm-tech rm-tech-done">PostgreSQL ✓</span>
+            <span class="rm-tech rm-tech-done">Raw SQL ✓</span>
+          </div>
+        </div>
+
+        <div class="rm-stack-divider">
+          <span class="rm-stack-divider-arrow">↕</span>
+          <span class="rm-stack-divider-label">git push → build → deploy → health check</span>
+          <span class="rm-stack-divider-arrow">↕</span>
+        </div>
+
+        <div class="rm-stack-row">
+          <div class="rm-stack-layer-label">Infra / DevOps</div>
+          <div class="rm-stack-layer-content">
+            <span class="rm-tech rm-tech-ops">Docker</span>
+            <span class="rm-tech rm-tech-ops">GitHub Actions</span>
+            <span class="rm-tech rm-tech-ops">AWS / GCP</span>
+            <span class="rm-tech rm-tech-ops">Kubernetes</span>
+            <span class="rm-tech rm-tech-done">Vercel ✓</span>
+            <span class="rm-tech rm-tech-done">Railway ✓</span>
+          </div>
+        </div>
+
+      </div><!-- /rm-pro-stack -->
+
+      <div class="callout callout-key">
+        <span class="callout-icon">🔑</span>
+        <div class="callout-body">
+          <strong>Every technology above builds on exactly what you learned in this course.</strong><br>
+          React formalises the state → render pattern from Phase 5.<br>
+          Prisma builds on the SQL queries from Phase 4.<br>
+          Docker packages the Node.js process you already know how to run.<br>
+          GitHub Actions automates the <code>git push → deploy</code> flow from Phase 6.<br><br>
+          You have the foundation. Everything else is a layer on top.
+        </div>
+      </div>
+
+    </div><!-- /page-phase7 -->
 
   </main>
 </div><!-- /main-wrap -->
