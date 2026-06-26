@@ -2514,53 +2514,99 @@ results[0].value;    // the resolved value (if fulfilled)</code></pre>
           <h2>CORS &amp; The Same-Origin Policy</h2>
         </div>
 
-        <p>CORS is the most misunderstood browser security feature. Developers encounter it as a cryptic console error and cargo-cult workarounds. This lesson explains exactly what it is, why it exists, and how to fix it properly.</p>
+        <p>CORS errors feel like server errors — but they are not. They are browser errors. The browser is the enforcer of a security rule called the <strong>Same-Origin Policy</strong>, and CORS is the mechanism that lets servers grant exceptions to that rule. Once you know who is in charge (the browser), everything else clicks into place.</p>
 
-        <p><strong>The Same-Origin Policy:</strong> by default, JavaScript cannot read responses from a different origin. Origin = protocol + hostname + port:</p>
+        <h3>Why the Same-Origin Policy exists</h3>
+
+        <p>The Same-Origin Policy is a rule built into every web browser to protect users from a specific class of attack. Here is the concrete threat it blocks:</p>
+
+        <pre class="diagram">The attack without the Same-Origin Policy:
+
+  1. You log into bank.com in one tab.
+     Your browser now holds a session cookie for bank.com.
+
+  2. In another tab you visit evil.com.
+     evil.com's JavaScript starts running in YOUR browser.
+
+  3. evil.com's JS calls:
+       fetch('https://bank.com/api/transfer?to=attacker&amp;amount=5000')
+     Your browser automatically attaches your bank.com session cookie
+     to this request (cookies are sent by origin, not by page).
+
+  4. bank.com's server sees a perfectly valid, authenticated request
+     and executes the transfer.
+
+  5. evil.com's JS reads the response — now it knows your balance,
+     your account number, or whatever the API returned.
+
+The Same-Origin Policy blocks step 5:
+  The browser lets the request go out, receives the response from
+  bank.com, then REFUSES to hand that response to evil.com's JavaScript.
+  The attacker's script gets a CORS error instead of your data.</pre>
+
+        <p>This is why the rule exists: without it, any website you visit could silently weaponize your browser against every other site you are logged into.</p>
+
+        <p><strong>Origin = protocol + hostname + port.</strong> All three must match exactly for two URLs to be considered the same origin:</p>
 
         <pre class="diagram">Your page is at:  https://myapp.com/dashboard
 
 Request target                     Same origin?
-https://myapp.com/api/users        ✓  (path doesn't matter)
+https://myapp.com/api/users        ✓  (path never matters)
 http://myapp.com/api/users         ✗  different protocol (http vs https)
-https://api.myapp.com/users        ✗  different subdomain
+https://api.myapp.com/users        ✗  different subdomain counts as different host
 https://myapp.com:3001/users       ✗  different port
-https://othersite.com/api/users    ✗  different domain
+https://othersite.com/api/users    ✗  different domain entirely</pre>
 
-Why this rule exists:
-  Without it, evil.com could use YOUR browser (with your cookies)
-  to make requests to bank.com and read your account data.</pre>
+        <h3>Who checks for CORS — and when</h3>
+
+        <p>The browser is the only entity that enforces the Same-Origin Policy. The server does not know or care about it — it receives a request and responds normally. After the response arrives, the browser inspects the response headers. If the response does not include an <code>Access-Control-Allow-Origin</code> header that matches the page's origin, the browser throws a CORS error and hides the response from your JavaScript.</p>
+
+        <p>This is why:</p>
+        <ul>
+          <li>CORS errors only happen in browsers — not in curl, Postman, or server-to-server calls (those have no Same-Origin Policy to enforce).</li>
+          <li>The fix is always on the server — you need to add the correct response headers so the browser agrees to deliver the response.</li>
+          <li>The server DID respond successfully. The browser is not broken. It is doing its job.</li>
+        </ul>
 
         <p><strong>CORS — how servers explicitly grant cross-origin access:</strong></p>
 
-        <pre class="diagram">Simple request (GET, or POST with basic content-type):
+        <pre class="diagram">Simple request (GET, or POST with a plain-text body):
 
   Browser → Server:  GET /api/data
-                     Origin: https://myapp.com
+                     Origin: https://myapp.com        ← browser adds this automatically
+
   Server → Browser:  200 OK
-                     Access-Control-Allow-Origin: https://myapp.com
-  Browser: header matches origin → ✓ deliver response to JS
+                     Access-Control-Allow-Origin: https://myapp.com  ← server grants permission
 
-─────────────────────────────────────────────────────────────
+  Browser checks:    header present and matches origin?
+                     ✓ yes → deliver response to JS
+                     ✗ no  → block response, throw CORS error
 
-Preflight (POST with JSON body, or custom headers like Authorization):
+─────────────────────────────────────────────────────────────────────
+
+Preflight (POST/PUT/DELETE with JSON body, or custom headers like Authorization):
+
+  The browser first sends a "may I?" request before the real one.
+  This lets the server reject dangerous requests before they run.
 
   Browser → Server:  OPTIONS /api/users
                      Origin: https://myapp.com
                      Access-Control-Request-Method: POST
                      Access-Control-Request-Headers: Authorization
+
   Server → Browser:  204 No Content
                      Access-Control-Allow-Origin: https://myapp.com
                      Access-Control-Allow-Methods: GET, POST, PATCH
                      Access-Control-Allow-Headers: Authorization, Content-Type
-                     Access-Control-Max-Age: 86400
-  Browser: preflight approved → sends actual POST request</pre>
+                     Access-Control-Max-Age: 86400    ← browser may cache this for 24 h
+
+  Browser: preflight approved → now sends the actual POST request</pre>
 
         <div class="callout callout-key">
           <span class="callout-icon">🔑</span>
           <div class="callout-body">
             <strong>The CORS error is thrown by the browser, not the server</strong>
-            The server DID respond. The browser inspected the response headers, found no <code>Access-Control-Allow-Origin</code> header, and hid the response from your JavaScript. The fix is always on the server — add the correct headers.
+            The server responded with 200. The browser received the response, looked for <code>Access-Control-Allow-Origin</code> in the headers, did not find one (or found the wrong value), and refused to hand the response to your JavaScript. The network tab shows a 200 — yet your JS gets an error. That is the browser enforcing the rule. The fix is always to add the header on the server.
           </div>
         </div>
 
@@ -2568,28 +2614,32 @@ Preflight (POST with JSON body, or custom headers like Authorization):
 
 const cors = require('cors');
 
-// Development: allow all origins
+// Development: allow all origins (never use in production)
 app.use(cors());
 
-// Production: restrict to your frontend domain
+// Production: restrict to your frontend's exact origin
 app.use(cors({
   origin:         'https://myapp.com',
-  credentials:    true,          // required if sending cookies
+  credentials:    true,          // required if frontend sends cookies
   methods:        ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));</code></pre>
 
         <p><strong>Credentials + CORS — the extra step most tutorials miss:</strong></p>
 
-        <pre><code class="language-javascript">// Frontend: explicitly opt in to sending cookies cross-origin
+        <p>By default, even after you enable CORS, cookies are not sent cross-origin. You must opt in on both sides — and when you do, <code>Access-Control-Allow-Origin: *</code> is no longer allowed; the browser requires an exact origin match.</p>
+
+        <pre><code class="language-javascript">// Frontend: tell fetch to include cookies on cross-origin requests
 fetch('https://api.myapp.com/user', {
-  credentials: 'include'   // without this, cookies are NOT sent
+  credentials: 'include'   // without this line, cookies are silently omitted
 });
 
-// Backend: when credentials: 'include' is used,
-// Access-Control-Allow-Origin CANNOT be '*' — must be the exact origin
-// AND you must also send:
-// Access-Control-Allow-Credentials: true</code></pre>
+// Backend: two things are now required:
+// 1. Access-Control-Allow-Origin must be the exact origin, not '*'
+// 2. You must also send Access-Control-Allow-Credentials: true
+//
+// The cors package handles both when you set credentials: true
+// and provide a specific origin (not a wildcard).</code></pre>
 
         <div class="callout callout-tip">
           <span class="callout-icon">✅</span>
